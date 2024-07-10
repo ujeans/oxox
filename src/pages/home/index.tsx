@@ -1,3 +1,9 @@
+import styled from "@emotion/styled";
+
 export default function HomePage() {
-  return <div>HomePage</div>;
+  return <DDD>HomePage</DDD>;
 }
+
+const DDD = styled.div`
+  ${props => props.theme.typography.headers.h2}
+`;
