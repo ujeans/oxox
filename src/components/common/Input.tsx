@@ -28,8 +28,14 @@ const IconWrapper = styled.div`
 
 const StyledInput = styled.input<{ hasIcon: boolean }>`
   width: 100%;
-  height: 40px;
+  height: 30px;
+  padding: 5px;
   border-radius: 5px;
   border: 1px solid ${props => props.theme.colors.gray100};
   background: none;
+  color: ${props => props.theme.colors.white};
+
+  &::placeholder {
+    color: ${props => props.theme.colors.gray300};
+  }
 `;
