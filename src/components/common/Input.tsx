@@ -2,10 +2,22 @@ import styled from "@emotion/styled";
 // types
 import { InputProps } from "../../types/react";
 
-export const Input = ({ placeholder, icon }: InputProps) => {
+export const Input = ({
+  placeholder,
+  icon,
+  value,
+  name,
+  onChange,
+}: InputProps) => {
   return (
     <InputWrapper>
-      <StyledInput placeholder={placeholder} hasIcon={!!icon} />
+      <StyledInput
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        name={name}
+        hasIcon={!!icon}
+      />
       {icon && <IconWrapper>{icon}</IconWrapper>}
     </InputWrapper>
   );
