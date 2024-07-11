@@ -2,10 +2,22 @@ import styled from "@emotion/styled";
 // types
 import { InputProps } from "../../types/react";
 
-export const Input = ({ placeholder, icon }: InputProps) => {
+export const Input = ({
+  placeholder,
+  icon,
+  value,
+  name,
+  onChange,
+}: InputProps) => {
   return (
     <InputWrapper>
-      <StyledInput placeholder={placeholder} hasIcon={!!icon} />
+      <StyledInput
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        name={name}
+        hasIcon={!!icon}
+      />
       {icon && <IconWrapper>{icon}</IconWrapper>}
     </InputWrapper>
   );
@@ -28,8 +40,14 @@ const IconWrapper = styled.div`
 
 const StyledInput = styled.input<{ hasIcon: boolean }>`
   width: 100%;
-  height: 40px;
+  height: 30px;
+  padding: 5px;
   border-radius: 5px;
   border: 1px solid ${props => props.theme.colors.gray100};
   background: none;
+  color: ${props => props.theme.colors.white};
+
+  &::placeholder {
+    color: ${props => props.theme.colors.gray300};
+  }
 `;

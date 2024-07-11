@@ -17,7 +17,7 @@ function Router() {
       <Route path="/posts/edit/:id" element={<PostEdit />}></Route>
       <Route path="/notifications" element={<NotificationsPage />}></Route>
       <Route path="/users/login" element={<LoginPage />}></Route>
-      <Route path="/users/login" element={<SignupPage />}></Route>
+      <Route path="/users/signup" element={<SignupPage />}></Route>
       <Route path="*" element={<Navigate replace to="/" />}></Route>
     </Routes>
   );

@@ -10,7 +10,7 @@ export default Label;
 
 const StyledLabel = styled.label`
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
   font-size: ${props => props.theme.typography.disclaimers.default};
   color: ${props => props.theme.colors.gray100};
 `;
