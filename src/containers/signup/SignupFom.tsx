@@ -6,6 +6,7 @@ import { FormValues } from "../../types/data/user";
 import Label from "../../components/common/Label";
 import { Input } from "../../components/common/Input";
 import Button from "../../components/common/Button";
+import ErrorMessage from "../../components/users/ErrorMessage";
 
 const SignupFom = () => {
   const [value, setValue] = useState<FormValues>({
@@ -116,10 +117,4 @@ const FormWrapper = styled.form``;
 
 const InputWrapper = styled.div`
   margin-bottom: 25px;
-`;
-
-const ErrorMessage = styled.div`
-  margin-top: 5px;
-  color: ${props => props.theme.colors.red200};
-  font-size: 0.8rem;
 `;

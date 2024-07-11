@@ -6,6 +6,8 @@ import { FormValues } from "../../types/data/user";
 import Label from "../../components/common/Label";
 import { Input } from "../../components/common/Input";
 import Button from "../../components/common/Button";
+import ErrorMessage from "../../components/users/ErrorMessage";
+import LoginFail from "./LoginFail";
 
 const LoinForm = () => {
   const [value, setValue] = useState<FormValues>({
@@ -43,19 +45,26 @@ const LoinForm = () => {
   };
 
   return (
-    <FormWrapper onSubmit={handleSubmit}>
-      <InputWrapper>
-        <Label text="이메일" />
-        <Input value={value.email} onChange={handleChange} name="email" />
-        {errors.email && <ErrorMessage>{errors.email}</ErrorMessage>}
-      </InputWrapper>
-      <InputWrapper>
-        <Label text="비밀번호" />
-        <Input value={value.password} onChange={handleChange} name="password" />
-        {errors.password && <ErrorMessage>{errors.password}</ErrorMessage>}
-      </InputWrapper>
-      <Button text="이메일로 시작하기" />
-    </FormWrapper>
+    <>
+      <FormWrapper onSubmit={handleSubmit}>
+        <InputWrapper>
+          <Label text="이메일" />
+          <Input value={value.email} onChange={handleChange} name="email" />
+          {errors.email && <ErrorMessage>{errors.email}</ErrorMessage>}
+        </InputWrapper>
+        <InputWrapper>
+          <Label text="비밀번호" />
+          <Input
+            value={value.password}
+            onChange={handleChange}
+            name="password"
+          />
+          {errors.password && <ErrorMessage>{errors.password}</ErrorMessage>}
+        </InputWrapper>
+        <Button text="이메일로 시작하기" />
+      </FormWrapper>
+      <LoginFail />
+    </>
   );
 };
 
@@ -65,10 +74,4 @@ const FormWrapper = styled.form``;
 
 const InputWrapper = styled.div`
   margin-bottom: 25px;
-`;
-
-const ErrorMessage = styled.div`
-  margin-top: 5px;
-  color: ${props => props.theme.colors.red200};
-  font-size: 0.8rem;
 `;
