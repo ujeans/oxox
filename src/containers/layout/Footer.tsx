@@ -1,22 +1,37 @@
 import styled from "@emotion/styled";
-import { useLocation, matchPath } from "react-router-dom";
+import { useLocation, matchPath, useNavigate } from "react-router-dom";
 import { SiGoogledocs } from "react-icons/si";
 import { FaUser } from "react-icons/fa";
 import { BiSolidCommentDetail } from "react-icons/bi";
 
 const Footer = () => {
+  const navigate = useNavigate();
   const location = useLocation();
+
   const isPostDetail = matchPath("/posts/:id", location.pathname);
+  const isProfile = location.pathname === "/profile";
+  const isHome = location.pathname === "/";
+
+  const navigateTo = (path: string) => {
+    navigate(path);
+  };
 
   return (
     <StyledFooter>
       <Wrapper>
-        <TabBox>
+        <TabBox
+          isActive={isHome}
+          onClick={() => {
+            if (!isPostDetail) {
+              navigateTo("/");
+            }
+          }}
+        >
           {isPostDetail ? <CommentIcon /> : <FeedIcon />}
           <Text>{isPostDetail ? "댓글" : "피드"}</Text>
         </TabBox>
-        <TabBox>
-          <UserIcon />
+        <TabBox isActive={isProfile}>
+          <UserIcon onClick={() => navigateTo("/profile")} />
           <Text>마이페이지</Text>
         </TabBox>
       </Wrapper>
@@ -42,20 +57,17 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const TabBox = styled.div`
+const TabBox = styled.div<{ isActive: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-
-  &:hover {
-    color: ${props => props.theme.colors.blue200};
-  }
+  color: ${props =>
+    props.isActive ? props.theme.colors.blue200 : props.theme.colors.gray100};
 `;
 
 const FeedIcon = styled(SiGoogledocs)`
   font-size: 24px;
-  color: ${props => props.theme.colors.gray100};
 `;
 
 const CommentIcon = styled(BiSolidCommentDetail)`
@@ -70,5 +82,4 @@ const Text = styled.span`
 
 const UserIcon = styled(FaUser)`
   font-size: 24px;
-  color: ${props => props.theme.colors.gray100};
 `;
