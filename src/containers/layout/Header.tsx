@@ -1,14 +1,16 @@
 import styled from "@emotion/styled";
 import { IoIosArrowBack } from "react-icons/io";
 import { LuLogOut } from "react-icons/lu";
-import { useLocation, useMatch } from "react-router-dom";
+import { useLocation, useMatch, useNavigate } from "react-router-dom";
 // assets
 import Eyes from "../../assets/eyes.svg";
 import Memo from "../../assets/memo.svg";
 import Tippinghand from "../../assets/tippinghand.svg";
 
 const Header = () => {
+  const navigate = useNavigate();
   const location = useLocation();
+
   const matchPostDetail = useMatch("/posts/:id");
   const matchPostNew = useMatch("/posts/new");
   const matchPostEdit = useMatch("/posts/edit/:id");
@@ -26,10 +28,14 @@ const Header = () => {
   const showBackIcon = location.pathname !== "/";
   const showLogoutIcon = location.pathname === "/profile";
 
+  const prevTo = () => {
+    navigate(-1);
+  };
+
   return (
     <StyledHeader>
       <Wrapper>
-        {showBackIcon && <BackIcon />}
+        {showBackIcon && <BackIcon onClick={prevTo} />}
         <Title>{getTitle()}</Title>
         {showLogoutIcon && <LogoutIcon />}
       </Wrapper>
@@ -61,6 +67,7 @@ const BackIcon = styled(IoIosArrowBack)`
   left: 16px;
   font-size: 24px;
   color: ${props => props.theme.colors.gray100};
+  cursor: pointer;
 `;
 
 const Title = styled.div`
