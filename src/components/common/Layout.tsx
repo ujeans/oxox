@@ -1,20 +1,33 @@
 import styled from "@emotion/styled";
-import { ReactNode } from "react";
+import { useLocation } from "react-router-dom";
+// types
+import { ChildrenProps } from "../../types/react";
+// components
+import Header from "../../containers/layout/Header";
+import Footer from "../../containers/layout/Footer";
 
-interface Props {
-  children: ReactNode;
-}
+const Layout = ({ children }: ChildrenProps) => {
+  const location = useLocation();
 
-const Layout = ({ children }: Props) => {
-  return <LayoutStyled>{children}</LayoutStyled>;
+  const hideHeaderFooter =
+    location.pathname === "/users/login" ||
+    location.pathname === "/users/signup";
+
+  return (
+    <>
+      {!hideHeaderFooter && <Header />}
+      <Content hideHeaderFooter={hideHeaderFooter}>{children}</Content>
+      {!hideHeaderFooter && <Footer />}
+    </>
+  );
 };
 
 export default Layout;
 
-const LayoutStyled = styled.div`
-  max-width: 490px;
-  min-height: 100vh;
-  margin: 0 auto;
-  position: relative;
+const Content = styled.div<{ hideHeaderFooter: boolean }>`
+  min-height: 100%;
+  padding-top: ${({ hideHeaderFooter }) => (hideHeaderFooter ? "0" : "63px")};
+  padding-bottom: ${({ hideHeaderFooter }) =>
+    hideHeaderFooter ? "0" : "80px"};
   background-color: ${props => props.theme.colors.gray500};
 `;
