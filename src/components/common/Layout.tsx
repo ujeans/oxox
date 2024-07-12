@@ -3,11 +3,12 @@ import { useLocation } from "react-router-dom";
 // types
 import { ChildrenProps } from "../../types/react";
 // components
-import Header from "./Header";
-import Footer from "./Footer";
+import Header from "../../containers/layout/Header";
+import Footer from "../../containers/layout/Footer";
 
 const Layout = ({ children }: ChildrenProps) => {
   const location = useLocation();
+
   const hideHeaderFooter =
     location.pathname === "/users/login" ||
     location.pathname === "/users/signup";
