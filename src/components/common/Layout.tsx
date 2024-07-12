@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { useLocation } from "react-router-dom";
 // types
 import { ChildrenProps } from "../../types/react";
 // components
@@ -6,20 +7,26 @@ import Header from "./Header";
 import Footer from "./Footer";
 
 const Layout = ({ children }: ChildrenProps) => {
+  const location = useLocation();
+  const hideHeaderFooter =
+    location.pathname === "/users/login" ||
+    location.pathname === "/users/signup";
+
   return (
     <>
-      <Header />
-      <Content>{children}</Content>
-      <Footer />
+      {!hideHeaderFooter && <Header />}
+      <Content hideHeaderFooter={hideHeaderFooter}>{children}</Content>
+      {!hideHeaderFooter && <Footer />}
     </>
   );
 };
 
 export default Layout;
 
-const Content = styled.div`
+const Content = styled.div<{ hideHeaderFooter: boolean }>`
   min-height: 100%;
-  margin-top: 63px;
-  margin-bottom: 80px;
+  padding-top: ${({ hideHeaderFooter }) => (hideHeaderFooter ? "0" : "63px")};
+  padding-bottom: ${({ hideHeaderFooter }) =>
+    hideHeaderFooter ? "0" : "80px"};
   background-color: ${props => props.theme.colors.gray500};
 `;
