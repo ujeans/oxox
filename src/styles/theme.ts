@@ -15,6 +15,8 @@ const colors = {
   blue600: "#21283f",
   red50: "#f9cccc",
   red100: "#fe7171",
+  red200: "#ee4344",
+  red300: "rgba(129, 36, 36, 0.75)",
 };
 
 const typography = {

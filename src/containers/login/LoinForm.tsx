@@ -6,11 +6,18 @@ import { FormValues } from "../../types/data/user";
 import Label from "../../components/common/Label";
 import { Input } from "../../components/common/Input";
 import Button from "../../components/common/Button";
+import ErrorMessage from "../../components/users/ErrorMessage";
+import LoginFail from "./LoginFail";
 
 const LoinForm = () => {
   const [value, setValue] = useState<FormValues>({
     email: "",
     password: "",
+  });
+  const [errors, setErrors] = useState<FormValues>({
+    email: "",
+    password: "",
+    nickname: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,18 +29,42 @@ const LoinForm = () => {
     }));
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const newErrors: FormValues = { email: "", password: "", nickname: "" };
+
+    if (!value.email) {
+      newErrors.email = "이메일을 입력하세요";
+    }
+    if (!value.password) {
+      newErrors.password = "비밀번호를 입력하세요.";
+    }
+
+    setErrors(newErrors);
+  };
+
   return (
-    <FormWrapper>
-      <InputWrapper>
-        <Label text="이메일" />
-        <Input value={value.email} onChange={handleChange} name="email" />
-      </InputWrapper>
-      <InputWrapper>
-        <Label text="비밀번호" />
-        <Input value={value.password} onChange={handleChange} name="password" />
-      </InputWrapper>
-      <Button text="이메일로 시작하기" />
-    </FormWrapper>
+    <>
+      <FormWrapper onSubmit={handleSubmit}>
+        <InputWrapper>
+          <Label text="이메일" />
+          <Input value={value.email} onChange={handleChange} name="email" />
+          {errors.email && <ErrorMessage>{errors.email}</ErrorMessage>}
+        </InputWrapper>
+        <InputWrapper>
+          <Label text="비밀번호" />
+          <Input
+            value={value.password}
+            onChange={handleChange}
+            name="password"
+          />
+          {errors.password && <ErrorMessage>{errors.password}</ErrorMessage>}
+        </InputWrapper>
+        <Button text="이메일로 시작하기" />
+      </FormWrapper>
+      <LoginFail />
+    </>
   );
 };
 
