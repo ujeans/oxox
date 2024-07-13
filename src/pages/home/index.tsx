@@ -1,9 +1,12 @@
-import styled from "@emotion/styled";
+// containers
+import IndexCarousel from "../../containers/home/IndexCarousel";
+import Lists from "../../containers/home/Lists";
 
 export default function HomePage() {
-  return <DDD>HomePage</DDD>;
+  return (
+    <>
+      <IndexCarousel />
+      <Lists />
+    </>
+  );
 }
-
-const DDD = styled.div`
-  ${props => props.theme.typography.headers.h2}
-`;
