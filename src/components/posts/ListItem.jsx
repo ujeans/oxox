@@ -1,10 +1,11 @@
 import styled from "@emotion/styled";
 import { BiSolidComment } from "react-icons/bi";
+// components
 import RoundButton from "../common/RoundButton";
 
-const ListItem = ({ post }) => {
+const ListItem = ({ post, onClick }) => {
   return (
-    <Wrapper key={post.id}>
+    <Wrapper key={post.id} onClick={onClick}>
       <Image src={post.thumbnailUrl} alt={post.title} />
       <InfoWrapper>
         <Top>

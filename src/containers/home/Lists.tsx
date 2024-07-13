@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
+// components
 import ListItem from "../../components/posts/ListItem";
+import { useNavigate, useNavigation } from "react-router-dom";
 
 const data = {
   posts: [
@@ -94,11 +96,21 @@ const data = {
 };
 
 const Lists = () => {
+  const nav = useNavigate();
+
+  const navigateTo = (id: number) => {
+    nav(`/posts/${id}`);
+  };
+
   return (
     <ListContainer>
       <Title>oxox 리스트</Title>
       {data.posts.map(post => (
-        <ListItem post={post} />
+        <ListItem
+          key={post.id}
+          post={post}
+          onClick={() => navigateTo(post.id)}
+        />
       ))}
     </ListContainer>
   );
