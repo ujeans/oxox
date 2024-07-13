@@ -52,6 +52,7 @@ const StyledHeader = styled.header`
   top: 0;
   margin: auto 0;
   background-color: ${props => props.theme.colors.gray500};
+  z-index: 999;
 `;
 
 const Wrapper = styled.div`
