@@ -48,6 +48,7 @@ const StyledFooter = styled.footer`
   margin: 0 auto;
   bottom: 0;
   background-color: ${props => props.theme.colors.blue600};
+  z-index: 999;
 `;
 
 const Wrapper = styled.div`
