@@ -13,11 +13,16 @@ const Layout = ({ children }: ChildrenProps) => {
     location.pathname === "/users/login" ||
     location.pathname === "/users/signup";
 
+  const hideFooter =
+    hideHeaderFooter ||
+    location.pathname === "/posts/new" ||
+    location.pathname === "/posts/edit/:id";
+
   return (
     <>
       {!hideHeaderFooter && <Header />}
       <Content hideHeaderFooter={hideHeaderFooter}>{children}</Content>
-      {!hideHeaderFooter && <Footer />}
+      {!hideFooter && <Footer />}
     </>
   );
 };
