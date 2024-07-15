@@ -1,5 +1,8 @@
+// assets
+import Vote from "../../assets/vote.svg";
 // components
 import ContentLayout from "../../components/posts/ContentLayout";
+import EmojiButton from "../../components/common/EmojiButton";
 // containers
 import PostContent from "../../containers/postDetail/PostContent";
 import TotalComments from "../../containers/postDetail/TotalComments";
@@ -11,6 +14,7 @@ export default function PostDetail() {
       <PostContent />
       <Progressbar />
       <TotalComments />
+      <EmojiButton>{<img src={Vote} alt="vote" />}</EmojiButton>
     </ContentLayout>
   );
 }
