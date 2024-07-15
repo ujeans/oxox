@@ -1,24 +1,27 @@
 import styled from "@emotion/styled";
+import { useState } from "react";
 // components
 import ContentLayout from "../../components/posts/ContentLayout";
 // containers
 import UserInfo from "../../containers/profile/UserInfo";
-import { useState } from "react";
 
 export default function ProfilePage() {
-  const [currentTab, clickTab] = useState(0);
+  const [currentTab, setClickTab] = useState(0);
 
   return (
     <ContentLayout>
       <UserInfo />
       <TabWrapper>
-        <Menu isActive={currentTab === 0} onClick={() => clickTab(0)}>
+        <Menu isActive={currentTab === 0} onClick={() => setClickTab(0)}>
           내가 쓴
         </Menu>
-        <Menu isActive={currentTab === 1} onClick={() => clickTab(1)}>
+        <Menu isActive={currentTab === 1} onClick={() => setClickTab(1)}>
           투표 참여
         </Menu>
       </TabWrapper>
+      <Content>
+        {currentTab === 0 ? <div>내가 쓴</div> : <div>투표 참여</div>}
+      </Content>
     </ContentLayout>
   );
 }
@@ -51,4 +54,8 @@ const Menu = styled.div<{ isActive: boolean }>`
   background-color: ${props =>
     props.isActive ? props.theme.colors.blue400 : "transparent"};
   cursor: pointer;
+`;
+
+const Content = styled.div`
+  margin-top: 20px;
 `;
