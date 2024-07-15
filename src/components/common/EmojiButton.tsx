@@ -1,9 +1,13 @@
 import styled from "@emotion/styled";
-// types
-import { ChildrenProps } from "../../types/react";
+import { ReactNode } from "react";
 
-const EmojiButton = ({ children }: ChildrenProps) => {
-  return <Button>{children}</Button>;
+interface EmojiButtonProps {
+  children: ReactNode;
+  onClick: () => void;
+}
+
+const EmojiButton = ({ children, onClick }: EmojiButtonProps) => {
+  return <Button onClick={onClick}>{children}</Button>;
 };
 
 export default EmojiButton;
