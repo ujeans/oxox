@@ -8,9 +8,10 @@ import useOutSideClick from "../../hooks/useOutSideClick";
 
 export interface ModalProps extends ChildrenProps {
   onClose?: () => void;
+  height?: string;
 }
 
-const Modal = ({ onClose, children }: ModalProps) => {
+const Modal = ({ onClose, children, height = "400px" }: ModalProps) => {
   const modalRef = useRef(null);
   const modalRoot = document.getElementById("modal");
 
@@ -24,7 +25,7 @@ const Modal = ({ onClose, children }: ModalProps) => {
 
   return createPortal(
     <Overlay>
-      <ModalWrap ref={modalRef}>
+      <ModalWrap ref={modalRef} height={height}>
         <IndicatorWrapper>
           <Indicator />
         </IndicatorWrapper>
@@ -49,9 +50,9 @@ const Overlay = styled.div`
   z-index: 9999;
 `;
 
-const ModalWrap = styled.div`
+const ModalWrap = styled.div<{ height: string }>`
   width: 550px;
-  height: 400px;
+  height: ${props => props.height};
   border-top-right-radius: 15px;
   border-top-left-radius: 15px;
   background-color: ${props => props.theme.colors.blue600};
