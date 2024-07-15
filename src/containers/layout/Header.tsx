@@ -1,15 +1,18 @@
 import styled from "@emotion/styled";
 import { IoIosArrowBack } from "react-icons/io";
 import { LuLogOut } from "react-icons/lu";
+import { useState } from "react";
 import { useLocation, useMatch, useNavigate } from "react-router-dom";
 // assets
 import Eyes from "../../assets/eyes.svg";
 import Memo from "../../assets/memo.svg";
 import Tippinghand from "../../assets/tippinghand.svg";
+import Modal from "../../components/common/Modal";
 
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
 
   const matchPostDetail = useMatch("/posts/:id");
   const matchPostNew = useMatch("/posts/new");
@@ -32,12 +35,17 @@ const Header = () => {
     navigate(-1);
   };
 
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
   return (
     <StyledHeader>
       <Wrapper>
         {showBackIcon && <BackIcon onClick={prevTo} />}
         <Title>{getTitle()}</Title>
-        {showLogoutIcon && <LogoutIcon />}
+        {showLogoutIcon && <LogoutIcon onClick={openModal} />}
+        {isOpen && <Modal onClose={() => setIsOpen(false)} />}
       </Wrapper>
     </StyledHeader>
   );
@@ -81,4 +89,5 @@ const LogoutIcon = styled(LuLogOut)`
   right: 16px;
   font-size: 21px;
   color: ${props => props.theme.colors.gray100};
+  cursor: pointer;
 `;
