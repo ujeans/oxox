@@ -34,7 +34,7 @@ const getSizeStyles = (size: string) => {
       return "padding: 16px 32px; font-size: 18px;";
     case "medium":
     default:
-      return "padding: 12px 24px; font-size: 16px;";
+      return "padding: 8px 24px; font-size: 16px;";
   }
 };
 
