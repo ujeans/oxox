@@ -61,6 +61,13 @@ const typography = {
       fontWeight: 400,
       lineHeight: "normal",
     },
+    large: {
+      fontFamily: "Inter",
+      fontSize: "16px",
+      fontStyle: "normal",
+      fontWeight: 400,
+      lineHeight: "normal",
+    },
     bold: {
       fontFamily: "Inter",
       fontSize: "14px",

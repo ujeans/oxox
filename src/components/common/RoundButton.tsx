@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 // types
 import { TextProps } from "../../types/react";
+// assets
+import Stopwatch from "../../assets/stopwatch.svg";
 
 export interface ButtonStyleProps {
   size?: "small" | "medium" | "large";
@@ -19,6 +21,7 @@ const RoundButton = ({
   } & React.ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <StyledButton size={size} isDone={isDone} {...props}>
+      {size === "medium" ? <Img src={Stopwatch} alt="stopwatch" /> : ""}
       {text}
     </StyledButton>
   );
@@ -34,7 +37,7 @@ const getSizeStyles = (size: string) => {
       return "padding: 16px 32px; font-size: 18px;";
     case "medium":
     default:
-      return "padding: 12px 24px; font-size: 16px;";
+      return "padding: 6px 14px; font-size: 16px;";
   }
 };
 
@@ -44,9 +47,15 @@ const StyledButton = styled.button<{
 }>`
   border: none;
   border-radius: 20px;
+  display: flex;
+  align-items: center;
   ${props => getSizeStyles(props.size)}
   background-color: ${props =>
     props.isDone ? props.theme.colors.gray300 : props.theme.colors.blue200};
   color: ${props =>
     props.isDone ? props.theme.colors.gray200 : props.theme.colors.gray400};
+`;
+
+const Img = styled.img`
+  width: 25px;
 `;

@@ -25,7 +25,8 @@ const Layout = ({ children }: ChildrenProps) => {
 export default Layout;
 
 const Content = styled.div<{ hideHeaderFooter: boolean }>`
-  min-height: 100%;
+  min-height: ${({ hideHeaderFooter }) =>
+    hideHeaderFooter ? "100%" : "calc(100% - 143px)"};
   padding-top: ${({ hideHeaderFooter }) => (hideHeaderFooter ? "0" : "63px")};
   padding-bottom: ${({ hideHeaderFooter }) =>
     hideHeaderFooter ? "0" : "80px"};
