@@ -1,10 +1,11 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
-import { ImFilePicture } from "react-icons/im";
+import { useEffect, useState } from "react";
 // components
 import Label from "../../components/common/Label";
 import { Input } from "../../components/common/Input";
 import Button from "../../components/common/Button";
+// containers
+import UploadImage from "./UploadImage";
 
 const PostForm = () => {
   const [value, setValue] = useState({
@@ -13,6 +14,12 @@ const PostForm = () => {
     image: "",
   });
   const [isDisabled, setIsDisabled] = useState(true);
+  const [imageSrc, setImageSrc] = useState("");
+
+  useEffect(() => {
+    const isFormFilled = value.title || value.desc || imageSrc;
+    setIsDisabled(!isFormFilled);
+  }, [value, imageSrc]);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -22,32 +29,14 @@ const PostForm = () => {
       [name]: value,
     }));
   };
-  const [imageSrc, setImageSrc] = useState("");
 
-  const encodeFileToBase64 = fileBlob => {
-    const reader = new FileReader();
-    reader.readAsDataURL(fileBlob);
-
-    return new Promise(resole => {
-      reader.onload = () => {
-        setImageSrc(reader.result);
-        resole();
-      };
-    });
-  };
-
-  const handleDrop = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    const file = e.dataTransfer.files[0];
-    encodeFileToBase64(file);
-  };
-
-  const handleDragOver = e => {
-    e.preventDefault();
+    console.log(value);
   };
 
   return (
-    <FormWrapper>
+    <form onSubmit={handleSubmit}>
       <InputWrapper>
         <Label text="제목" />
         <Input
@@ -67,33 +56,17 @@ const PostForm = () => {
           name="desc"
         />
       </InputWrapper>
-      <Preview
-        hasImage={!!imageSrc}
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-      >
-        <FileInput
-          type="file"
-          onChange={e => {
-            encodeFileToBase64(e.target.files[0]);
-          }}
-        />
-        {!imageSrc && (
-          <>
-            <ImFilePicture size={25} />
-            <Text>클릭 혹은 파일을 이곳에 드롭하세요.</Text>
-          </>
-        )}
-        {imageSrc && <Img src={imageSrc} alt="preview-img" />}
-      </Preview>
+      <UploadImage
+        imageSrc={imageSrc}
+        setImageSrc={setImageSrc}
+        setValue={setValue}
+      />
       <StyledButton text="공유하기" disabled={isDisabled} type="submit" />
-    </FormWrapper>
+    </form>
   );
 };
 
 export default PostForm;
-
-const FormWrapper = styled.form``;
 
 const InputWrapper = styled.div`
   margin-bottom: 25px;
@@ -112,40 +85,6 @@ const Textarea = styled.textarea`
   &::placeholder {
     color: ${props => props.theme.colors.gray300};
   }
-`;
-
-const Preview = styled.label`
-  width: 100%;
-  height: 250px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-  border: ${({ hasImage, theme }) =>
-    hasImage ? "none" : `1px dashed ${theme.colors.gray100}`};
-  cursor: pointer;
-  color: ${props => props.theme.colors.gray100};
-
-  p,
-  svg {
-    display: ${({ hasImage }) => (hasImage ? "none" : "block")};
-  }
-`;
-
-const Img = styled.img`
-  width: 100%;
-  height: 250px;
-  border-radius: 10px;
-`;
-
-const FileInput = styled.input`
-  display: none;
-`;
-
-const Text = styled.span`
-  margin-top: 20px;
-  font-size: ${props => props.theme.typography.paragraphs.default};
 `;
 
 const StyledButton = styled(Button)`
