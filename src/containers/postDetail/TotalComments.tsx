@@ -1,7 +1,20 @@
 import styled from "@emotion/styled";
+import { useState } from "react";
+// components
+import Modal from "../../components/common/Modal";
 
 const TotalComments = () => {
-  return <CommentWrapper>댓글 20개 모두 보기</CommentWrapper>;
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+  return (
+    <>
+      <CommentWrapper onClick={openModal}>댓글 20개 모두 보기</CommentWrapper>
+      {isOpen && <Modal onClose={() => setIsOpen(false)} />}
+    </>
+  );
 };
 
 export default TotalComments;
