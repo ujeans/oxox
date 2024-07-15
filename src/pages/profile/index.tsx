@@ -1,3 +1,13 @@
+import styled from "@emotion/styled";
+// components
+import ContentLayout from "../../components/posts/ContentLayout";
+// containers
+import UserInfo from "../../containers/profile/UserInfo";
+
 export default function ProfilePage() {
-  return <div>ProfilePage</div>;
+  return (
+    <ContentLayout>
+      <UserInfo />
+    </ContentLayout>
+  );
 }
