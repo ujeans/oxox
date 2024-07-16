@@ -156,24 +156,24 @@ const EmotionBtn = styled.button<{ showEmotions: boolean }>`
 
 const SelectedEmotions = styled.div`
   display: flex;
-  margin-left: 10px;
 `;
 
 const SelectedEmotionWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-right: 5px;
-  padding: 2px 6px;
+  padding: 2px 3px;
   border-radius: 15px;
   background-color: #363b48;
 `;
 
 const Icon = styled.img`
+  margin: 0 5px;
   cursor: pointer;
 `;
 
 const Count = styled.span`
   color: ${props => props.theme.colors.gray100};
   font-size: ${props => props.theme.typography.disclaimers.default};
-  margin-left: 5px;
+  margin: 0 5px 0 2px;
 `;

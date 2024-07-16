@@ -39,7 +39,7 @@ const Comment = () => {
       </CommentCountWrapper>
       <ListWrapper>
         {comments.map(comment => (
-          <CommentItem comment={comment} />
+          <CommentItem key={comment.id} comment={comment} />
         ))}
       </ListWrapper>
       <CommentForm
