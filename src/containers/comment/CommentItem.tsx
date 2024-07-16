@@ -1,6 +1,15 @@
 import styled from "@emotion/styled";
+import { useState } from "react";
 // assets
 import Emotion from "../../assets/emotion.svg";
+import Emotion0 from "../../assets/emotion0.svg";
+import Emotion1 from "../../assets/emotion1.svg";
+import Emotion2 from "../../assets/emotion2.svg";
+import Emotion3 from "../../assets/emotion3.svg";
+import Emotion4 from "../../assets/emotion4.svg";
+import Emotion5 from "../../assets/emotion5.svg";
+import Emotion6 from "../../assets/emotion6.svg";
+import Emotion7 from "../../assets/emotion7.svg";
 
 interface Comment {
   id: number;
@@ -13,7 +22,44 @@ interface CommentItemProps {
   comment: Comment;
 }
 
+interface EmotionItem {
+  src: string;
+  alt: string;
+  count: number;
+}
+
+const iconList = [
+  { src: Emotion0, alt: "emotion0" },
+  { src: Emotion1, alt: "emotion1" },
+  { src: Emotion2, alt: "emotion2" },
+  { src: Emotion3, alt: "emotion3" },
+  { src: Emotion4, alt: "emotion4" },
+  { src: Emotion5, alt: "emotion5" },
+  { src: Emotion6, alt: "emotion6" },
+  { src: Emotion7, alt: "emotion7" },
+];
+
 const CommentItem = ({ comment }: CommentItemProps) => {
+  const [showEmotions, setShowEmotions] = useState(false);
+  const [selectedEmotion, setSelectedEmotion] = useState<EmotionItem[]>([]);
+
+  const showEmotion = () => {
+    setShowEmotions(!showEmotions);
+  };
+
+  const handleEmotionClick = (emotion: { src: string; alt: string }) => {
+    setSelectedEmotion(prevEmotions => {
+      const existingEmotion = prevEmotions.find(e => e.alt === emotion.alt);
+      if (existingEmotion) {
+        return prevEmotions.map(e =>
+          e.alt === emotion.alt ? { ...e, count: e.count + 1 } : e
+        );
+      } else {
+        return [...prevEmotions, { ...emotion, count: 1 }];
+      }
+    });
+    setShowEmotions(false);
+  };
   return (
     <Container key={comment.id}>
       <Image />
@@ -23,9 +69,30 @@ const CommentItem = ({ comment }: CommentItemProps) => {
           <Time>{comment.time}</Time>
         </Top>
         <Content>{comment.content}</Content>
-        <EmotionBtn>
-          <img src={Emotion} alt="emotion" />
+        <EmotionBtn onClick={showEmotion} showEmotions={showEmotions}>
+          {showEmotions ? (
+            <>
+              {iconList.map(icon => (
+                <Icon
+                  key={icon.alt}
+                  src={icon.src}
+                  alt={icon.alt}
+                  onClick={() => handleEmotionClick(icon)}
+                />
+              ))}
+            </>
+          ) : (
+            <Icon src={Emotion} alt="emotion" />
+          )}
         </EmotionBtn>
+        <SelectedEmotions>
+          {selectedEmotion.map(emotion => (
+            <SelectedEmotionWrapper key={emotion.alt}>
+              <Icon src={emotion.src} alt={emotion.alt} />
+              <Count>{emotion.count}</Count>
+            </SelectedEmotionWrapper>
+          ))}
+        </SelectedEmotions>
       </InfoWrapper>
     </Container>
   );
@@ -76,13 +143,37 @@ const Content = styled.div`
   font-size: ${props => props.theme.typography.paragraphs.default};
 `;
 
-const EmotionBtn = styled.button`
+const EmotionBtn = styled.button<{ showEmotions: boolean }>`
   display: flex;
   justify-content: center;
-  width: 30px;
+  width: ${props => (props.showEmotions ? "220px" : "30px")};
   padding: 2px 0;
   border: none;
   border-radius: 15px;
   background-color: #363b48;
   cursor: pointer;
+`;
+
+const SelectedEmotions = styled.div`
+  display: flex;
+  margin-left: 10px;
+`;
+
+const SelectedEmotionWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 5px;
+  padding: 2px 6px;
+  border-radius: 15px;
+  background-color: #363b48;
+`;
+
+const Icon = styled.img`
+  cursor: pointer;
+`;
+
+const Count = styled.span`
+  color: ${props => props.theme.colors.gray100};
+  font-size: ${props => props.theme.typography.disclaimers.default};
+  margin-left: 5px;
 `;
