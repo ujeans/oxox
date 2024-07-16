@@ -10,6 +10,7 @@ import Modal from "../../components/common/Modal";
 import PostContent from "../../containers/postDetail/PostContent";
 import TotalComments from "../../containers/postDetail/TotalComments";
 import Progressbar from "../../containers/postDetail/Progressbar";
+import VoteModal from "../../containers/vote/Vote";
 
 export default function PostDetail() {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,7 +26,11 @@ export default function PostDetail() {
       <EmojiButton onClick={openModal}>
         {<img src={Vote} alt="vote" />}
       </EmojiButton>
-      {isOpen && <Modal onClose={() => setIsOpen(false)} />}
+      {isOpen && (
+        <Modal onClose={() => setIsOpen(false)} height="300px">
+          <VoteModal />
+        </Modal>
+      )}
     </ContentLayout>
   );
 }
