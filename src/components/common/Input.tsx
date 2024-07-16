@@ -8,6 +8,7 @@ export const Input = ({
   value,
   name,
   onChange,
+  onKeyPress,
 }: InputProps) => {
   return (
     <InputWrapper>
@@ -15,6 +16,7 @@ export const Input = ({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        onKeyPress={onKeyPress}
         name={name}
         hasIcon={!!icon}
       />
