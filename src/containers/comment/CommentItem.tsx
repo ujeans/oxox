@@ -69,30 +69,32 @@ const CommentItem = ({ comment }: CommentItemProps) => {
           <Time>{comment.time}</Time>
         </Top>
         <Content>{comment.content}</Content>
-        <EmotionBtn onClick={showEmotion} showEmotions={showEmotions}>
-          {showEmotions ? (
-            <>
-              {iconList.map(icon => (
-                <Icon
-                  key={icon.alt}
-                  src={icon.src}
-                  alt={icon.alt}
-                  onClick={() => handleEmotionClick(icon)}
-                />
-              ))}
-            </>
-          ) : (
-            <Icon src={Emotion} alt="emotion" />
-          )}
-        </EmotionBtn>
-        <SelectedEmotions>
-          {selectedEmotion.map(emotion => (
-            <SelectedEmotionWrapper key={emotion.alt}>
-              <Icon src={emotion.src} alt={emotion.alt} />
-              <Count>{emotion.count}</Count>
-            </SelectedEmotionWrapper>
-          ))}
-        </SelectedEmotions>
+        <EmotionContainer>
+          <EmotionBtn onClick={showEmotion} showEmotions={showEmotions}>
+            {showEmotions ? (
+              <>
+                {iconList.map(icon => (
+                  <Icon
+                    key={icon.alt}
+                    src={icon.src}
+                    alt={icon.alt}
+                    onClick={() => handleEmotionClick(icon)}
+                  />
+                ))}
+              </>
+            ) : (
+              <Icon src={Emotion} alt="emotion" />
+            )}
+          </EmotionBtn>
+          <SelectedEmotions>
+            {selectedEmotion.map(emotion => (
+              <SelectedEmotionWrapper key={emotion.alt}>
+                <Icon src={emotion.src} alt={emotion.alt} />
+                <Count>{emotion.count}</Count>
+              </SelectedEmotionWrapper>
+            ))}
+          </SelectedEmotions>
+        </EmotionContainer>
       </InfoWrapper>
     </Container>
   );
@@ -143,11 +145,16 @@ const Content = styled.div`
   font-size: ${props => props.theme.typography.paragraphs.default};
 `;
 
+const EmotionContainer = styled.div`
+  display: flex;
+`;
+
 const EmotionBtn = styled.button<{ showEmotions: boolean }>`
   display: flex;
   justify-content: center;
   width: ${props => (props.showEmotions ? "220px" : "30px")};
   padding: 2px 0;
+  margin-right: 5px;
   border: none;
   border-radius: 15px;
   background-color: #363b48;
