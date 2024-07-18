@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { useLocation } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
 // types
 import { ChildrenProps } from "../../types/react";
 // components
@@ -22,19 +21,11 @@ const Layout: React.FC<ChildrenProps> = ({ children }) => {
   return (
     <>
       {!hideHeaderFooter && <Header />}
-      <AnimatePresence mode="wait">
-        <ContentWrapper>
-          <MotionContainer
-            key={location.pathname}
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "-100%" }}
-            transition={{ duration: 0.5 }}
-          >
-            <Content hideHeaderFooter={hideHeaderFooter}>{children}</Content>
-          </MotionContainer>
-        </ContentWrapper>
-      </AnimatePresence>
+      <ContentWrapper>
+        <MotionContainer>
+          <Content hideHeaderFooter={hideHeaderFooter}>{children}</Content>
+        </MotionContainer>
+      </ContentWrapper>
       {!hideFooter && <Footer />}
     </>
   );
@@ -48,12 +39,12 @@ const ContentWrapper = styled.div`
   background-color: ${props => props.theme.colors.gray500};
 `;
 
-const MotionContainer = styled(motion.div)`
+const MotionContainer = styled.div`
   width: 100%;
   height: 100%;
 `;
 
-const Content = styled(motion.div)<{ hideHeaderFooter: boolean }>`
+const Content = styled.div<{ hideHeaderFooter: boolean }>`
   padding-top: ${({ hideHeaderFooter }) => (hideHeaderFooter ? "0" : "63px")};
   padding-bottom: ${({ hideHeaderFooter }) =>
     hideHeaderFooter ? "0" : "80px"};
