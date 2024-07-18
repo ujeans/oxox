@@ -14,7 +14,7 @@ export const modalAnimation = {
 
 export const buttonAnimation = {
   hidden: { width: "30px" },
-  visible: { width: "220px", transition: { duration: 0.3, ease: "easeOut" } },
+  visible: { width: "180px", transition: { duration: 0.3, ease: "easeOut" } },
 };
 
 export const iconAnimation = {

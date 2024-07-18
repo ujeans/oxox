@@ -3,14 +3,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 // assets
 import Emotion from "../../assets/emotion.svg";
-import Emotion0 from "../../assets/emotion0.svg";
-import Emotion1 from "../../assets/emotion1.svg";
-import Emotion2 from "../../assets/emotion2.svg";
-import Emotion3 from "../../assets/emotion3.svg";
-import Emotion4 from "../../assets/emotion4.svg";
-import Emotion5 from "../../assets/emotion5.svg";
-import Emotion6 from "../../assets/emotion6.svg";
-import Emotion7 from "../../assets/emotion7.svg";
+// styles
 import { buttonAnimation, iconAnimation } from "../../styles/animation";
 
 interface Comment {
@@ -31,14 +24,26 @@ interface EmotionItem {
 }
 
 const iconList = [
-  { src: Emotion0, alt: "emotion0" },
-  { src: Emotion1, alt: "emotion1" },
-  { src: Emotion2, alt: "emotion2" },
-  { src: Emotion3, alt: "emotion3" },
-  { src: Emotion4, alt: "emotion4" },
-  { src: Emotion5, alt: "emotion5" },
-  { src: Emotion6, alt: "emotion6" },
-  { src: Emotion7, alt: "emotion7" },
+  {
+    src: "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Grinning%20Face%20with%20Smiling%20Eyes.png",
+    alt: "Grinning Face with Smiling Eyes",
+  },
+  {
+    src: "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Red%20Heart.png",
+    alt: "Red Heart",
+  },
+  {
+    src: "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Shaking%20Face.png",
+    alt: "Shaking Face",
+  },
+  {
+    src: "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Loudly%20Crying%20Face.png",
+    alt: "Loudly Crying Face",
+  },
+  {
+    src: "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Face%20with%20Symbols%20on%20Mouth.png",
+    alt: "Face with Symbols on Mouth",
+  },
 ];
 
 const CommentItem = ({ comment }: CommentItemProps) => {
@@ -186,12 +191,13 @@ const SelectedEmotionWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-right: 5px;
-  padding: 2px 3px;
+  padding: 3px 3px;
   border-radius: 15px;
   background-color: #363b48;
 `;
 
 const Icon = styled(motion.img)`
+  width: 17px;
   margin: 0 5px;
   cursor: pointer;
 `;

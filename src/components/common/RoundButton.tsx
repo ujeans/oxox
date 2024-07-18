@@ -21,7 +21,16 @@ const RoundButton = ({
   } & React.ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <StyledButton size={size} isDone={isDone} {...props}>
-      {size === "medium" ? <Img src={Stopwatch} alt="stopwatch" /> : ""}
+      {size === "medium" ? (
+        <img
+          src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Stopwatch.png"
+          alt="Stopwatch"
+          width="25"
+          height="25"
+        />
+      ) : (
+        ""
+      )}
       {text}
     </StyledButton>
   );

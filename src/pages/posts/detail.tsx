@@ -24,7 +24,14 @@ export default function PostDetail() {
       <Progressbar />
       <TotalComments />
       <EmojiButton onClick={openModal}>
-        {<img src={Vote} alt="vote" />}
+        {
+          <img
+            src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Ballot%20Box%20with%20Ballot.png"
+            alt="Ballot Box with Ballot"
+            width="25"
+            height="25"
+          />
+        }
       </EmojiButton>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} height="300px">
         <VoteModal />

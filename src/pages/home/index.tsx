@@ -16,7 +16,14 @@ export default function HomePage() {
     <>
       <Lists />
       <EmojiButton onClick={navigateTo}>
-        {<img src={Pencil} alt="pencil" />}
+        {
+          <img
+            src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Pencil.png"
+            alt="Pencil"
+            width="25"
+            height="25"
+          />
+        }
       </EmojiButton>
     </>
   );

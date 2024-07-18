@@ -22,10 +22,42 @@ const Header = () => {
   const matchProfile = useMatch("/profile");
 
   const getTitle = () => {
-    if (matchPostNew) return <img src={Memo} alt="Post New" />;
-    if (matchPostEdit) return <img src={Memo} alt="Post Edit" />;
-    if (matchPostDetail) return <img src={Eyes} alt="Post Detail" />;
-    if (matchProfile) return <img src={Tippinghand} alt="Profile" />;
+    if (matchPostNew)
+      return (
+        <img
+          src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Writing%20Hand%20Medium-Light%20Skin%20Tone.png"
+          alt="Writing Hand Medium-Light Skin Tone"
+          width="25"
+          height="25"
+        />
+      );
+    if (matchPostEdit)
+      return (
+        <img
+          src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Writing%20Hand%20Medium-Light%20Skin%20Tone.png"
+          alt="Writing Hand Medium-Light Skin Tone"
+          width="25"
+          height="25"
+        />
+      );
+    if (matchPostDetail)
+      return (
+        <img
+          src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Eyes.png"
+          alt="Eyes"
+          width="25"
+          height="25"
+        />
+      );
+    if (matchProfile)
+      return (
+        <img
+          src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People/Person%20Tipping%20Hand.png"
+          alt="Person Tipping Hand"
+          width="25"
+          height="25"
+        />
+      );
     if (location.pathname === "/") return "oxox";
     return "App";
   };
