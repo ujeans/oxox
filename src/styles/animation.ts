@@ -11,3 +11,17 @@ export const modalAnimation = {
     transition: { duration: 0.3, ease: "easeIn" },
   },
 };
+
+export const buttonAnimation = {
+  hidden: { width: "30px" },
+  visible: { width: "220px", transition: { duration: 0.3, ease: "easeOut" } },
+};
+
+export const iconAnimation = {
+  hidden: { opacity: 0, scale: 0 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.3, ease: "easeOut" },
+  },
+};
