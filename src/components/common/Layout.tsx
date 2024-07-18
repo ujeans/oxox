@@ -6,7 +6,7 @@ import { ChildrenProps } from "../../types/react";
 import Header from "../../containers/layout/Header";
 import Footer from "../../containers/layout/Footer";
 
-const Layout = ({ children }: ChildrenProps) => {
+const Layout: React.FC<ChildrenProps> = ({ children }) => {
   const location = useLocation();
 
   const hideHeaderFooter =
@@ -21,7 +21,11 @@ const Layout = ({ children }: ChildrenProps) => {
   return (
     <>
       {!hideHeaderFooter && <Header />}
-      <Content hideHeaderFooter={hideHeaderFooter}>{children}</Content>
+      <ContentWrapper>
+        <MotionContainer>
+          <Content hideHeaderFooter={hideHeaderFooter}>{children}</Content>
+        </MotionContainer>
+      </ContentWrapper>
       {!hideFooter && <Footer />}
     </>
   );
@@ -29,9 +33,18 @@ const Layout = ({ children }: ChildrenProps) => {
 
 export default Layout;
 
+const ContentWrapper = styled.div`
+  overflow: hidden;
+  height: 100vh;
+  background-color: ${props => props.theme.colors.gray500};
+`;
+
+const MotionContainer = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
 const Content = styled.div<{ hideHeaderFooter: boolean }>`
-  min-height: ${({ hideHeaderFooter }) =>
-    hideHeaderFooter ? "100%" : "calc(100% - 143px)"};
   padding-top: ${({ hideHeaderFooter }) => (hideHeaderFooter ? "0" : "63px")};
   padding-bottom: ${({ hideHeaderFooter }) =>
     hideHeaderFooter ? "0" : "80px"};

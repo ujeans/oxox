@@ -13,11 +13,9 @@ const TotalComments = () => {
   return (
     <>
       <CommentWrapper onClick={openModal}>댓글 20개 모두 보기</CommentWrapper>
-      {isOpen && (
-        <Modal onClose={() => setIsOpen(false)} height="600px">
-          <Comment />
-        </Modal>
-      )}
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} height="600px">
+        <Comment />
+      </Modal>
     </>
   );
 };

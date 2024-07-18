@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
+import { motion } from "framer-motion";
 // assets
 import Emotion from "../../assets/emotion.svg";
 import Emotion0 from "../../assets/emotion0.svg";
@@ -10,6 +11,7 @@ import Emotion4 from "../../assets/emotion4.svg";
 import Emotion5 from "../../assets/emotion5.svg";
 import Emotion6 from "../../assets/emotion6.svg";
 import Emotion7 from "../../assets/emotion7.svg";
+import { buttonAnimation, iconAnimation } from "../../styles/animation";
 
 interface Comment {
   id: number;
@@ -60,6 +62,7 @@ const CommentItem = ({ comment }: CommentItemProps) => {
     });
     setShowEmotions(false);
   };
+
   return (
     <Container key={comment.id}>
       <Image />
@@ -69,30 +72,40 @@ const CommentItem = ({ comment }: CommentItemProps) => {
           <Time>{comment.time}</Time>
         </Top>
         <Content>{comment.content}</Content>
-        <EmotionBtn onClick={showEmotion} showEmotions={showEmotions}>
-          {showEmotions ? (
-            <>
-              {iconList.map(icon => (
-                <Icon
-                  key={icon.alt}
-                  src={icon.src}
-                  alt={icon.alt}
-                  onClick={() => handleEmotionClick(icon)}
-                />
-              ))}
-            </>
-          ) : (
-            <Icon src={Emotion} alt="emotion" />
-          )}
-        </EmotionBtn>
-        <SelectedEmotions>
-          {selectedEmotion.map(emotion => (
-            <SelectedEmotionWrapper key={emotion.alt}>
-              <Icon src={emotion.src} alt={emotion.alt} />
-              <Count>{emotion.count}</Count>
-            </SelectedEmotionWrapper>
-          ))}
-        </SelectedEmotions>
+        <EmotionContainer>
+          <EmotionBtn
+            onClick={showEmotion}
+            variants={buttonAnimation}
+            initial="hidden"
+            animate={showEmotions ? "visible" : "hidden"}
+          >
+            {showEmotions ? (
+              <IconContainer>
+                {iconList.map(icon => (
+                  <Icon
+                    key={icon.alt}
+                    src={icon.src}
+                    alt={icon.alt}
+                    onClick={() => handleEmotionClick(icon)}
+                    variants={iconAnimation}
+                    initial="hidden"
+                    animate="visible"
+                  />
+                ))}
+              </IconContainer>
+            ) : (
+              <Icon src={Emotion} alt="emotion" />
+            )}
+          </EmotionBtn>
+          <SelectedEmotions>
+            {selectedEmotion.map(emotion => (
+              <SelectedEmotionWrapper key={emotion.alt}>
+                <Icon src={emotion.src} alt={emotion.alt} />
+                <Count>{emotion.count}</Count>
+              </SelectedEmotionWrapper>
+            ))}
+          </SelectedEmotions>
+        </EmotionContainer>
       </InfoWrapper>
     </Container>
   );
@@ -143,15 +156,26 @@ const Content = styled.div`
   font-size: ${props => props.theme.typography.paragraphs.default};
 `;
 
-const EmotionBtn = styled.button<{ showEmotions: boolean }>`
+const EmotionContainer = styled.div`
+  display: flex;
+`;
+
+const EmotionBtn = styled(motion.button)`
   display: flex;
   justify-content: center;
-  width: ${props => (props.showEmotions ? "220px" : "30px")};
-  padding: 2px 0;
+  align-items: center;
+  margin-right: 5px;
   border: none;
   border-radius: 15px;
   background-color: #363b48;
   cursor: pointer;
+  overflow: hidden;
+`;
+
+const IconContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
 `;
 
 const SelectedEmotions = styled.div`
@@ -167,7 +191,7 @@ const SelectedEmotionWrapper = styled.div`
   background-color: #363b48;
 `;
 
-const Icon = styled.img`
+const Icon = styled(motion.img)`
   margin: 0 5px;
   cursor: pointer;
 `;
