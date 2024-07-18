@@ -9,6 +9,7 @@ import Memo from "../../assets/memo.svg";
 import Tippinghand from "../../assets/tippinghand.svg";
 import Modal from "../../components/common/Modal";
 import Logout from "../logout/Logout";
+import { AnimatePresence } from "framer-motion";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -46,11 +47,9 @@ const Header = () => {
         {showBackIcon && <BackIcon onClick={prevTo} />}
         <Title>{getTitle()}</Title>
         {showLogoutIcon && <LogoutIcon onClick={openModal} />}
-        {isOpen && (
-          <Modal onClose={() => setIsOpen(false)} height="300px">
-            <Logout onClose={() => setIsOpen(false)} />
-          </Modal>
-        )}
+        <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} height="300px">
+          <Logout onClose={() => setIsOpen(false)} />
+        </Modal>
       </Wrapper>
     </StyledHeader>
   );

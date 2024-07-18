@@ -26,11 +26,9 @@ export default function PostDetail() {
       <EmojiButton onClick={openModal}>
         {<img src={Vote} alt="vote" />}
       </EmojiButton>
-      {isOpen && (
-        <Modal onClose={() => setIsOpen(false)} height="300px">
-          <VoteModal />
-        </Modal>
-      )}
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} height="300px">
+        <VoteModal />
+      </Modal>
     </ContentLayout>
   );
 }
