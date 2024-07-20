@@ -34,15 +34,15 @@ const Checkbox = styled.input`
   height: 25px;
   margin-right: 10px;
   background-color: none;
-  border: 2px solid ${props => props.theme.colors.gray100};
+  border: 2px solid ${props => props.theme.colors.gray50};
   border-radius: 50%;
   cursor: pointer;
 
   &:checked {
     background-color: ${props =>
       props.id === "agree-checkbox"
-        ? props.theme.colors.red100
-        : props.theme.colors.blue500};
+        ? props.theme.colors.pink100
+        : props.theme.colors.blue100};
     border: none;
   }
 
@@ -74,7 +74,7 @@ const Progressbar = styled.div<{ selected: boolean; color: string }>`
   background-color: ${props =>
     props.selected
       ? props.color === "red"
-        ? props.theme.colors.red100
-        : props.theme.colors.blue500
-      : props.theme.colors.gray300};
+        ? props.theme.colors.pink100
+        : props.theme.colors.blue100
+      : props.theme.colors.gray200};
 `;

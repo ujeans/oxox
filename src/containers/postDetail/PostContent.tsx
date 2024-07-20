@@ -31,7 +31,7 @@ const Description = styled.div`
   margin: 13px 0;
   text-align: center;
   font-size: ${props => props.theme.typography.paragraphs.default};
-  color: ${props => props.theme.colors.gray100};
+  color: ${props => props.theme.colors.gray50};
 `;
 
 const Image = styled.div`

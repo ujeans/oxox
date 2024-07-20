@@ -55,7 +55,7 @@ const Span2 = styled.div`
   text-align: center;
   margin: 10px 0;
   font-size: ${props => props.theme.typography.disclaimers.default};
-  color: ${props => props.theme.colors.gray100};
+  color: ${props => props.theme.colors.gray50};
 `;
 
 const Graph = styled.div`

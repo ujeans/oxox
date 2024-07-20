@@ -48,5 +48,5 @@ const InputWrapper = styled.div`
 `;
 
 const SendIcon = styled(BsFillSendFill)`
-  color: ${props => props.theme.colors.gray100};
+  color: ${props => props.theme.colors.gray50};
 `;

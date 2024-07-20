@@ -65,7 +65,7 @@ const Comment = styled.div`
   right: 0;
   top: 0;
   font-size: 12px;
-  color: ${props => props.theme.colors.gray100};
+  color: ${props => props.theme.colors.gray50};
 `;
 
 const Count = styled.div`
@@ -78,7 +78,7 @@ const Question = styled.div`
 
 const Time = styled.div`
   font-size: ${props => props.theme.typography.disclaimers.default};
-  color: ${props => props.theme.colors.gray100};
+  color: ${props => props.theme.colors.gray50};
 `;
 
 const Graph = styled.div`

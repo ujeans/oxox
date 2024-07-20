@@ -19,13 +19,13 @@ const StyledButton = styled.button<{ disabled?: boolean }>`
   border-radius: 5px;
   font-size: ${props => props.theme.typography.disclaimers.bold};
   background-color: ${props =>
-    props.disabled ? props.theme.colors.blue50 : props.theme.colors.blue200};
+    props.disabled ? props.theme.colors.green50 : props.theme.colors.green200};
   color: ${props =>
-    props.disabled ? props.theme.colors.blue300 : props.theme.colors.gray400};
+    props.disabled ? props.theme.colors.green100 : props.theme.colors.gray500};
   cursor: ${props => (props.disabled ? "not-allowed" : "pointer")};
   pointer-events: ${props => (props.disabled ? "none" : "auto")};
 
   &:hover {
-    background-color: ${props => props.theme.colors.blue400};
+    background-color: ${props => props.theme.colors.green300};
   }
 `;

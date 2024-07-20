@@ -12,5 +12,5 @@ const StyledLabel = styled.label`
   display: block;
   margin-bottom: 6px;
   font-size: ${props => props.theme.typography.disclaimers.default};
-  color: ${props => props.theme.colors.gray100};
+  color: ${props => props.theme.colors.gray50};
 `;

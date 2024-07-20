@@ -19,7 +19,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   margin-top: 6px;
-  color: ${props => props.theme.colors.red200};
+  color: ${props => props.theme.colors.red50};
 `;
 const Text = styled.div`
   font-size: 10px;

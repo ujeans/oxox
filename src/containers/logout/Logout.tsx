@@ -61,10 +61,10 @@ const ButtonWrapper = styled.div`
 
 const StyledButton = styled(Button)`
   margin-right: 10px;
-  background-color: ${props => props.theme.colors.gray100};
+  background-color: ${props => props.theme.colors.gray50};
   color: ${props => props.theme.colors.white};
 
   &:hover {
-    background-color: ${props => props.theme.colors.gray300};
+    background-color: ${props => props.theme.colors.gray200};
   }
 `;

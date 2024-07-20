@@ -24,6 +24,6 @@ export default TotalComments;
 
 const CommentWrapper = styled.div`
   font-size: ${props => props.theme.typography.disclaimers.default};
-  color: ${props => props.theme.colors.gray100};
+  color: ${props => props.theme.colors.gray50};
   cursor: pointer;
 `;

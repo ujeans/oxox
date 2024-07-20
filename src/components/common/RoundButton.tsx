@@ -60,9 +60,9 @@ const StyledButton = styled.button<{
   align-items: center;
   ${props => getSizeStyles(props.size)}
   background-color: ${props =>
-    props.isDone ? props.theme.colors.gray300 : props.theme.colors.blue200};
+    props.isDone ? props.theme.colors.gray200 : props.theme.colors.green200};
   color: ${props =>
-    props.isDone ? props.theme.colors.gray200 : props.theme.colors.gray400};
+    props.isDone ? props.theme.colors.gray300 : props.theme.colors.gray500};
 `;
 
 const Img = styled.img`

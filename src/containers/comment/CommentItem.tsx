@@ -153,7 +153,7 @@ const Nickname = styled.div`
 
 const Time = styled.div`
   font-size: ${props => props.theme.typography.disclaimers.default};
-  color: ${props => props.theme.colors.gray100};
+  color: ${props => props.theme.colors.gray50};
 `;
 
 const Content = styled.div`
@@ -203,7 +203,7 @@ const Icon = styled(motion.img)`
 `;
 
 const Count = styled.span`
-  color: ${props => props.theme.colors.gray100};
+  color: ${props => props.theme.colors.gray50};
   font-size: ${props => props.theme.typography.disclaimers.default};
   margin: 0 5px 0 2px;
 `;

@@ -36,7 +36,7 @@ export default Layout;
 const ContentWrapper = styled.div`
   overflow: hidden;
   height: 100vh;
-  background-color: ${props => props.theme.colors.gray500};
+  background-color: ${props => props.theme.colors.gray400};
 `;
 
 const MotionContainer = styled.div`
@@ -48,5 +48,5 @@ const Content = styled.div<{ hideHeaderFooter: boolean }>`
   padding-top: ${({ hideHeaderFooter }) => (hideHeaderFooter ? "0" : "63px")};
   padding-bottom: ${({ hideHeaderFooter }) =>
     hideHeaderFooter ? "0" : "80px"};
-  background-color: ${props => props.theme.colors.gray500};
+  background-color: ${props => props.theme.colors.gray400};
 `;
