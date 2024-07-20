@@ -22,7 +22,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   padding-bottom: 15px;
-  border-bottom: 1px solid ${props => props.theme.colors.gray300};
+  border-bottom: 1px solid ${props => props.theme.colors.gray200};
 `;
 
 const Image = styled.img`
@@ -50,7 +50,7 @@ const Nickname = styled.span`
 
 const PencilIcon = styled(HiPencil)`
   margin-left: 5px;
-  color: ${props => props.theme.colors.gray100};
+  color: ${props => props.theme.colors.gray50};
   cursor: pointer;
 `;
 

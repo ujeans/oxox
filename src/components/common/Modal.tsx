@@ -61,7 +61,7 @@ const Overlay = styled(motion.div)`
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(2, 6, 24, 0.7);
+  background: rgba(18, 18, 18, 0.7);
   z-index: 9999;
   display: flex;
   justify-content: center;
@@ -74,7 +74,7 @@ const ModalWrap = styled(motion.div)<{ height: string }>`
   height: ${props => props.height};
   border-top-right-radius: 15px;
   border-top-left-radius: 15px;
-  background-color: ${props => props.theme.colors.blue600};
+  background-color: ${props => props.theme.colors.gray500};
 `;
 
 const IndicatorWrapper = styled.div`

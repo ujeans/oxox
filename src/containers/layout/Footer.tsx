@@ -64,7 +64,7 @@ const TabBox = styled.div<{ isActive: boolean }>`
   align-items: center;
   cursor: pointer;
   color: ${props =>
-    props.isActive ? props.theme.colors.blue200 : props.theme.colors.gray100};
+    props.isActive ? props.theme.colors.green200 : props.theme.colors.gray50};
 `;
 
 const FeedIcon = styled(SiGoogledocs)`
@@ -73,7 +73,7 @@ const FeedIcon = styled(SiGoogledocs)`
 
 const CommentIcon = styled(BiSolidCommentDetail)`
   font-size: 24px;
-  color: ${props => props.theme.colors.gray100};
+  color: ${props => props.theme.colors.gray50};
 `;
 
 const Text = styled.span`

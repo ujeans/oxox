@@ -20,6 +20,6 @@ const Button = styled.button`
   height: 50px;
   border: none;
   border-radius: 50%;
-  background-color: ${props => props.theme.colors.blue200};
+  background-color: ${props => props.theme.colors.green200};
   cursor: pointer;
 `;

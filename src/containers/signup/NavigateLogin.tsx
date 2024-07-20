@@ -28,12 +28,12 @@ const Wrapper = styled.div`
 const Text = styled.span`
   margin-bottom: 5px;
   font-size: ${props => props.theme.typography.disclaimers.default};
-  color: ${props => props.theme.colors.gray100};
+  color: ${props => props.theme.colors.gray50};
 `;
 
 const LinkText = styled.span`
   font-size: ${props => props.theme.typography.disclaimers.default};
-  color: ${props => props.theme.colors.blue200};
+  color: ${props => props.theme.colors.green200};
   cursor: pointer;
 
   &:hover {

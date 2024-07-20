@@ -23,9 +23,9 @@ const Wrapper = styled.div`
   margin-top: 50px;
   padding: 10px 15px;
   border-radius: 5px;
-  border: 1px solid ${props => props.theme.colors.red200};
-  background-color: ${props => props.theme.colors.red300};
-  color: ${props => props.theme.colors.gray100};
+  border: 1px solid ${props => props.theme.colors.red50};
+  background-color: ${props => props.theme.colors.red100};
+  color: ${props => props.theme.colors.gray50};
   font-size: ${props => props.theme.typography.disclaimers.default};
 `;
 

@@ -70,7 +70,7 @@ const Count = styled.div`
   margin-left: 5px;
   font-size: 18px;
   font-weight: bold;
-  color: ${props => props.theme.colors.gray100};
+  color: ${props => props.theme.colors.gray50};
 `;
 
 const ListWrapper = styled.div`

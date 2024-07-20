@@ -77,13 +77,13 @@ const Textarea = styled.textarea`
   height: 130px;
   padding: 5px;
   border-radius: 5px;
-  border: 1px solid ${props => props.theme.colors.gray100};
+  border: 1px solid ${props => props.theme.colors.gray50};
   background: none;
   color: ${props => props.theme.colors.white};
   box-sizing: border-box;
 
   &::placeholder {
-    color: ${props => props.theme.colors.gray300};
+    color: ${props => props.theme.colors.gray200};
   }
 `;
 

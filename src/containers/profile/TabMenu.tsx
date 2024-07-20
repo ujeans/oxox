@@ -28,7 +28,7 @@ const TabWrapper = styled.div`
   margin: 20px 0;
   border-radius: 24px;
 
-  background-color: ${props => props.theme.colors.blue600};
+  background-color: ${props => props.theme.colors.gray500};
 `;
 
 const Menu = styled.div<{ isActive: boolean }>`
@@ -44,8 +44,8 @@ const Menu = styled.div<{ isActive: boolean }>`
       ? props.theme.typography.paragraphs.bold
       : props.theme.typography.paragraphs.default};
   color: ${props =>
-    props.isActive ? props.theme.colors.gray400 : props.theme.colors.white};
+    props.isActive ? props.theme.colors.gray500 : props.theme.colors.white};
   background-color: ${props =>
-    props.isActive ? props.theme.colors.blue400 : "transparent"};
+    props.isActive ? props.theme.colors.green200 : "transparent"};
   cursor: pointer;
 `;
