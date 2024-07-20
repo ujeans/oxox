@@ -3,13 +3,11 @@ import { IoIosArrowBack } from "react-icons/io";
 import { LuLogOut } from "react-icons/lu";
 import { useState } from "react";
 import { useLocation, useMatch, useNavigate } from "react-router-dom";
-// assets
-import Eyes from "../../assets/eyes.svg";
-import Memo from "../../assets/memo.svg";
-import Tippinghand from "../../assets/tippinghand.svg";
+// components
 import Modal from "../../components/common/Modal";
+import Logo from "../../components/logo/Logo";
+// containers
 import Logout from "../logout/Logout";
-import { AnimatePresence } from "framer-motion";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -58,7 +56,7 @@ const Header = () => {
           height="25"
         />
       );
-    if (location.pathname === "/") return "oxox";
+    if (location.pathname === "/") return <Logo fontSize="50px" />;
     return "App";
   };
 
@@ -95,7 +93,6 @@ const StyledHeader = styled.header`
   position: fixed;
   top: 0;
   margin: auto 0;
-  background-color: ${props => props.theme.colors.gray500};
   z-index: 999;
 `;
 
@@ -111,19 +108,19 @@ const BackIcon = styled(IoIosArrowBack)`
   position: absolute;
   left: 16px;
   font-size: 24px;
-  color: ${props => props.theme.colors.gray100};
+  color: ${props => props.theme.colors.gray50};
   cursor: pointer;
 `;
 
 const Title = styled.div`
   font-size: 18px;
-  color: ${props => props.theme.colors.gray100};
+  color: ${props => props.theme.colors.gray50};
 `;
 
 const LogoutIcon = styled(LuLogOut)`
   position: absolute;
   right: 16px;
   font-size: 21px;
-  color: ${props => props.theme.colors.gray100};
+  color: ${props => props.theme.colors.gray50};
   cursor: pointer;
 `;
