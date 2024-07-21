@@ -61,9 +61,9 @@ const Preview = styled.label`
   align-items: center;
   border-radius: 10px;
   border: ${({ hasImage, theme }) =>
-    hasImage ? "none" : `1px dashed ${theme.colors.gray50}`};
+    hasImage ? "none" : `1px dashed ${theme.colors.gray200}`};
   cursor: pointer;
-  color: ${props => props.theme.colors.gray50};
+  color: ${props => props.theme.colors.gray200};
 
   p,
   svg {

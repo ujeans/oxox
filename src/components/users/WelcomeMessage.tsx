@@ -6,9 +6,9 @@ const WelcomeMessage = () => {
   return (
     <Wrapper>
       <Logo fontSize="60px" />
-      <Title>oxox에 오신 것을 환영합니다.</Title>
+      <Title>OXOX에 오신 것을 환영합니다.</Title>
       <Description>
-        oxox는 당신의 고민을 해결할 수 있는 서비스입니다.
+        OXOX는 당신의 고민을 해결할 수 있는 서비스입니다.
       </Description>
     </Wrapper>
   );
@@ -22,17 +22,16 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const Title = styled.span`
+const Title = styled.h2`
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 30px 0 10px 0;
-  font-size: 30px;
-  font-weight: 700;
+  margin-bottom: 0;
+  font-size: 1.5rem;
 `;
 
-const Description = styled.span`
-  margin-bottom: 40px;
+const Description = styled.p`
+  color: ${props => props.theme.colors.gray50};
   font-size: ${props => props.theme.typography.paragraphs.default};
 `;
