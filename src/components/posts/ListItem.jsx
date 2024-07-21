@@ -4,6 +4,14 @@ import { BiSolidComment } from "react-icons/bi";
 import RoundButton from "../common/RoundButton";
 
 const ListItem = ({ post, onClick }) => {
+  const createAt = new Date(post.createAt);
+  const currentAt = new Date();
+
+  const deadline = new Date(createAt.getTime() + 24 * 60 * 60 * 1000);
+
+  const timeDiff = deadline - currentAt;
+  const hoursLeft = Math.floor(timeDiff / (1000 * 60 * 60));
+
   return (
     <Wrapper key={post.id} onClick={onClick}>
       <Image src={post.thumbnailUrl} alt={post.title} />
@@ -20,7 +28,7 @@ const ListItem = ({ post, onClick }) => {
           </Comment>
         </Top>
         <Question>{post.title}</Question>
-        <Time>1시간 남음</Time>
+        <Time>{hoursLeft}시간 남음</Time>
         <Graph></Graph>
       </InfoWrapper>
     </Wrapper>
