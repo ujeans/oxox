@@ -47,7 +47,7 @@ const StyledFooter = styled.footer`
   position: fixed;
   margin: 0 auto;
   bottom: 0;
-  background-color: ${props => props.theme.colors.blue600};
+  background-color: ${props => props.theme.colors.gray500};
   z-index: 999;
 `;
 

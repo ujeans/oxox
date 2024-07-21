@@ -13,13 +13,13 @@ const Box = styled.div`
   flex-basis: 100%;
   align-items: center;
   font-size: ${props => props.theme.typography.disclaimers.default};
-  color: ${props => props.theme.colors.gray50};
+  color: ${props => props.theme.colors.gray200};
   margin: 30px 0px;
 
   &:before {
     content: "";
     flex-grow: 1;
-    background-color: ${props => props.theme.colors.gray50};
+    background-color: ${props => props.theme.colors.gray200};
     height: 1px;
     font-size: 0;
     line-height: 0px;
@@ -28,7 +28,7 @@ const Box = styled.div`
   &:after {
     content: "";
     flex-grow: 1;
-    background-color: ${props => props.theme.colors.gray50};
+    background-color: ${props => props.theme.colors.gray200};
     height: 1px;
     font-size: 0;
     line-height: 0px;

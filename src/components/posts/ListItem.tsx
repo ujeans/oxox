@@ -1,11 +1,32 @@
 import styled from "@emotion/styled";
 import { BiSolidComment } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 // components
 import RoundButton from "../common/RoundButton";
+// types
+import { PostDto } from "../../types/data/post";
 
-const ListItem = ({ post, onClick }) => {
+interface PostProps {
+  post: PostDto;
+}
+
+const ListItem = ({ post }: PostProps) => {
+  const nav = useNavigate();
+
+  const createAt = new Date(post.createAt);
+  const currentAt = new Date();
+
+  const deadline = new Date(createAt.getTime() + 24 * 60 * 60 * 1000);
+
+  const timeDiff = deadline.getTime() - currentAt.getTime();
+  const hoursLeft = Math.floor(timeDiff / (1000 * 60 * 60));
+
+  const navigateTo = (post: PostDto) => {
+    nav(`/posts/$${post.id}`);
+  };
+
   return (
-    <Wrapper key={post.id} onClick={onClick}>
+    <Wrapper key={post.id} onClick={() => navigateTo(post)}>
       <Image src={post.thumbnailUrl} alt={post.title} />
       <InfoWrapper>
         <Top>
@@ -16,11 +37,11 @@ const ListItem = ({ post, onClick }) => {
           />
           <Comment>
             <BiSolidComment size={20} />
-            <Count>14</Count>
+            <Count>{post.commentCount}</Count>
           </Comment>
         </Top>
         <Question>{post.title}</Question>
-        <Time>1시간 남음</Time>
+        <Time>{hoursLeft}시간 남음</Time>
         <Graph></Graph>
       </InfoWrapper>
     </Wrapper>

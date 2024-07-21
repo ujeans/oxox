@@ -45,7 +45,7 @@ const StyledInput = styled.input<{ hasIcon: boolean }>`
   height: 30px;
   padding: 5px;
   border-radius: 5px;
-  border: 1px solid ${props => props.theme.colors.gray50};
+  border: 1px solid ${props => props.theme.colors.gray200};
   background: none;
   color: ${props => props.theme.colors.white};
 
