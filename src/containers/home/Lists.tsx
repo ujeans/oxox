@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { useNavigate } from "react-router-dom";
 // components
 import ListItem from "../../components/posts/ListItem";
 // types
@@ -10,22 +9,12 @@ interface ListsProps {
 }
 
 const Lists = ({ posts }: ListsProps) => {
-  const nav = useNavigate();
-
-  const navigateTo = (id: number) => {
-    nav(`/posts/${id}`);
-  };
-
   return (
     <Container>
       <Title>oxox 리스트</Title>
       <ListWrapper>
         {posts.map(post => (
-          <ListItem
-            key={post.id}
-            post={post}
-            onClick={() => navigateTo(post.id)}
-          />
+          <ListItem key={post.id} post={post} />
         ))}
       </ListWrapper>
     </Container>
