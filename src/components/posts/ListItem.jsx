@@ -16,7 +16,7 @@ const ListItem = ({ post, onClick }) => {
           />
           <Comment>
             <BiSolidComment size={20} />
-            <Count>14</Count>
+            <Count>{post.commentCount}</Count>
           </Comment>
         </Top>
         <Question>{post.title}</Question>

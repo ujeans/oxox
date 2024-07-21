@@ -1,20 +1,42 @@
-// assets
 import { useNavigate } from "react-router-dom";
-import Pencil from "../../assets/pencil.svg";
+import { useEffect, useState } from "react";
 // containers
 import EmojiButton from "../../components/common/EmojiButton";
 import Lists from "../../containers/home/Lists";
+// types
+import { PostDtoList } from "../../types/data/post";
+// api
+import axiosInstance from "../../api/config";
 
 export default function HomePage() {
+  const [posts, setPosts] = useState<PostDtoList>([]);
   const navigate = useNavigate();
 
   const navigateTo = () => {
     navigate("/posts/new");
   };
 
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axiosInstance.get(
+          "/posts?sortType=BEST_REACTION"
+        );
+
+        setPosts(response.data);
+
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
   return (
     <>
-      <Lists />
+      <Lists posts={posts} />
       <EmojiButton onClick={navigateTo}>
         {
           <img
