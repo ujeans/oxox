@@ -26,7 +26,6 @@ const Title = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: aliceblue;
   margin-top: 15px;
   font-size: ${props => props.theme.typography.headers.h2};
 `;
