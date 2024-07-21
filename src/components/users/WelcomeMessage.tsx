@@ -23,6 +23,10 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.span`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 30px 0 10px 0;
   font-size: 30px;
   font-weight: 700;
