@@ -22,8 +22,12 @@ const PostContent = () => {
 export default PostContent;
 
 const Title = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: aliceblue;
   margin-top: 15px;
-  text-align: center;
   font-size: ${props => props.theme.typography.headers.h2};
 `;
 
