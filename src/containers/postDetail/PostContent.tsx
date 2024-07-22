@@ -22,8 +22,23 @@ const getTimeDifference = (createAt: string) => {
   }
 };
 
+const getRemainingTime = (createAt: string) => {
+  const createdAtDate = new Date(createAt);
+  const now = new Date();
+  const deadline = new Date(createdAtDate.getTime() + 24 * 60 * 60 * 1000);
+  const diffInMs = deadline.getTime() - now.getTime();
+  const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+  const diffInMinutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
+  const diffInSeconds = Math.floor((diffInMs % (1000 * 60)) / 1000);
+
+  return `${diffInHours}:${diffInMinutes < 10 ? "0" : ""}${diffInMinutes}:${
+    diffInSeconds < 10 ? "0" : ""
+  }${diffInSeconds}`;
+};
+
 const PostContent = ({ post }: PostProps) => {
   const timeDifference = post ? getTimeDifference(post.createAt) : "";
+  const remainingTime = post ? getRemainingTime(post.createAt) : "";
 
   return (
     <>
@@ -34,7 +49,7 @@ const PostContent = ({ post }: PostProps) => {
       <Image src={post?.thumbnailUrl} alt={post?.title} />
       <Content>{post?.content}</Content>
       <ButtonWrapper>
-        <RoundButton text={"11:00:00"} size="medium" />
+        <RoundButton text={remainingTime} size="medium" />
       </ButtonWrapper>
     </>
   );
