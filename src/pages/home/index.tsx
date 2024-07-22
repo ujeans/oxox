@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 // containers
 import EmojiButton from "../../components/common/EmojiButton";
 import Lists from "../../containers/home/Lists";
@@ -9,34 +10,53 @@ import { PostDtoList } from "../../types/data/post";
 import axiosInstance from "../../api/config";
 
 export default function HomePage() {
-  const [posts, setPosts] = useState<PostDtoList>([]);
   const navigate = useNavigate();
+  const [posts, setPosts] = useState<PostDtoList>([]);
+  const [page, setPage] = useState(0);
+  const [totalPage, setTotalPage] = useState(1);
+  const { ref, inView } = useInView();
 
   const navigateTo = () => {
     navigate("/posts/new");
   };
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await axiosInstance.get(
-          "/posts?sortType=BEST_REACTION"
-        );
+  const fetchPosts = async (page: number) => {
+    try {
+      const response = await axiosInstance.get(`/posts?page=${page}&size=10`);
 
-        setPosts(response.data);
+      const { posts: postsData, totalPage: fetchedTotalPage } = response.data;
 
-        console.log(response.data);
-      } catch (error) {
-        console.error("Error fetching posts:", error);
+      if (Array.isArray(postsData)) {
+        setPosts(prevPosts => [...prevPosts, ...postsData]);
+        setTotalPage(fetchedTotalPage);
+      } else if (postsData && Array.isArray(postsData.posts)) {
+        setPosts(prevPosts => [...prevPosts, ...postsData.posts]);
+        setTotalPage(fetchedTotalPage);
+      } else {
+        console.error("Unexpected response data format:", postsData);
       }
-    };
 
-    fetchPosts();
+      console.log(`Fetched page ${page}:`, postsData);
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPosts(0);
   }, []);
+
+  useEffect(() => {
+    if (inView && page < totalPage - 1) {
+      console.log(inView, "무한 스크롤 요청");
+      fetchPosts(page + 1);
+      setPage(prevPage => prevPage + 1);
+    }
+  }, [inView, page, totalPage]);
 
   return (
     <>
-      <Lists posts={posts} />
+      <Lists posts={posts} inViewRef={ref} />
       <EmojiButton onClick={navigateTo}>
         {
           <img

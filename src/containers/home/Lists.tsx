@@ -6,17 +6,19 @@ import { PostDto } from "../../types/data/post";
 
 interface ListsProps {
   posts: PostDto[];
+  inViewRef: (node?: Element | null) => void;
 }
 
-const Lists = ({ posts }: ListsProps) => {
+const Lists = ({ posts, inViewRef }: ListsProps) => {
   return (
     <Container>
       <Title>oxox 리스트</Title>
       <ListWrapper>
-        {posts.map(post => (
-          <ListItem key={post.id} post={post} />
+        {posts.map((post, index) => (
+          <ListItem key={`${post.id}-${index}`} post={post} />
         ))}
       </ListWrapper>
+      <div ref={inViewRef}></div>
     </Container>
   );
 };
@@ -24,26 +26,14 @@ const Lists = ({ posts }: ListsProps) => {
 export default Lists;
 
 const Container = styled.div`
-  height: 100vh;
+  height: calc(100vh - 130px);
   display: flex;
-  padding-right: 4px;
   flex-direction: column;
 `;
 
 const ListWrapper = styled.div`
-  padding: 0 7px 0 16px;
-  flex-grow: 1;
+  padding: 0 16px;
   overflow-y: scroll;
-
-  ::-webkit-scrollbar {
-    width: 4px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    height: 30px;
-    border-radius: 6px;
-    background: ${props => props.theme.colors.gray200};
-  }
 `;
 
 const Title = styled.div`
