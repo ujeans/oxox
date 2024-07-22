@@ -3,6 +3,7 @@ import { BiSolidComment } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 // components
 import RoundButton from "../common/RoundButton";
+import Progressbar from "./Progressbar";
 // types
 import { PostDto } from "../../types/data/post";
 
@@ -42,7 +43,11 @@ const ListItem = ({ post }: PostProps) => {
         </Top>
         <Question>{post.title}</Question>
         <Time>{hoursLeft}시간 남음</Time>
-        <Graph></Graph>
+        <Progressbar
+          agreeCount={post.agreeCount}
+          disAgreeCount={post.disAgreeCount}
+          showRatio={false}
+        />
       </InfoWrapper>
     </Wrapper>
   );
@@ -101,11 +106,4 @@ const Question = styled.div`
 const Time = styled.div`
   font-size: ${props => props.theme.typography.disclaimers.default};
   color: ${props => props.theme.colors.gray50};
-`;
-
-const Graph = styled.div`
-  width: calc(100% - 50px);
-  height: 12px;
-  border-radius: 20px;
-  background-color: aliceblue;
 `;
