@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 // components
 import ContentLayout from "../../components/posts/ContentLayout";
+import Progressbar from "../../components/posts/Progressbar";
 import EmojiButton from "../../components/common/EmojiButton";
 import Modal from "../../components/common/Modal";
 // containers
 import PostContent from "../../containers/postDetail/PostContent";
 import TotalComments from "../../containers/postDetail/TotalComments";
-import Progressbar from "../../containers/postDetail/Progressbar";
 import VoteModal from "../../containers/vote/Vote";
 // api
 import axiosInstance from "../../api/config";
@@ -39,10 +39,18 @@ export default function PostDetail() {
     }
   }, [id]);
 
+  if (!post) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <ContentLayout>
       <PostContent post={post} />
-      <Progressbar />
+      <Progressbar
+        agreeCount={post.agreeCount}
+        disAgreeCount={post.disAgreeCount}
+        showRatio={true}
+      />
       <TotalComments post={post} />
       <EmojiButton onClick={openModal}>
         {
