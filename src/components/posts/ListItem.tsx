@@ -63,6 +63,7 @@ const Image = styled.img`
   width: 90px;
   height: 100%;
   border-radius: 10px;
+  object-fit: cover;
   background-color: aliceblue;
 `;
 

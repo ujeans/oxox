@@ -18,7 +18,7 @@ const Lists = ({ posts, inViewRef }: ListsProps) => {
           <ListItem key={`${post.id}-${index}`} post={post} />
         ))}
       </ListWrapper>
-      <div ref={inViewRef}>안녕</div>
+      <div ref={inViewRef}></div>
     </Container>
   );
 };
