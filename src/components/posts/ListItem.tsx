@@ -22,6 +22,9 @@ const ListItem = ({ post }: PostProps) => {
   const timeDiff = deadline.getTime() - currentAt.getTime();
   const hoursLeft = Math.floor(timeDiff / (1000 * 60 * 60));
 
+  const isAgree = post.done && post.agreeCount > post.disAgreeCount;
+  const isDraw = post.done && post.agreeCount === post.disAgreeCount;
+
   const navigateTo = (post: PostDto) => {
     nav(`/posts/$${post.id}`);
   };
@@ -32,8 +35,8 @@ const ListItem = ({ post }: PostProps) => {
       <InfoWrapper>
         <Top>
           <RoundButton
-            text={post.isDone ? "마감" : "진행중"}
-            isDone={post.isDone}
+            text={post.done ? "마감" : "진행중"}
+            isDone={post.done}
             size="small"
           />
           <Comment>
@@ -42,7 +45,15 @@ const ListItem = ({ post }: PostProps) => {
           </Comment>
         </Top>
         <Question>{post.title}</Question>
-        <Time>{hoursLeft}시간 남음</Time>
+        <Time isDone={post.done} isAgree={isAgree} isDraw={isDraw}>
+          {post.done
+            ? isDraw
+              ? "찬반표가 똑같아요..."
+              : isAgree
+              ? "찬성"
+              : "반대"
+            : `${hoursLeft}시간 남음`}
+        </Time>
         <Progressbar
           agreeCount={post.agreeCount}
           disAgreeCount={post.disAgreeCount}
@@ -103,7 +114,17 @@ const Question = styled.div`
   font-size: ${props => props.theme.typography.paragraphs.default};
 `;
 
-const Time = styled.div`
-  font-size: ${props => props.theme.typography.disclaimers.default};
-  color: ${props => props.theme.colors.gray50};
+const Time = styled.div<{ isDone: boolean; isAgree: boolean; isDraw: boolean }>`
+  font-size: ${props =>
+    props.isDone
+      ? props.theme.typography.disclaimers.bold
+      : props.theme.typography.disclaimers.default};
+  color: ${props =>
+    props.isDone
+      ? props.isDraw
+        ? props.theme.colors.green200
+        : props.isAgree
+        ? props.theme.colors.pink100
+        : props.theme.colors.blue100
+      : props.theme.colors.gray50};
 `;
