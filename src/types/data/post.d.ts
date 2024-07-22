@@ -8,7 +8,7 @@ interface BasePostDto {
   content: string;
   user: UserDto;
   createAt: string;
-  isDone: boolean;
+  done: boolean;
   commentCount: number;
   agreeCount: number;
   disAgreeCount: number;

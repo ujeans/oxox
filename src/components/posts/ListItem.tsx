@@ -32,8 +32,8 @@ const ListItem = ({ post }: PostProps) => {
       <InfoWrapper>
         <Top>
           <RoundButton
-            text={post.isDone ? "마감" : "진행중"}
-            isDone={post.isDone}
+            text={post.done ? "마감" : "진행중"}
+            isDone={post.done}
             size="small"
           />
           <Comment>
