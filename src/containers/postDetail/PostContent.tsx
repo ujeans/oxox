@@ -44,7 +44,7 @@ const PostContent = ({ post }: PostProps) => {
     <>
       <Title>{post?.title}</Title>
       <Description>
-        {post?.user.nickname} . {timeDifference}
+        {post?.user.nickname} &middot; {timeDifference}
       </Description>
       <Image src={post?.thumbnailUrl} alt={post?.title} />
       <Content>{post?.content}</Content>
