@@ -28,7 +28,6 @@ export default function PostDetail() {
       try {
         const response = await axiosInstance.get(`/posts/${id}`);
         setPost(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error("Error fetching post details:", error);
       }
