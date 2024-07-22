@@ -1,17 +1,38 @@
 import styled from "@emotion/styled";
 // components
 import RoundButton from "../../components/common/RoundButton";
+// types
+import { PostDto } from "../../types/data/post";
 
-const PostContent = () => {
+interface PostProps {
+  post?: PostDto;
+}
+
+const getTimeDifference = (createAt: string) => {
+  const createdAtDate = new Date(createAt);
+  const now = new Date();
+  const diffInMs = now.getTime() - createdAtDate.getTime();
+  const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+  const diffInDays = Math.floor(diffInHours / 24);
+
+  if (diffInDays > 0) {
+    return `${diffInDays}일 전`;
+  } else {
+    return `${diffInHours}시간 전`;
+  }
+};
+
+const PostContent = ({ post }: PostProps) => {
+  const timeDifference = post ? getTimeDifference(post.createAt) : "";
+
   return (
     <>
-      <Title>도지코인 지금 들어가는거 어떻게 생각함?</Title>
-      <Description>달려라도지 . 13시간 전</Description>
-      <Image></Image>
-      <Content>
-        이번주 비트코인 많이 내려갔다던데.. 비트코인 들어갈까? 이미 -50%라서 더
-        잃을것도 없긴 하지만 마지막으로 한번 도전해보고 싶은데 어떻게 생각해?
-      </Content>
+      <Title>{post?.title}</Title>
+      <Description>
+        {post?.user.nickname} . {timeDifference}
+      </Description>
+      <Image src={post?.thumbnailUrl} alt={post?.title} />
+      <Content>{post?.content}</Content>
       <ButtonWrapper>
         <RoundButton text={"11:00:00"} size="medium" />
       </ButtonWrapper>
@@ -37,8 +58,9 @@ const Description = styled.div`
   color: ${props => props.theme.colors.gray50};
 `;
 
-const Image = styled.div`
-  height: 261px;
+const Image = styled.img`
+  min-width: 100%;
+  min-height: 261px;
   margin-bottom: 17px;
   border-radius: 20px;
   background-color: aliceblue;
