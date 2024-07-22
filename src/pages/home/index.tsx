@@ -9,8 +9,8 @@ import { PostDtoList } from "../../types/data/post";
 import axiosInstance from "../../api/config";
 
 export default function HomePage() {
-  const [posts, setPosts] = useState<PostDtoList>([]);
   const navigate = useNavigate();
+  const [posts, setPosts] = useState<PostDtoList>([]);
 
   const navigateTo = () => {
     navigate("/posts/new");
@@ -20,12 +20,20 @@ export default function HomePage() {
     const fetchPosts = async () => {
       try {
         const response = await axiosInstance.get(
-          "/posts?sortType=BEST_REACTION"
+          "/posts?page=0&size=10&condition=BEST_REACTION"
         );
 
-        setPosts(response.data);
+        const postsData = response.data;
 
-        console.log(response.data);
+        if (Array.isArray(postsData)) {
+          setPosts(postsData);
+        } else if (postsData && Array.isArray(postsData.posts)) {
+          setPosts(postsData.posts);
+        } else {
+          console.error("Unexpected response data format:", postsData);
+        }
+
+        console.log(postsData);
       } catch (error) {
         console.error("Error fetching posts:", error);
       }
