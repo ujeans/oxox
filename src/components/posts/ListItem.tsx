@@ -26,7 +26,7 @@ const ListItem = ({ post }: PostProps) => {
   const isDraw = post.done && post.agreeCount === post.disAgreeCount;
 
   const navigateTo = (post: PostDto) => {
-    nav(`/posts/$${post.id}`);
+    nav(`/posts/${post.id}`);
   };
 
   return (

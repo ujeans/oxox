@@ -35,8 +35,6 @@ export default function HomePage() {
       } else {
         console.error("Unexpected response data format:", postsData);
       }
-
-      console.log(`Fetched page ${page}:`, postsData);
     } catch (error) {
       console.error("Error fetching posts:", error);
     }

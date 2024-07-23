@@ -3,8 +3,14 @@ import { useState } from "react";
 // components
 import Modal from "../../components/common/Modal";
 import Comment from "../comment/Comment";
+// types
+import { PostDto } from "../../types/data/post";
 
-const TotalComments = () => {
+interface PostProps {
+  post?: PostDto;
+}
+
+const TotalComments = ({ post }: PostProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const openModal = () => {
@@ -12,7 +18,9 @@ const TotalComments = () => {
   };
   return (
     <>
-      <CommentWrapper onClick={openModal}>댓글 20개 모두 보기</CommentWrapper>
+      <CommentWrapper onClick={openModal}>
+        댓글 {post?.commentCount}개 모두 보기
+      </CommentWrapper>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} height="600px">
         <Comment />
       </Modal>
