@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 // types
 import { FormValues } from "../../types/data/user";
 // components
@@ -7,9 +9,13 @@ import Label from "../../components/common/Label";
 import { Input } from "../../components/common/Input";
 import Button from "../../components/common/Button";
 import ErrorMessage from "../../components/users/ErrorMessage";
+// containers
 import LoginFail from "./LoginFail";
+// api
+import axiosInstance from "../../api/config";
 
 const LoinForm = () => {
+  const navigate = useNavigate();
   const [value, setValue] = useState<FormValues>({
     email: "",
     password: "",
@@ -19,6 +25,7 @@ const LoinForm = () => {
     password: "",
     nickname: "",
   });
+  const [loginFailed, setLoginFailed] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -29,7 +36,7 @@ const LoinForm = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const newErrors: FormValues = { email: "", password: "", nickname: "" };
@@ -42,6 +49,28 @@ const LoinForm = () => {
     }
 
     setErrors(newErrors);
+
+    try {
+      const response = await axiosInstance.post("/users/login", {
+        email: value.email,
+        password: value.password,
+      });
+
+      const token = response.headers["x-access-token"];
+
+      if (token) {
+        localStorage.setItem("token", token);
+      }
+
+      setValue({ email: "", password: "" });
+
+      setLoginFailed(false);
+
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      setLoginFailed(true);
+    }
   };
 
   return (
@@ -63,7 +92,7 @@ const LoinForm = () => {
         </InputWrapper>
         <Button text="이메일로 시작하기" />
       </FormWrapper>
-      <LoginFail />
+      {loginFailed && <LoginFail />}
     </>
   );
 };

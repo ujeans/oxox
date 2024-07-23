@@ -16,6 +16,16 @@ const Footer = () => {
     navigate(path);
   };
 
+  const handleProfile = () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("로그인이 필요합나다");
+      navigateTo("/users/login");
+    } else {
+      navigateTo("/profile");
+    }
+  };
+
   return (
     <StyledFooter>
       <Wrapper>
@@ -31,7 +41,7 @@ const Footer = () => {
           <Text>{isPostDetail ? "댓글" : "피드"}</Text>
         </TabBox>
         <TabBox isActive={isProfile}>
-          <UserIcon onClick={() => navigateTo("/profile")} />
+          <UserIcon onClick={handleProfile} />
           <Text>마이페이지</Text>
         </TabBox>
       </Wrapper>

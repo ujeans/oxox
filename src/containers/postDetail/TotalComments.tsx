@@ -8,13 +8,16 @@ import { PostDto } from "../../types/data/post";
 
 interface PostProps {
   post?: PostDto;
+  checkLogin: () => boolean;
 }
 
-const TotalComments = ({ post }: PostProps) => {
+const TotalComments = ({ post, checkLogin }: PostProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const openModal = () => {
-    setIsOpen(true);
+    if (checkLogin()) {
+      setIsOpen(true);
+    }
   };
   return (
     <>

@@ -23,6 +23,21 @@ export default function PostDetail() {
     setIsOpen(true);
   };
 
+  const checkLogin = (): boolean => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("로그인이 필요합니다.");
+      return false;
+    }
+    return true;
+  };
+
+  const handleEmojiButtonClick = () => {
+    if (checkLogin()) {
+      openModal();
+    }
+  };
+
   useEffect(() => {
     const fetchPostDetail = async () => {
       try {
@@ -50,8 +65,8 @@ export default function PostDetail() {
         disAgreeCount={post.disAgreeCount}
         showRatio={true}
       />
-      <TotalComments post={post} />
-      <EmojiButton onClick={openModal}>
+      <TotalComments post={post} checkLogin={checkLogin} />
+      <EmojiButton onClick={handleEmojiButtonClick}>
         {
           <img
             src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Ballot%20Box%20with%20Ballot.png"
