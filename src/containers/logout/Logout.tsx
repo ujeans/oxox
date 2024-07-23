@@ -10,7 +10,8 @@ export interface ModalProps {
 const Logout = ({ onClose }: ModalProps) => {
   const navigate = useNavigate();
 
-  const navigateTo = () => {
+  const handleLogout = () => {
+    localStorage.removeItem("token");
     navigate("/users/login");
   };
 
@@ -22,7 +23,7 @@ const Logout = ({ onClose }: ModalProps) => {
       </TextWrapper>
       <ButtonWrapper>
         <StyledButton text="취소" onClick={onClose} />
-        <Button text="로그아웃" onClick={navigateTo} />
+        <Button text="로그아웃" onClick={handleLogout} />
       </ButtonWrapper>
     </Container>
   );
