@@ -16,8 +16,18 @@ export default function HomePage() {
   const [totalPage, setTotalPage] = useState(1);
   const { ref, inView } = useInView();
 
-  const navigateTo = () => {
-    navigate("/posts/new");
+  const navigateTo = (path: string) => {
+    navigate(path);
+  };
+
+  const handlePostNew = () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("로그인이 필요합니다.");
+      navigateTo("/login/users");
+    } else {
+      navigateTo("/posts/new");
+    }
   };
 
   const fetchPosts = async (page: number) => {
@@ -55,7 +65,7 @@ export default function HomePage() {
   return (
     <>
       <Lists posts={posts} inViewRef={ref} />
-      <EmojiButton onClick={navigateTo}>
+      <EmojiButton onClick={handlePostNew}>
         {
           <img
             src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Pencil.png"
