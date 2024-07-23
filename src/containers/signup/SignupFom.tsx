@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 // types
 import { FormValues } from "../../types/data/user";
 // components
@@ -7,8 +8,11 @@ import Label from "../../components/common/Label";
 import { Input } from "../../components/common/Input";
 import Button from "../../components/common/Button";
 import ErrorMessage from "../../components/users/ErrorMessage";
+// api
+import axiosInstance from "../../api/config";
 
 const SignupFom = () => {
+  const navigate = useNavigate();
   const [value, setValue] = useState<FormValues>({
     email: "",
     password: "",
@@ -31,8 +35,27 @@ const SignupFom = () => {
     validateField(name, value);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("email", value.email);
+    formData.append("password", value.password);
+    formData.append("nickname", value.nickname || "");
+
+    try {
+      await axiosInstance.post("/users/join", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      setValue({ email: "", password: "", nickname: "" });
+
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const validateField = (name: string, value: string) => {
