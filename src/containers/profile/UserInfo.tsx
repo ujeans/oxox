@@ -35,13 +35,12 @@ const UserInfo = () => {
     }
 
     try {
-      const response = await axiosInstance.patch("/profiles", formData, {
+      await axiosInstance.patch("/profiles", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("Response: ", response); // 응답 확인
 
       setUser(prevUser =>
         prevUser ? { ...prevUser, nickname: newNickname } : null
