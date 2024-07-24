@@ -7,18 +7,24 @@ interface TabMenuProps {
 
 const TabMenu = ({ currentTab, setClickTab }: TabMenuProps) => {
   return (
-    <TabWrapper>
-      <Menu isActive={currentTab === 0} onClick={() => setClickTab(0)}>
-        내가 쓴
-      </Menu>
-      <Menu isActive={currentTab === 1} onClick={() => setClickTab(1)}>
-        투표 참여
-      </Menu>
-    </TabWrapper>
+    <Container>
+      <TabWrapper>
+        <Menu isActive={currentTab === 0} onClick={() => setClickTab(0)}>
+          내가 쓴
+        </Menu>
+        <Menu isActive={currentTab === 1} onClick={() => setClickTab(1)}>
+          투표 참여
+        </Menu>
+      </TabWrapper>
+    </Container>
   );
 };
 
 export default TabMenu;
+
+const Container = styled.div`
+  padding: 0 25px;
+`;
 
 const TabWrapper = styled.div`
   display: flex;

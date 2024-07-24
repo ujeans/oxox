@@ -21,7 +21,7 @@ export default UserInfo;
 const Container = styled.div`
   display: flex;
   align-items: center;
-  padding-bottom: 15px;
+  padding: 25px 25px 15px 25px;
   border-bottom: 1px solid ${props => props.theme.colors.gray200};
 `;
 

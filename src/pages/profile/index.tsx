@@ -1,33 +1,65 @@
-import { useState } from "react";
-// components
-import ContentLayout from "../../components/posts/ContentLayout";
-import NoList from "../../components/profile/NoList";
+import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 // containers
 import UserInfo from "../../containers/profile/UserInfo";
 import TabMenu from "../../containers/profile/TabMenu";
+import MenuList from "../../containers/profile/MenuList";
+// types
+import { PostDtoList } from "../../types/data/post";
+// api
+import axiosInstance from "../../api/config";
 
 export default function ProfilePage() {
+  const [posts, setPosts] = useState<PostDtoList>([]);
   const [currentTab, setClickTab] = useState(0);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const { ref, inView } = useInView();
 
-  // 임시
-  const myPosts = [1, 2, 3];
-  const myVotes = [];
+  const fetchPosts = async (page: number, condition: string) => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await axiosInstance.get(
+        `/posts?page=${page}&size=10&condition=${condition}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.data.posts.length > 0) {
+        setPosts(prevPosts => [...prevPosts, ...response.data.posts]);
+      } else {
+        setHasMore(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    setPage(1);
+    setHasMore(true);
+    setPosts([]);
+    const condition = currentTab === 0 ? "WRITER" : "JOIN";
+    fetchPosts(1, condition);
+  }, [currentTab]);
+
+  useEffect(() => {
+    if (inView && hasMore) {
+      const condition = currentTab === 0 ? "WRITER" : "JOIN";
+      fetchPosts(page, condition);
+      setPage(prevPage => prevPage + 1);
+    }
+  }, [inView, hasMore, currentTab]);
 
   return (
-    <ContentLayout>
+    <>
       <UserInfo />
       <TabMenu currentTab={currentTab} setClickTab={setClickTab} />
-      {currentTab === 0 ? (
-        myPosts.length === 0 ? (
-          <NoList message="앗, 공유한 글이 없어요" />
-        ) : (
-          <div>내가 쓴 게시글 리스트</div>
-        )
-      ) : myVotes.length === 0 ? (
-        <NoList message="앗, 투표애 참여한 글이 없어요" />
-      ) : (
-        <div>투표 참여 게시글 리스트</div>
-      )}
-    </ContentLayout>
+      <MenuList currentTab={currentTab} posts={posts} inViewRef={ref} />
+    </>
   );
 }
