@@ -51,8 +51,10 @@ const PostContent = ({ post }: PostProps) => {
       <Description>
         {post?.user.nickname} &middot; {timeDifference}
       </Description>
-      <Image src={post?.thumbnailUrl} alt={post?.title} />
-      <Content>{post?.content}</Content>
+      {post?.thumbnailUrl && (
+        <Image src={post?.thumbnailUrl} alt={post?.title} />
+      )}
+      <Content hasThumbnail={!!post?.thumbnailUrl}>{post?.content}</Content>
       <ButtonWrapper>
         <RoundButton text={remainingTime} size="medium" />
       </ButtonWrapper>
@@ -87,8 +89,8 @@ const Image = styled.img`
   object-fit: cover;
 `;
 
-const Content = styled.div`
-  min-height: 50px;
+const Content = styled.div<{ hasThumbnail: boolean }>`
+  min-height: ${({ hasThumbnail }) => (hasThumbnail ? "50px" : "150px")};
   font-size: ${props => props.theme.typography.paragraphs.large};
 `;
 

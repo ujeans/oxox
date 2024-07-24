@@ -30,8 +30,12 @@ const ListItem = ({ post }: PostProps) => {
   };
 
   return (
-    <Wrapper key={post.id} onClick={() => navigateTo(post)}>
-      <Image src={post.thumbnailUrl} alt={post.title} />
+    <Wrapper
+      key={post.id}
+      onClick={() => navigateTo(post)}
+      hasThumbnail={!!post.thumbnailUrl}
+    >
+      {post.thumbnailUrl && <Image src={post.thumbnailUrl} alt={post.title} />}
       <InfoWrapper>
         <Top>
           <RoundButton
@@ -66,9 +70,10 @@ const ListItem = ({ post }: PostProps) => {
 
 export default ListItem;
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ hasThumbnail: boolean }>`
   display: grid;
-  grid-template-columns: 90px 1fr;
+  grid-template-columns: ${({ hasThumbnail }) =>
+    hasThumbnail ? "90px 1fr" : "1fr"};
   grid-gap: 10px;
   height: 90px;
   margin-bottom: 30px;
