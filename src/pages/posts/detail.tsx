@@ -14,11 +14,11 @@ import Alert from "../../containers/alert/Alert";
 // api
 import axiosInstance from "../../api/config";
 // types
-import { PostDto } from "../../types/data/post";
+import { PostDetailDto } from "../../types/data/post";
 
 export default function PostDetail() {
   const { id } = useParams<{ id: string }>();
-  const [post, setPost] = useState<PostDto>();
+  const [post, setPost] = useState<PostDetailDto>();
   const [isOpen, setIsOpen] = useState(false);
   const [modalContent, setModalContent] = useState<"vote" | "alert">("vote");
 

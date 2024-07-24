@@ -8,12 +8,14 @@ interface CommentFormProps {
   inputValue: string;
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleKeyPress: (e: KeyboardEvent<HTMLInputElement>) => void;
+  handleSendClick: () => void;
 }
 
 const CommentForm = ({
   inputValue,
   handleChange,
   handleKeyPress,
+  handleSendClick,
 }: CommentFormProps) => {
   return (
     <FormWrapper>
@@ -23,7 +25,7 @@ const CommentForm = ({
           value={inputValue}
           onChange={handleChange}
           name="email"
-          icon={<SendIcon />}
+          icon={<SendIcon onClick={handleSendClick} />}
           onKeyPress={handleKeyPress}
         />
       </InputWrapper>
