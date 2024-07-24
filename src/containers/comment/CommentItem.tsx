@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { FaCircleUser } from "react-icons/fa6";
 // assets
 import Emotion from "../../assets/emotion.svg";
 // styles
@@ -65,7 +66,11 @@ const CommentItem = ({ comment }: CommentItemProps) => {
 
   return (
     <Container key={comment.id}>
-      <Image />
+      {comment.user.profileImage ? (
+        <Image src={comment.user.profileImage} alt={comment.user.nickname} />
+      ) : (
+        <FaCircleUser size={30} />
+      )}
       <InfoWrapper>
         <Top>
           <Nickname>{comment.user.nickname}</Nickname>
