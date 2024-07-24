@@ -1,16 +1,58 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { HiPencil } from "react-icons/hi2";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 // recoil
 import { userState } from "../../recoil/atoms";
+// api
+import axiosInstance from "../../api/config";
 
 const UserInfo = () => {
   const user = useRecoilValue(userState);
+  const setUser = useSetRecoilState(userState);
   const [isEditing, setIsEditing] = useState(false);
+  const [newNickname, setNewNickname] = useState(user?.nickname || "");
 
   const handleEditClick = () => {
     setIsEditing(true);
+  };
+
+  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewNickname(e.target.value);
+  };
+
+  const handleEditSubmit = async () => {
+    const token = localStorage.getItem("token");
+
+    const formData = new FormData();
+    formData.append("nickname", newNickname);
+
+    if (!token) {
+      console.error("No token found");
+      return;
+    }
+
+    try {
+      await axiosInstance.patch("/profiles", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setUser(prevUser =>
+        prevUser ? { ...prevUser, nickname: newNickname } : null
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleEditSubmit();
+      setIsEditing(false);
+    }
   };
 
   return (
@@ -19,9 +61,13 @@ const UserInfo = () => {
       <InfoWrapper>
         <NicknameBox>
           {isEditing ? (
-            <NicknameInput value={user?.nickname} />
+            <NicknameInput
+              value={newNickname}
+              onChange={handleNicknameChange}
+              onKeyDown={handleKeyDown}
+            />
           ) : (
-            <Nickname>{user?.nickname}</Nickname>
+            <Nickname>{newNickname}</Nickname>
           )}
           <PencilIcon onClick={handleEditClick} />
         </NicknameBox>
