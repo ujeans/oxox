@@ -3,13 +3,16 @@ import { useState, KeyboardEvent as ReactKeyboardEvent } from "react";
 // containers
 import CommentForm from "./CommentForm";
 import CommentItem from "./CommentItem";
+import { CommentDto } from "../../types/data/comment";
 
-const Comment = () => {
-  const [comments, setComments] = useState([
-    { id: 1, user: "user1", time: "1시간 전", content: "fdjsshfdksashfdhh" },
-    // 초기 댓글 목록 추가 가능
-  ]);
+interface CommentsProps {
+  comments: CommentDto[];
+}
+
+const Comment = ({ comments }: CommentsProps) => {
   const [inputValue, setInputValue] = useState("");
+
+  console.log("comments", comments);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -18,15 +21,7 @@ const Comment = () => {
   const handleKeyPress = (e: ReactKeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       if (inputValue.trim() !== "") {
-        setComments([
-          ...comments,
-          {
-            id: comments.length + 1,
-            user: "currentUser",
-            time: "방금",
-            content: inputValue,
-          },
-        ]);
+        // 여기서 실제로 댓글을 추가하는 로직을 추가할 수 있습니다.
         setInputValue("");
       }
     }
@@ -35,7 +30,7 @@ const Comment = () => {
   return (
     <Container>
       <CommentCountWrapper>
-        댓글 <Count>20개</Count>
+        댓글 <Count>{comments.length}개</Count>
       </CommentCountWrapper>
       <ListWrapper>
         {comments.map(comment => (

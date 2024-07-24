@@ -5,16 +5,11 @@ import { motion } from "framer-motion";
 import Emotion from "../../assets/emotion.svg";
 // styles
 import { buttonAnimation, iconAnimation } from "../../styles/animation";
-
-interface Comment {
-  id: number;
-  user: string;
-  time: string;
-  content: string;
-}
+// types
+import { CommentDto } from "../../types/data/comment";
 
 interface CommentItemProps {
-  comment: Comment;
+  comment: CommentDto;
 }
 
 interface EmotionItem {
@@ -73,8 +68,8 @@ const CommentItem = ({ comment }: CommentItemProps) => {
       <Image />
       <InfoWrapper>
         <Top>
-          <Nickname>{comment.user}</Nickname>
-          <Time>{comment.time}</Time>
+          <Nickname>{comment.user.nickname}</Nickname>
+          <Time>{comment.createAt}</Time>
         </Top>
         <Content>{comment.content}</Content>
         <EmotionContainer>
