@@ -8,8 +8,10 @@ import Button from "../../components/common/Button";
 import UploadImage from "./UploadImage";
 // api
 import axiosInstance from "../../api/config";
+import { useNavigate } from "react-router-dom";
 
 const PostForm = () => {
+  const navigate = useNavigate();
   const [value, setValue] = useState<{
     title: string;
     content: string;
@@ -60,9 +62,10 @@ const PostForm = () => {
         },
       });
 
-      // 성공 시 폼 초기화 및 다른 작업 수행
-      // setValue({ title: "", desc: "", image: "" });
-      // setImageSrc("");
+      setValue({ title: "", content: "", thumbnail: "" });
+      setImageSrc("");
+
+      navigate("/");
 
       console.log(res.data);
     } catch (error) {
