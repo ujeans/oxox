@@ -1,16 +1,21 @@
 import styled from "@emotion/styled";
 import { HiPencil } from "react-icons/hi2";
+import { useRecoilValue } from "recoil";
+// recoil
+import { userState } from "../../recoil/atoms";
 
 const UserInfo = () => {
+  const user = useRecoilValue(userState);
+
   return (
     <Container>
-      <Image />
+      <Image src={user?.profileEmoji} alt={user?.nickname} />
       <InfoWrapper>
         <NicknameBox>
-          <Nickname>흥청망청솔로몬</Nickname>
+          <Nickname>{user?.nickname}</Nickname>
           <PencilIcon />
         </NicknameBox>
-        <Email>dsdsdsds@gmail.com</Email>
+        <Email>{user?.email}</Email>
       </InfoWrapper>
     </Container>
   );

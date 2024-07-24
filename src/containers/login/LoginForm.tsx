@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useRecoilState } from "recoil";
 // types
 import { FormValues } from "../../types/data/user";
 // components
@@ -13,9 +13,12 @@ import ErrorMessage from "../../components/users/ErrorMessage";
 import LoginFail from "./LoginFail";
 // api
 import axiosInstance from "../../api/config";
+// recoil
+import { userState } from "../../recoil/atoms";
 
-const LoinForm = () => {
+const LoginForm = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useRecoilState(userState);
   const [value, setValue] = useState<FormValues>({
     email: "",
     password: "",
@@ -57,10 +60,13 @@ const LoinForm = () => {
       });
 
       const token = response.headers["x-access-token"];
+      const userData = response.data;
 
       if (token) {
         localStorage.setItem("token", token);
       }
+
+      setUser(userData);
 
       setValue({ email: "", password: "" });
 
@@ -97,7 +103,7 @@ const LoinForm = () => {
   );
 };
 
-export default LoinForm;
+export default LoginForm;
 
 const FormWrapper = styled.form``;
 
