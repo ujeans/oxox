@@ -13,9 +13,16 @@ export interface ModalProps extends ChildrenProps {
   isOpen: boolean;
   onClose?: () => void;
   height?: string;
+  position?: "center" | "bottom";
 }
 
-const Modal = ({ isOpen, onClose, children, height = "400px" }: ModalProps) => {
+const Modal = ({
+  isOpen,
+  onClose,
+  children,
+  height = "400px",
+  position = "bottom",
+}: ModalProps) => {
   const modalRef = useRef(null);
   const modalRoot = document.getElementById("modal");
 
@@ -30,18 +37,21 @@ const Modal = ({ isOpen, onClose, children, height = "400px" }: ModalProps) => {
   return createPortal(
     <AnimatePresence>
       {isOpen && (
-        <Overlay>
+        <Overlay position={position}>
           <ModalWrap
             ref={modalRef}
             height={height}
+            position={position}
             variants={modalAnimation}
             initial="hidden"
             animate="visible"
             exit="exit"
           >
-            <IndicatorWrapper>
-              <Indicator />
-            </IndicatorWrapper>
+            {position === "bottom" && (
+              <IndicatorWrapper>
+                <Indicator />
+              </IndicatorWrapper>
+            )}
             {children}
           </ModalWrap>
         </Overlay>
@@ -53,7 +63,7 @@ const Modal = ({ isOpen, onClose, children, height = "400px" }: ModalProps) => {
 
 export default Modal;
 
-const Overlay = styled(motion.div)`
+const Overlay = styled(motion.div)<{ position: "center" | "bottom" }>`
   position: fixed;
   width: 100%;
   height: 100%;
@@ -65,15 +75,18 @@ const Overlay = styled(motion.div)`
   z-index: 9999;
   display: flex;
   justify-content: center;
-  align-items: center;
-  align-items: flex-end;
+  align-items: ${props =>
+    props.position === "center" ? "center" : "flex-end"};
 `;
 
-const ModalWrap = styled(motion.div)<{ height: string }>`
+const ModalWrap = styled(motion.div)<{
+  height: string;
+  position: "center" | "bottom";
+}>`
   width: 550px;
   height: ${props => props.height};
-  border-top-right-radius: 15px;
-  border-top-left-radius: 15px;
+  border-radius: ${props =>
+    props.position === "center" ? "15px" : "15px 15px 0 0"};
   background-color: ${props => props.theme.colors.gray500};
 `;
 
