@@ -6,18 +6,24 @@ import { Input } from "../../components/common/Input";
 import Button from "../../components/common/Button";
 // containers
 import UploadImage from "./UploadImage";
+// api
+import axiosInstance from "../../api/config";
 
 const PostForm = () => {
-  const [value, setValue] = useState({
+  const [value, setValue] = useState<{
+    title: string;
+    content: string;
+    thumbnail: string | File;
+  }>({
     title: "",
-    desc: "",
-    image: "",
+    content: "",
+    thumbnail: "",
   });
   const [isDisabled, setIsDisabled] = useState(true);
   const [imageSrc, setImageSrc] = useState("");
 
   useEffect(() => {
-    const isFormFilled = value.title || value.desc || imageSrc;
+    const isFormFilled = value.title || value.content || imageSrc;
     setIsDisabled(!isFormFilled);
   }, [value, imageSrc]);
 
@@ -32,9 +38,36 @@ const PostForm = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("title", value.title);
+    formData.append("content", value.content);
+    if (value.thumbnail) {
+      formData.append("image", value.thumbnail);
+    }
+
     console.log(value);
+
+    const token = localStorage.getItem("token");
+
+    try {
+      const res = await axiosInstance.post("/posts", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      // 성공 시 폼 초기화 및 다른 작업 수행
+      // setValue({ title: "", desc: "", image: "" });
+      // setImageSrc("");
+
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -52,9 +85,9 @@ const PostForm = () => {
         <Label text="내용" />
         <Textarea
           placeholder="내용을 입력해주세요"
-          value={value.desc}
+          value={value.content}
           onChange={handleChange}
-          name="desc"
+          name="content"
         />
       </InputWrapper>
       <UploadImage

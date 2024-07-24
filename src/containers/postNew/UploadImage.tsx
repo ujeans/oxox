@@ -6,31 +6,23 @@ interface UploadImageProps {
   imageSrc: string;
   setImageSrc: Dispatch<SetStateAction<string>>;
   setValue: Dispatch<
-    SetStateAction<{ title: string; desc: string; image: string }>
+    SetStateAction<{ title: string; content: string; thumbnail: string | File }>
   >;
 }
 
 const UploadImage = ({ imageSrc, setImageSrc, setValue }: UploadImageProps) => {
-  const encodeFileToBase64 = (fileBlob: File) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(fileBlob);
-
-    return new Promise<void>(resolve => {
-      reader.onload = () => {
-        setImageSrc(reader.result as string);
-        setValue(prev => ({
-          ...prev,
-          image: reader.result as string,
-        }));
-        resolve();
-      };
-    });
+  const handleFileChange = (file: File) => {
+    setImageSrc(URL.createObjectURL(file));
+    setValue(prev => ({
+      ...prev,
+      thumbnail: file,
+    }));
   };
 
   const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
-    encodeFileToBase64(file);
+    handleFileChange(file);
   };
 
   const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
@@ -39,7 +31,8 @@ const UploadImage = ({ imageSrc, setImageSrc, setValue }: UploadImageProps) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      encodeFileToBase64(e.target.files[0]);
+      const file = e.target.files[0];
+      handleFileChange(file);
     }
   };
 
