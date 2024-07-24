@@ -83,7 +83,7 @@ export default function PostDetail() {
       <Modal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
-        height={modalContent === "vote" ? "300px" : "200px"}
+        height={modalContent === "vote" ? "300px" : "150px"}
         position={modalContent === "vote" ? "bottom" : "center"}
       >
         {modalContent === "vote" ? (

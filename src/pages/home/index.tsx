@@ -81,7 +81,7 @@ export default function HomePage() {
       <Modal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
-        height={"200px"}
+        height={"150px"}
         position={"center"}
       >
         <Alert onClose={() => setIsOpen(false)} />
