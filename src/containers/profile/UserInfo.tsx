@@ -13,6 +13,8 @@ const UserInfo = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [newNickname, setNewNickname] = useState(user?.nickname || "");
 
+  console.log(user);
+
   const handleEditClick = () => {
     setIsEditing(true);
   };
@@ -33,12 +35,13 @@ const UserInfo = () => {
     }
 
     try {
-      await axiosInstance.patch("/profiles", formData, {
+      const response = await axiosInstance.patch("/profiles", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log("Response: ", response); // 응답 확인
 
       setUser(prevUser =>
         prevUser ? { ...prevUser, nickname: newNickname } : null
@@ -57,7 +60,7 @@ const UserInfo = () => {
 
   return (
     <Container>
-      <Image src={user?.profileEmoji} alt={user?.nickname} />
+      <Image src={user?.profileImage} alt={user?.nickname} />
       <InfoWrapper>
         <NicknameBox>
           {isEditing ? (
@@ -92,6 +95,7 @@ const Image = styled.img`
   margin-right: 10px;
   border-radius: 50%;
   background-color: aliceblue;
+  object-fit: cover;
 `;
 
 const InfoWrapper = styled.div``;
