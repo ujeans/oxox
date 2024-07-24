@@ -19,37 +19,40 @@ const Comment = ({ post }: CommentsProps) => {
     setInputValue(e.target.value);
   };
 
+  const handleSubmit = async () => {
+    if (inputValue.trim() !== "") {
+      try {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          console.log("토큰 없습니다.");
+          return;
+        }
+
+        const response = await axiosInstance.post(
+          `/comments?postId=${post?.id}&content=${encodeURIComponent(
+            inputValue
+          )}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const newComment = response.data;
+        setComments([...comments, newComment]);
+        setInputValue("");
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   const handleKeyPress = async (e: ReactKeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      if (inputValue.trim() !== "") {
-        try {
-          const token = localStorage.getItem("token");
-
-          if (!token) {
-            console.log("토큰 없습니다.");
-            return;
-          }
-
-          const response = await axiosInstance.post(
-            `/comments?postId=${post?.id}&content=${encodeURIComponent(
-              inputValue
-            )}`,
-            {},
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-
-          const newComment = response.data;
-
-          setComments([...comments, newComment]);
-          setInputValue("");
-        } catch (error) {
-          console.log(error);
-        }
-      }
+      handleSubmit();
     }
   };
 
@@ -67,6 +70,7 @@ const Comment = ({ post }: CommentsProps) => {
         inputValue={inputValue}
         handleChange={handleChange}
         handleKeyPress={handleKeyPress}
+        handleSendClick={handleSubmit}
       />
     </Container>
   );

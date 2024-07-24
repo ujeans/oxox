@@ -20,7 +20,9 @@ export const Input = ({
         name={name}
         hasIcon={!!icon}
       />
-      {icon && <IconWrapper>{icon}</IconWrapper>}
+      {icon && (
+        <IconWrapper onClick={e => e.stopPropagation()}>{icon}</IconWrapper>
+      )}
     </InputWrapper>
   );
 };
@@ -37,7 +39,7 @@ const IconWrapper = styled.div`
   right: 10px;
   display: flex;
   align-items: center;
-  pointer-events: none;
+  cursor: pointer;
 `;
 
 const StyledInput = styled.input<{ hasIcon: boolean }>`
