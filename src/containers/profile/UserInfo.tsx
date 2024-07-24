@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { HiPencil } from "react-icons/hi2";
+import { FaCircleUser } from "react-icons/fa6";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 // recoil
 import { userState } from "../../recoil/atoms";
@@ -12,8 +13,6 @@ const UserInfo = () => {
   const setUser = useSetRecoilState(userState);
   const [isEditing, setIsEditing] = useState(false);
   const [newNickname, setNewNickname] = useState(user?.nickname || "");
-
-  console.log(user);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -59,7 +58,11 @@ const UserInfo = () => {
 
   return (
     <Container>
-      <Image src={user?.profileImage} alt={user?.nickname} />
+      {user?.profileImage ? (
+        <Image src={user.profileImage} alt={user.nickname} />
+      ) : (
+        <StyledIcon size={50} color="aliceblue" />
+      )}
       <InfoWrapper>
         <NicknameBox>
           {isEditing ? (
@@ -95,6 +98,10 @@ const Image = styled.img`
   border-radius: 50%;
   background-color: aliceblue;
   object-fit: cover;
+`;
+
+const StyledIcon = styled(FaCircleUser)`
+  margin-right: 10px;
 `;
 
 const InfoWrapper = styled.div``;
