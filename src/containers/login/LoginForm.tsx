@@ -16,7 +16,7 @@ import axiosInstance from "../../api/config";
 // recoil
 import { userState } from "../../recoil/atoms";
 
-const LoinForm = () => {
+const LoginForm = () => {
   const navigate = useNavigate();
   const [user, setUser] = useRecoilState(userState);
   const [value, setValue] = useState<FormValues>({
@@ -103,7 +103,7 @@ const LoinForm = () => {
   );
 };
 
-export default LoinForm;
+export default LoginForm;
 
 const FormWrapper = styled.form``;
 
