@@ -1,17 +1,22 @@
 import { ThemeProvider } from "@emotion/react";
+import { RecoilRoot } from "recoil";
+// styles
 import { theme } from "./styles/theme";
-import Router from "./components/Router";
 import GlobalStyle from "./styles/GlobalStyle";
+// components
+import Router from "./components/Router";
 import Layout from "./components/common/Layout";
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <Layout>
-        <Router />
-      </Layout>
-    </ThemeProvider>
+    <RecoilRoot>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <Layout>
+          <Router />
+        </Layout>
+      </ThemeProvider>
+    </RecoilRoot>
   );
 }
 
