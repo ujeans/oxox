@@ -1,27 +1,35 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
+import axiosInstance from "../../api/config";
 // components
 import Label from "../../components/common/Label";
 import { Input } from "../../components/common/Input";
 import Button from "../../components/common/Button";
 // containers
 import UploadImage from "./UploadImage";
+// api
+import { useNavigate } from "react-router-dom";
+// types
+import { CreatePostDto } from "../../types/data/post";
 
 const PostForm = () => {
-  const [value, setValue] = useState({
+  const navigate = useNavigate();
+  const [value, setValue] = useState<CreatePostDto>({
     title: "",
-    desc: "",
-    image: "",
+    content: "",
+    thumbnail: undefined,
   });
   const [isDisabled, setIsDisabled] = useState(true);
   const [imageSrc, setImageSrc] = useState("");
 
   useEffect(() => {
-    const isFormFilled = value.title || value.desc || imageSrc;
+    const isFormFilled = value.title || value.content || imageSrc;
     setIsDisabled(!isFormFilled);
   }, [value, imageSrc]);
 
-  const handleChange = e => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
 
     setValue(prev => ({
@@ -30,9 +38,33 @@ const PostForm = () => {
     }));
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(value);
+
+    const formData = new FormData();
+    formData.append("title", value.title);
+    formData.append("content", value.content);
+    if (value.thumbnail) {
+      formData.append("thumbnail", value.thumbnail);
+    }
+
+    const token = localStorage.getItem("token");
+
+    try {
+      await axiosInstance.post("/posts", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setValue({ title: "", content: "", thumbnail: undefined });
+      setImageSrc("");
+
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -50,10 +82,9 @@ const PostForm = () => {
         <Label text="내용" />
         <Textarea
           placeholder="내용을 입력해주세요"
-          type="textarea"
-          value={value.desc}
+          value={value.content}
           onChange={handleChange}
-          name="desc"
+          name="content"
         />
       </InputWrapper>
       <UploadImage

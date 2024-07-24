@@ -1,35 +1,39 @@
 import styled from "@emotion/styled";
 import { ImFilePicture } from "react-icons/im";
+import React, { Dispatch, SetStateAction } from "react";
+// types
+import { CreatePostDto } from "../../types/data/post";
 
-const UploadImage = ({ imageSrc, setImageSrc, setValue }) => {
-  const encodeFileToBase64 = fileBlob => {
-    const reader = new FileReader();
-    reader.readAsDataURL(fileBlob);
+interface UploadImageProps {
+  imageSrc: string;
+  setImageSrc: Dispatch<SetStateAction<string>>;
+  setValue: Dispatch<SetStateAction<CreatePostDto>>;
+}
 
-    return new Promise(resole => {
-      reader.onload = () => {
-        setImageSrc(reader.result);
-        setValue(prev => ({
-          ...prev,
-          image: reader.result,
-        }));
-        resole();
-      };
-    });
+const UploadImage = ({ imageSrc, setImageSrc, setValue }: UploadImageProps) => {
+  const handleFileChange = (file: File) => {
+    setImageSrc(URL.createObjectURL(file));
+    setValue(prev => ({
+      ...prev,
+      thumbnail: file,
+    }));
   };
 
-  const handleDrop = e => {
+  const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
-    encodeFileToBase64(file);
+    handleFileChange(file);
   };
 
-  const handleDragOver = e => {
+  const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
   };
 
-  const handleChange = e => {
-    encodeFileToBase64(e.target.files[0]);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const file = e.target.files[0];
+      handleFileChange(file);
+    }
   };
 
   return (
@@ -52,7 +56,7 @@ const UploadImage = ({ imageSrc, setImageSrc, setValue }) => {
 
 export default UploadImage;
 
-const Preview = styled.label`
+const Preview = styled.label<{ hasImage: boolean }>`
   width: 100%;
   height: 250px;
   display: flex;
@@ -75,6 +79,7 @@ const Img = styled.img`
   width: 100%;
   height: 250px;
   border-radius: 10px;
+  object-fit: cover;
 `;
 
 const FileInput = styled.input`

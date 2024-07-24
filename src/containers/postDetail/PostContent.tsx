@@ -12,10 +12,15 @@ const getTimeDifference = (createAt: string) => {
   const createdAtDate = new Date(createAt);
   const now = new Date();
   const diffInMs = now.getTime() - createdAtDate.getTime();
+  const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
   const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
   const diffInDays = Math.floor(diffInHours / 24);
 
-  if (diffInDays > 0) {
+  if (diffInMinutes < 1) {
+    return "방금전";
+  } else if (diffInMinutes < 60) {
+    return `${diffInMinutes}분 전`;
+  } else if (diffInDays > 0) {
     return `${diffInDays}일 전`;
   } else {
     return `${diffInHours}시간 전`;
@@ -74,11 +79,12 @@ const Description = styled.div`
 `;
 
 const Image = styled.img`
-  min-width: 100%;
-  min-height: 261px;
+  width: 100%;
+  height: 261px;
   margin-bottom: 17px;
-  border-radius: 20px;
-  background-color: aliceblue;
+  border-radius: 10px;
+  border: 1px solid rgba(18, 18, 18, 0.7);
+  object-fit: cover;
 `;
 
 const Content = styled.div`
