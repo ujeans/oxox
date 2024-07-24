@@ -8,7 +8,9 @@ import Modal from "../../components/common/Modal";
 // containers
 import PostContent from "../../containers/postDetail/PostContent";
 import TotalComments from "../../containers/postDetail/TotalComments";
-import VoteModal from "../../containers/vote/Vote";
+import Vote from "../../containers/vote/Vote";
+import Alert from "../../containers/alert/Alert";
+
 // api
 import axiosInstance from "../../api/config";
 // types
@@ -16,17 +18,19 @@ import { PostDto } from "../../types/data/post";
 
 export default function PostDetail() {
   const { id } = useParams<{ id: string }>();
-  const [isOpen, setIsOpen] = useState(false);
   const [post, setPost] = useState<PostDto>();
+  const [isOpen, setIsOpen] = useState(false);
+  const [modalContent, setModalContent] = useState<"vote" | "alert">("vote");
 
-  const openModal = () => {
+  const openModal = (content: "vote" | "alert") => {
+    setModalContent(content);
     setIsOpen(true);
   };
 
   const checkLogin = (): boolean => {
     const token = localStorage.getItem("token");
     if (!token) {
-      alert("로그인이 필요합니다.");
+      openModal("alert");
       return false;
     }
     return true;
@@ -34,7 +38,7 @@ export default function PostDetail() {
 
   const handleEmojiButtonClick = () => {
     if (checkLogin()) {
-      openModal();
+      openModal("vote");
     }
   };
 
@@ -76,8 +80,17 @@ export default function PostDetail() {
           />
         }
       </EmojiButton>
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} height="300px">
-        <VoteModal />
+      <Modal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        height={modalContent === "vote" ? "300px" : "150px"}
+        position={modalContent === "vote" ? "bottom" : "center"}
+      >
+        {modalContent === "vote" ? (
+          <Vote />
+        ) : (
+          <Alert onClose={() => setIsOpen(false)} />
+        )}
       </Modal>
     </ContentLayout>
   );

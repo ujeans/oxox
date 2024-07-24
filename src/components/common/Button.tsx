@@ -1,18 +1,26 @@
 import styled from "@emotion/styled";
-// types
-import { TextProps } from "../../types/react";
+
+interface ButtonProps {
+  text: string;
+  width?: string;
+}
 
 const Button = ({
   text,
+  width = "100%",
   ...props
-}: TextProps & React.ButtonHTMLAttributes<HTMLButtonElement>) => {
-  return <StyledButton {...props}>{text}</StyledButton>;
+}: ButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>) => {
+  return (
+    <StyledButton width={width} {...props}>
+      {text}
+    </StyledButton>
+  );
 };
 
 export default Button;
 
-const StyledButton = styled.button<{ disabled?: boolean }>`
-  width: 100%;
+const StyledButton = styled.button<{ disabled?: boolean; width: string }>`
+  width: ${props => props.width};
   padding: 12px 0;
   margin-top: 30px;
   border: none;

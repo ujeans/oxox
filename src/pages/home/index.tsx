@@ -4,6 +4,9 @@ import { useInView } from "react-intersection-observer";
 // containers
 import EmojiButton from "../../components/common/EmojiButton";
 import Lists from "../../containers/home/Lists";
+import Alert from "../../containers/alert/Alert";
+// components
+import Modal from "../../components/common/Modal";
 // types
 import { PostDtoList } from "../../types/data/post";
 // api
@@ -13,6 +16,7 @@ export default function HomePage() {
   const navigate = useNavigate();
   const [posts, setPosts] = useState<PostDtoList>([]);
   const [page, setPage] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
   const [totalPage, setTotalPage] = useState(1);
   const { ref, inView } = useInView();
 
@@ -23,8 +27,7 @@ export default function HomePage() {
   const handlePostNew = () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      alert("로그인이 필요합니다.");
-      navigateTo("/login/users");
+      setIsOpen(true);
     } else {
       navigateTo("/posts/new");
     }
@@ -75,6 +78,14 @@ export default function HomePage() {
           />
         }
       </EmojiButton>
+      <Modal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        height={"150px"}
+        position={"center"}
+      >
+        <Alert onClose={() => setIsOpen(false)} />
+      </Modal>
     </>
   );
 }

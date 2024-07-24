@@ -1,22 +1,39 @@
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 
-const NavigateLogin = () => {
+interface NavigateProps {
+  currentPage: "login" | "signup";
+}
+
+const Navigate = ({ currentPage }: NavigateProps) => {
   const nav = useNavigate();
 
-  const navigateTo = () => {
-    nav("/users/login");
+  const navigateTo = (content: "login" | "signup") => {
+    if (content === "login") {
+      nav("/users/login");
+    } else {
+      nav("/users/signup");
+    }
   };
 
   return (
     <Wrapper>
-      <Text>이미 계정이 있나요?</Text>
-      <LinkText onClick={navigateTo}>로그인</LinkText>
+      {currentPage === "signup" ? (
+        <>
+          <Text>이미 회원이신가요?</Text>
+          <LinkText onClick={() => navigateTo("login")}>로그인</LinkText>
+        </>
+      ) : (
+        <>
+          <Text>아직 회원이 아니신가요?</Text>
+          <LinkText onClick={() => navigateTo("signup")}>회원가입</LinkText>
+        </>
+      )}
     </Wrapper>
   );
 };
 
-export default NavigateLogin;
+export default Navigate;
 
 const Wrapper = styled.div`
   display: flex;
