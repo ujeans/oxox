@@ -74,11 +74,12 @@ const Description = styled.div`
 `;
 
 const Image = styled.img`
-  min-width: 100%;
-  min-height: 261px;
+  width: 100%;
+  height: 261px;
   margin-bottom: 17px;
-  border-radius: 20px;
-  background-color: aliceblue;
+  border-radius: 10px;
+  border: 1px solid rgba(18, 18, 18, 0.7);
+  object-fit: cover;
 `;
 
 const Content = styled.div`

@@ -77,10 +77,10 @@ const Wrapper = styled.div`
 
 const Image = styled.img`
   width: 90px;
-  height: 100%;
+  height: 90px;
   border-radius: 10px;
+  border: 1px solid rgba(18, 18, 18, 0.7);
   object-fit: cover;
-  background-color: aliceblue;
 `;
 
 const InfoWrapper = styled.div`
