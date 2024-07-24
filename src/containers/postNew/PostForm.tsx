@@ -21,7 +21,9 @@ const PostForm = () => {
     setIsDisabled(!isFormFilled);
   }, [value, imageSrc]);
 
-  const handleChange = e => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
 
     setValue(prev => ({
@@ -30,7 +32,7 @@ const PostForm = () => {
     }));
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(value);
   };
@@ -50,7 +52,6 @@ const PostForm = () => {
         <Label text="내용" />
         <Textarea
           placeholder="내용을 입력해주세요"
-          type="textarea"
           value={value.desc}
           onChange={handleChange}
           name="desc"

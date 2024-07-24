@@ -1,35 +1,46 @@
 import styled from "@emotion/styled";
 import { ImFilePicture } from "react-icons/im";
+import React, { Dispatch, SetStateAction } from "react";
 
-const UploadImage = ({ imageSrc, setImageSrc, setValue }) => {
-  const encodeFileToBase64 = fileBlob => {
+interface UploadImageProps {
+  imageSrc: string;
+  setImageSrc: Dispatch<SetStateAction<string>>;
+  setValue: Dispatch<
+    SetStateAction<{ title: string; desc: string; image: string }>
+  >;
+}
+
+const UploadImage = ({ imageSrc, setImageSrc, setValue }: UploadImageProps) => {
+  const encodeFileToBase64 = (fileBlob: File) => {
     const reader = new FileReader();
     reader.readAsDataURL(fileBlob);
 
-    return new Promise(resole => {
+    return new Promise<void>(resolve => {
       reader.onload = () => {
-        setImageSrc(reader.result);
+        setImageSrc(reader.result as string);
         setValue(prev => ({
           ...prev,
-          image: reader.result,
+          image: reader.result as string,
         }));
-        resole();
+        resolve();
       };
     });
   };
 
-  const handleDrop = e => {
+  const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
     encodeFileToBase64(file);
   };
 
-  const handleDragOver = e => {
+  const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
   };
 
-  const handleChange = e => {
-    encodeFileToBase64(e.target.files[0]);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      encodeFileToBase64(e.target.files[0]);
+    }
   };
 
   return (
@@ -52,7 +63,7 @@ const UploadImage = ({ imageSrc, setImageSrc, setValue }) => {
 
 export default UploadImage;
 
-const Preview = styled.label`
+const Preview = styled.label<{ hasImage: boolean }>`
   width: 100%;
   height: 250px;
   display: flex;
