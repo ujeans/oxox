@@ -30,5 +30,5 @@ export type PostDtoList = PostDto[];
 export interface PostDetailDto extends BasePostDto {
   content: string;
   user: UserDto;
-  comments: Comment[];
+  comments: CommentDto[];
 }
