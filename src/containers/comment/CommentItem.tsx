@@ -42,9 +42,29 @@ const iconList = [
   },
 ];
 
+const getTimeDifference = (createAt: string) => {
+  const createdAtDate = new Date(createAt);
+  const now = new Date();
+  const diffInMs = now.getTime() - createdAtDate.getTime();
+  const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
+  const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+  const diffInDays = Math.floor(diffInHours / 24);
+
+  if (diffInMinutes < 1) {
+    return "방금전";
+  } else if (diffInMinutes < 60) {
+    return `${diffInMinutes}분 전`;
+  } else if (diffInDays > 0) {
+    return `${diffInDays}일 전`;
+  } else {
+    return `${diffInHours}시간 전`;
+  }
+};
+
 const CommentItem = ({ comment }: CommentItemProps) => {
   const [showEmotions, setShowEmotions] = useState(false);
   const [selectedEmotion, setSelectedEmotion] = useState<EmotionItem[]>([]);
+  const timeDifference = comment ? getTimeDifference(comment.createAt) : "";
 
   const showEmotion = () => {
     setShowEmotions(!showEmotions);
@@ -74,7 +94,7 @@ const CommentItem = ({ comment }: CommentItemProps) => {
       <InfoWrapper>
         <Top>
           <Nickname>{comment.user.nickname}</Nickname>
-          <Time>{comment.createAt}</Time>
+          <Time>{timeDifference}</Time>
         </Top>
         <Content>{comment.content}</Content>
         <EmotionContainer>
