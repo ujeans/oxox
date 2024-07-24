@@ -1,13 +1,13 @@
 import styled from "@emotion/styled";
 import { ImFilePicture } from "react-icons/im";
 import React, { Dispatch, SetStateAction } from "react";
+// types
+import { CreatePostDto } from "../../types/data/post";
 
 interface UploadImageProps {
   imageSrc: string;
   setImageSrc: Dispatch<SetStateAction<string>>;
-  setValue: Dispatch<
-    SetStateAction<{ title: string; content: string; thumbnail: string | File }>
-  >;
+  setValue: Dispatch<SetStateAction<CreatePostDto>>;
 }
 
 const UploadImage = ({ imageSrc, setImageSrc, setValue }: UploadImageProps) => {

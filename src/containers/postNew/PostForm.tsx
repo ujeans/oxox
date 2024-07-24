@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
+import axiosInstance from "../../api/config";
 // components
 import Label from "../../components/common/Label";
 import { Input } from "../../components/common/Input";
@@ -7,19 +8,16 @@ import Button from "../../components/common/Button";
 // containers
 import UploadImage from "./UploadImage";
 // api
-import axiosInstance from "../../api/config";
 import { useNavigate } from "react-router-dom";
+// types
+import { CreatePostDto } from "../../types/data/post";
 
 const PostForm = () => {
   const navigate = useNavigate();
-  const [value, setValue] = useState<{
-    title: string;
-    content: string;
-    thumbnail: string | File;
-  }>({
+  const [value, setValue] = useState<CreatePostDto>({
     title: "",
     content: "",
-    thumbnail: "",
+    thumbnail: undefined,
   });
   const [isDisabled, setIsDisabled] = useState(true);
   const [imageSrc, setImageSrc] = useState("");
@@ -47,27 +45,23 @@ const PostForm = () => {
     formData.append("title", value.title);
     formData.append("content", value.content);
     if (value.thumbnail) {
-      formData.append("image", value.thumbnail);
+      formData.append("thumbnail", value.thumbnail);
     }
-
-    console.log(value);
 
     const token = localStorage.getItem("token");
 
     try {
-      const res = await axiosInstance.post("/posts", formData, {
+      await axiosInstance.post("/posts", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       });
 
-      setValue({ title: "", content: "", thumbnail: "" });
+      setValue({ title: "", content: "", thumbnail: undefined });
       setImageSrc("");
 
       navigate("/");
-
-      console.log(res.data);
     } catch (error) {
       console.log(error);
     }
