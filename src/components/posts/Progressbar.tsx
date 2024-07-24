@@ -12,12 +12,14 @@ const Progressbar = ({
   showRatio = true,
 }: ProgressbarProps) => {
   const totalVotes = agreeCount + disAgreeCount;
-  const agreePercentage = Math.round((agreeCount / totalVotes) * 100);
-  const disAgreePercentage = Math.round((disAgreeCount / totalVotes) * 100);
+  const agreePercentage =
+    totalVotes === 0 ? 0 : Math.round((agreeCount / totalVotes) * 100);
+  const disAgreePercentage =
+    totalVotes === 0 ? 0 : Math.round((disAgreeCount / totalVotes) * 100);
 
   return (
     <Wrapper showRatio={showRatio}>
-      <Graph showRatio={showRatio}>
+      <Graph showRatio={showRatio} totalVotes={totalVotes}>
         <AgreeBar style={{ width: `${agreePercentage}%` }} />
         <DisAgreeBar style={{ width: `${disAgreePercentage}%` }} />
       </Graph>
@@ -37,9 +39,12 @@ const Wrapper = styled.div<{ showRatio: boolean }>`
   width: ${({ showRatio }) => (showRatio ? "100%" : "calc(100% - 50px)")};
 `;
 
-const Graph = styled.div<{ showRatio: boolean }>`
+const Graph = styled.div<{ showRatio: boolean; totalVotes: number }>`
   height: ${({ showRatio }) => (showRatio ? "23px" : "12px")};
   display: flex;
+  border-radius: 20px;
+  background-color: ${({ totalVotes, theme }) =>
+    totalVotes === 0 ? theme.colors.gray200 : "transparent"};
 `;
 
 const AgreeBar = styled.div`
