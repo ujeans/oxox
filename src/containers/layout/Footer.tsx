@@ -1,12 +1,19 @@
 import styled from "@emotion/styled";
+import { useState } from "react";
+
 import { useLocation, matchPath, useNavigate } from "react-router-dom";
 import { SiGoogledocs } from "react-icons/si";
 import { FaUser } from "react-icons/fa";
 import { BiSolidCommentDetail } from "react-icons/bi";
+// components
+import Modal from "../../components/common/Modal";
+// containers
+import Alert from "../alert/Alert";
 
 const Footer = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
 
   const isPostDetail = matchPath("/posts/:id", location.pathname);
   const isProfile = location.pathname === "/profile";
@@ -19,8 +26,7 @@ const Footer = () => {
   const handleProfile = () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      alert("로그인이 필요합나다");
-      navigateTo("/users/login");
+      setIsOpen(true);
     } else {
       navigateTo("/profile");
     }
@@ -44,6 +50,14 @@ const Footer = () => {
           <UserIcon onClick={handleProfile} />
           <Text>마이페이지</Text>
         </TabBox>
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          height={"200px"}
+          position={"center"}
+        >
+          <Alert onClose={() => setIsOpen(false)} />
+        </Modal>
       </Wrapper>
     </StyledFooter>
   );
