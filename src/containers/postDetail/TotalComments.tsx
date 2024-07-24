@@ -26,7 +26,7 @@ const TotalComments = ({ post, checkLogin }: PostProps) => {
         댓글 {post?.commentCount}개 모두 보기
       </CommentWrapper>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} height="600px">
-        <Comment comments={post?.comments || []} />
+        <Comment post={post} />
       </Modal>
     </>
   );

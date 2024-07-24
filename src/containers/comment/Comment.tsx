@@ -3,26 +3,52 @@ import { useState, KeyboardEvent as ReactKeyboardEvent } from "react";
 // containers
 import CommentForm from "./CommentForm";
 import CommentItem from "./CommentItem";
-import { CommentDto } from "../../types/data/comment";
+// types
+import { PostDetailDto } from "../../types/data/post";
+import axiosInstance from "../../api/config";
 
 interface CommentsProps {
-  comments: CommentDto[];
+  post?: PostDetailDto;
 }
 
-const Comment = ({ comments }: CommentsProps) => {
+const Comment = ({ post }: CommentsProps) => {
   const [inputValue, setInputValue] = useState("");
-
-  console.log("comments", comments);
+  const [comments, setComments] = useState(post?.comments || []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
-  const handleKeyPress = (e: ReactKeyboardEvent<HTMLInputElement>) => {
+  const handleKeyPress = async (e: ReactKeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       if (inputValue.trim() !== "") {
-        // 여기서 실제로 댓글을 추가하는 로직을 추가할 수 있습니다.
-        setInputValue("");
+        try {
+          const token = localStorage.getItem("token");
+
+          if (!token) {
+            console.log("토큰 없습니다.");
+            return;
+          }
+
+          const response = await axiosInstance.post(
+            `/comments?postId=${post?.id}&content=${encodeURIComponent(
+              inputValue
+            )}`,
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          const newComment = response.data;
+
+          setComments([...comments, newComment]);
+          setInputValue("");
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
   };
@@ -30,10 +56,10 @@ const Comment = ({ comments }: CommentsProps) => {
   return (
     <Container>
       <CommentCountWrapper>
-        댓글 <Count>{comments.length}개</Count>
+        댓글 <Count>{post?.comments.length}개</Count>
       </CommentCountWrapper>
       <ListWrapper>
-        {comments.map(comment => (
+        {post?.comments?.map(comment => (
           <CommentItem key={comment.id} comment={comment} />
         ))}
       </ListWrapper>
