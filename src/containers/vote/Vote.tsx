@@ -3,14 +3,27 @@ import { useState } from "react";
 // components
 import VoteItem from "../../components/vote/VoteItem";
 import Button from "../../components/common/Button";
+// types
+import { PostDto } from "../../types/data/post";
 
-const Vote = () => {
+interface PostProps {
+  post: PostDto;
+}
+
+const Vote = ({ post }: PostProps) => {
   const [selected, setSelected] = useState<{
     agree: boolean;
     disagree: boolean;
   }>({
     agree: false,
     disagree: false,
+  });
+  const [votes, setVotes] = useState<{
+    agree: number;
+    disagree: number;
+  }>({
+    agree: 4,
+    disagree: post.disAgreeCount ?? 0,
   });
 
   const handleCheckboxChange = (type: "agree" | "disagree") => {
@@ -27,6 +40,24 @@ const Vote = () => {
         };
       }
     });
+
+    setVotes(prevVotes => {
+      if (type === "agree") {
+        return {
+          agree: prevVotes.agree + (selected.agree ? -1 : 1),
+          disagree: prevVotes.disagree,
+        };
+      } else {
+        return {
+          agree: prevVotes.agree,
+          disagree: prevVotes.disagree + (selected.disagree ? -1 : 1),
+        };
+      }
+    });
+  };
+
+  const handleVoteSubmit = () => {
+    console.log("Final Votes:", votes);
   };
 
   const isAnySelected = selected.agree || selected.disagree;
@@ -40,6 +71,7 @@ const Vote = () => {
           checked={selected.agree}
           onChange={() => handleCheckboxChange("agree")}
           color="red"
+          voteCount={votes.agree}
         />
         <VoteItem
           id="disagree-checkbox"
@@ -47,9 +79,14 @@ const Vote = () => {
           checked={selected.disagree}
           onChange={() => handleCheckboxChange("disagree")}
           color="blue"
+          voteCount={votes.disagree}
         />
       </Wrapper>
-      <StyledButton text="투표하기" disabled={!isAnySelected} />
+      <StyledButton
+        text="투표하기"
+        disabled={!isAnySelected}
+        onClick={handleVoteSubmit}
+      />
     </Container>
   );
 };

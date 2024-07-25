@@ -6,16 +6,27 @@ interface VoteBoxProps {
   checked: boolean;
   onChange: () => void;
   color: string;
+  voteCount: number;
 }
 
-const VoteItem = ({ id, label, checked, onChange, color }: VoteBoxProps) => {
+const VoteItem = ({
+  id,
+  label,
+  checked,
+  onChange,
+  color,
+  voteCount,
+}: VoteBoxProps) => {
+  console.log(voteCount);
   return (
     <Wrapper>
       <Checkbox id={id} type="checkbox" checked={checked} onChange={onChange} />
       <CheckboxLabel htmlFor={id} />
       <Box>
         <Label>{label}</Label>
-        <Progressbar selected={checked} color={color} />
+        <Progressbar selected={checked} color={color}>
+          <Graph selected={checked} color={color} width={voteCount} />
+        </Progressbar>
       </Box>
     </Wrapper>
   );
@@ -74,7 +85,19 @@ const Progressbar = styled.div<{ selected: boolean; color: string }>`
   background-color: ${props =>
     props.selected
       ? props.color === "red"
+        ? props.theme.colors.pink50
+        : props.theme.colors.blue50
+      : props.theme.colors.gray200};
+`;
+
+const Graph = styled.div<{ selected: boolean; color: string; width: number }>`
+  height: 100%;
+  border-radius: 20px;
+  background-color: ${props =>
+    props.selected
+      ? props.color === "red"
         ? props.theme.colors.pink100
         : props.theme.colors.blue100
-      : props.theme.colors.gray200};
+      : "transparent"};
+  width: ${props => props.width}%;
 `;
