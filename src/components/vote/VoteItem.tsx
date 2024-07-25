@@ -12,7 +12,7 @@ const VoteItem = ({ id, label, checked, onChange, color }: VoteBoxProps) => {
   return (
     <Wrapper>
       <Checkbox id={id} type="checkbox" checked={checked} onChange={onChange} />
-      <CheckboxLabel htmlFor="agree-checkbox" />
+      <CheckboxLabel htmlFor={id} />
       <Box>
         <Label>{label}</Label>
         <Progressbar selected={checked} color={color} />
