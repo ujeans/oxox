@@ -7,6 +7,7 @@ interface VoteBoxProps {
   onChange: () => void;
   color: string;
   voteCount: number;
+  showCheckbox: boolean;
 }
 
 const VoteItem = ({
@@ -16,16 +17,27 @@ const VoteItem = ({
   onChange,
   color,
   voteCount,
+  showCheckbox,
 }: VoteBoxProps) => {
-  console.log(voteCount);
   return (
     <Wrapper>
-      <Checkbox id={id} type="checkbox" checked={checked} onChange={onChange} />
-      <CheckboxLabel htmlFor={id} />
+      {showCheckbox && (
+        <>
+          <Checkbox
+            id={id}
+            type="checkbox"
+            checked={checked}
+            onChange={onChange}
+          />
+          <CheckboxLabel htmlFor={id} />
+        </>
+      )}
       <Box>
         <Label>{label}</Label>
         <Progressbar selected={checked} color={color}>
-          <Graph selected={checked} color={color} width={voteCount} />
+          {voteCount > 0 && (
+            <Graph selected={checked} color={color} width={voteCount} />
+          )}
         </Progressbar>
       </Box>
     </Wrapper>

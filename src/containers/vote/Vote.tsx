@@ -18,13 +18,16 @@ const Vote = ({ post }: PostProps) => {
     agree: false,
     disagree: false,
   });
+
   const [votes, setVotes] = useState<{
     agree: number;
     disagree: number;
   }>({
-    agree: 4,
+    agree: post.agreeCount ?? 0,
     disagree: post.disAgreeCount ?? 0,
   });
+
+  const [hasVoted, setHasVoted] = useState(false);
 
   const handleCheckboxChange = (type: "agree" | "disagree") => {
     setSelected(prev => {
@@ -40,24 +43,29 @@ const Vote = ({ post }: PostProps) => {
         };
       }
     });
-
-    setVotes(prevVotes => {
-      if (type === "agree") {
-        return {
-          agree: prevVotes.agree + (selected.agree ? -1 : 1),
-          disagree: prevVotes.disagree,
-        };
-      } else {
-        return {
-          agree: prevVotes.agree,
-          disagree: prevVotes.disagree + (selected.disagree ? -1 : 1),
-        };
-      }
-    });
   };
 
   const handleVoteSubmit = () => {
-    console.log("Final Votes:", votes);
+    if (hasVoted) {
+      setSelected({ agree: false, disagree: false });
+      setVotes({
+        agree: post.agreeCount ?? 0,
+        disagree: post.disAgreeCount ?? 0,
+      });
+      setHasVoted(false);
+    } else {
+      setVotes(prevVotes => {
+        const updatedVotes = {
+          agree: selected.agree ? prevVotes.agree + 1 : prevVotes.agree,
+          disagree: selected.disagree
+            ? prevVotes.disagree + 1
+            : prevVotes.disagree,
+        };
+        console.log("Final Votes:", updatedVotes);
+        return updatedVotes;
+      });
+      setHasVoted(true);
+    }
   };
 
   const isAnySelected = selected.agree || selected.disagree;
@@ -72,6 +80,7 @@ const Vote = ({ post }: PostProps) => {
           onChange={() => handleCheckboxChange("agree")}
           color="red"
           voteCount={votes.agree}
+          showCheckbox={!hasVoted}
         />
         <VoteItem
           id="disagree-checkbox"
@@ -80,11 +89,12 @@ const Vote = ({ post }: PostProps) => {
           onChange={() => handleCheckboxChange("disagree")}
           color="blue"
           voteCount={votes.disagree}
+          showCheckbox={!hasVoted}
         />
       </Wrapper>
       <StyledButton
-        text="투표하기"
-        disabled={!isAnySelected}
+        text={hasVoted ? "다시 투표" : "투표하기"}
+        disabled={!isAnySelected && !hasVoted}
         onClick={handleVoteSubmit}
       />
     </Container>
