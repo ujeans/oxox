@@ -14,7 +14,19 @@ const Vote = () => {
   });
 
   const handleCheckboxChange = (type: "agree" | "disagree") => {
-    setSelected(prev => ({ ...prev, [type]: !prev[type] }));
+    setSelected(prev => {
+      if (type === "agree") {
+        return {
+          agree: !prev.agree,
+          disagree: false,
+        };
+      } else {
+        return {
+          agree: false,
+          disagree: !prev.disagree,
+        };
+      }
+    });
   };
 
   const isAnySelected = selected.agree || selected.disagree;
