@@ -47,7 +47,6 @@ const CommentItem = ({comment, fetchComments}: CommentItemProps) => {
   const [selectedEmotion, setSelectedEmotion] = useState<EmotionItem[]>([]);
 
   useEffect(() => {
-    console.log(comment.myReaction);
     const emotions = Object.entries(comment.reactions)
       .filter(([_, count]) => count > 0)
       .map(([key, count]) => {
@@ -63,7 +62,7 @@ const CommentItem = ({comment, fetchComments}: CommentItemProps) => {
     setShowEmotions(!showEmotions);
   };
 
-  const handleEmotionClick = async (commentId: Number, emotion?: { src: string; alt: string }) => {
+  const handleEmotionClick = async (commentId: Number, emotion: { src: string; alt: string }) => {
     try {
       const token = localStorage.getItem("token");
 
@@ -72,7 +71,7 @@ const CommentItem = ({comment, fetchComments}: CommentItemProps) => {
         return;
       }
 
-      const url = emotion
+      const url = emotion.alt.toUpperCase() != comment.myReaction
         ? `/reactions?commentId=${commentId}&emoji=${emotion.alt.toUpperCase()}`
         : `/reactions?commentId=${commentId}`;
 
@@ -126,7 +125,7 @@ const CommentItem = ({comment, fetchComments}: CommentItemProps) => {
             {selectedEmotion.map(emotion => (
               <SelectedEmotionWrapper
                 key={emotion.alt}
-                onClick={() => handleEmotionClick(comment.id)}
+                onClick={() => handleEmotionClick(comment.id, emotion)}
               >
                 <Icon src={emotion.src} alt={emotion.alt}/>
                 <Count isSelected={comment.myReaction == emotion.alt.toUpperCase()}>
