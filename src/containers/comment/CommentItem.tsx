@@ -47,11 +47,12 @@ const CommentItem = ({comment, fetchComments}: CommentItemProps) => {
   const [selectedEmotion, setSelectedEmotion] = useState<EmotionItem[]>([]);
 
   useEffect(() => {
+    console.log(comment.myReaction);
     const emotions = Object.entries(comment.reactions)
       .filter(([_, count]) => count > 0)
       .map(([key, count]) => {
         const icon = iconList.find(icon => icon.alt.toUpperCase() === key);
-        return icon ? { ...icon, count } : null;
+        return icon ? {...icon, count} : null;
       })
       .filter(icon => icon !== null) as EmotionItem[];
 
@@ -128,7 +129,9 @@ const CommentItem = ({comment, fetchComments}: CommentItemProps) => {
                 onClick={() => handleEmotionClick(comment.id)}
               >
                 <Icon src={emotion.src} alt={emotion.alt}/>
-                <Count>{emotion.count}</Count>
+                <Count isSelected={comment.myReaction == emotion.alt.toUpperCase()}>
+                  {emotion.count}
+                </Count>
               </SelectedEmotionWrapper>
             ))}
           </SelectedEmotions>
@@ -224,8 +227,8 @@ const Icon = styled(motion.img)`
     cursor: pointer;
 `;
 
-const Count = styled.span`
-    color: ${props => props.theme.colors.gray50};
-    font-size: ${props => props.theme.typography.disclaimers.default};
+const Count = styled.span<{ isSelected?: boolean }>`
+    color: ${props => props.isSelected ? props.theme.colors.green200 : props.theme.colors.gray50};
+    font-size: ${props => props.isSelected ? props.theme.typography.disclaimers.bold : props.theme.typography.disclaimers.default};
     margin: 0 5px 0 2px;
 `;
