@@ -62,7 +62,7 @@ const CommentItem = ({comment, fetchComments}: CommentItemProps) => {
     setShowEmotions(!showEmotions);
   };
 
-  const handleEmotionClick = async (commentId: Number, emotion: { src: string; alt: string }) => {
+  const handleEmotionClick = async (commentId: Number, emotion?: { src: string; alt: string }) => {
     try {
       const token = localStorage.getItem("token");
 
@@ -71,9 +71,11 @@ const CommentItem = ({comment, fetchComments}: CommentItemProps) => {
         return;
       }
 
-      await axiosInstance.post(
-        `/reactions?commentId=${commentId}&emoji=${emotion.alt.toUpperCase()}`, {}
-      );
+      const url = emotion
+        ? `/reactions?commentId=${commentId}&emoji=${emotion.alt.toUpperCase()}`
+        : `/reactions?commentId=${commentId}`;
+
+      await axiosInstance.post(url, {});
 
       fetchComments();
     } catch (error) {
@@ -121,7 +123,10 @@ const CommentItem = ({comment, fetchComments}: CommentItemProps) => {
           </EmotionBtn>
           <SelectedEmotions>
             {selectedEmotion.map(emotion => (
-              <SelectedEmotionWrapper key={emotion.alt}>
+              <SelectedEmotionWrapper
+                key={emotion.alt}
+                onClick={() => handleEmotionClick(comment.id)}
+              >
                 <Icon src={emotion.src} alt={emotion.alt}/>
                 <Count>{emotion.count}</Count>
               </SelectedEmotionWrapper>
