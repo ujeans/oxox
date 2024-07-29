@@ -4,16 +4,23 @@ import { useState, KeyboardEvent as ReactKeyboardEvent } from "react";
 import CommentForm from "./CommentForm";
 import CommentItem from "./CommentItem";
 // types
-import { PostDetailDto } from "../../types/data/post";
 import axiosInstance from "../../api/config";
+import { CommentList } from "../../types/data/comment";
 
 interface CommentsProps {
-  post?: PostDetailDto;
+  postId: number;
+  comments: CommentList | undefined;
+  setComments: React.Dispatch<React.SetStateAction<CommentList | undefined>>;
+  fetchComments: () => void;
 }
 
-const Comment = ({ post }: CommentsProps) => {
+const Comment = ({
+  postId,
+  comments,
+  setComments,
+  fetchComments,
+}: CommentsProps) => {
   const [inputValue, setInputValue] = useState("");
-  const [comments, setComments] = useState(post?.comments || []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -29,20 +36,16 @@ const Comment = ({ post }: CommentsProps) => {
           return;
         }
 
-        const response = await axiosInstance.post(
-          `/comments?postId=${post?.id}&content=${encodeURIComponent(
+        await axiosInstance.post(
+          `/comments?postId=${postId}&content=${encodeURIComponent(
             inputValue
           )}`,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          {}
         );
 
-        const newComment = response.data;
-        setComments([...comments, newComment]);
+        // 댓글 작성 후 댓글 목록 새로 가져오기
+        fetchComments();
+
         setInputValue("");
       } catch (error) {
         console.log(error);
@@ -59,10 +62,10 @@ const Comment = ({ post }: CommentsProps) => {
   return (
     <Container>
       <CommentCountWrapper>
-        댓글 <Count>{post?.comments.length}개</Count>
+        댓글 <Count>{comments?.comments?.length}개</Count>
       </CommentCountWrapper>
       <ListWrapper>
-        {post?.comments?.map(comment => (
+        {comments?.comments?.map(comment => (
           <CommentItem key={comment.id} comment={comment} />
         ))}
       </ListWrapper>

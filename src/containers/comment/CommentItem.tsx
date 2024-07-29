@@ -1,12 +1,10 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { FaCircleUser } from "react-icons/fa6";
 // assets
 import Emotion from "../../assets/emotion.svg";
 // styles
 import { buttonAnimation, iconAnimation } from "../../styles/animation";
-// types
 import { CommentDto } from "../../types/data/comment";
 
 interface CommentItemProps {
@@ -42,29 +40,9 @@ const iconList = [
   },
 ];
 
-const getTimeDifference = (createAt: string) => {
-  const createdAtDate = new Date(createAt);
-  const now = new Date();
-  const diffInMs = now.getTime() - createdAtDate.getTime();
-  const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
-  const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
-  const diffInDays = Math.floor(diffInHours / 24);
-
-  if (diffInMinutes < 1) {
-    return "방금전";
-  } else if (diffInMinutes < 60) {
-    return `${diffInMinutes}분 전`;
-  } else if (diffInDays > 0) {
-    return `${diffInDays}일 전`;
-  } else {
-    return `${diffInHours}시간 전`;
-  }
-};
-
 const CommentItem = ({ comment }: CommentItemProps) => {
   const [showEmotions, setShowEmotions] = useState(false);
   const [selectedEmotion, setSelectedEmotion] = useState<EmotionItem[]>([]);
-  const timeDifference = comment ? getTimeDifference(comment.createAt) : "";
 
   const showEmotion = () => {
     setShowEmotions(!showEmotions);
@@ -86,15 +64,14 @@ const CommentItem = ({ comment }: CommentItemProps) => {
 
   return (
     <Container key={comment.id}>
-      {comment.user.profileImage ? (
-        <Image src={comment.user.profileImage} alt={comment.user.nickname} />
-      ) : (
-        <FaCircleUser size={30} />
-      )}
+      <Image
+        src={comment.user?.profileImage || ""}
+        alt={comment.user?.nickname || "profile image"}
+      />
       <InfoWrapper>
         <Top>
-          <Nickname>{comment.user.nickname}</Nickname>
-          <Time>{timeDifference}</Time>
+          <Nickname>{comment.user?.nickname}</Nickname>
+          {/* <Time>{comment.time}</Time> */}
         </Top>
         <Content>{comment.content}</Content>
         <EmotionContainer>
