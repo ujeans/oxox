@@ -66,7 +66,11 @@ const Comment = ({
       </CommentCountWrapper>
       <ListWrapper>
         {comments?.comments?.map(comment => (
-          <CommentItem key={comment.id} comment={comment} />
+          <CommentItem
+            key={comment.id}
+            comment={comment}
+            fetchComments={fetchComments}
+          />
         ))}
       </ListWrapper>
       <CommentForm
