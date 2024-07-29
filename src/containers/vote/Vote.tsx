@@ -5,6 +5,7 @@ import VoteItem from "../../components/vote/VoteItem";
 import Button from "../../components/common/Button";
 // types
 import { PostDto } from "../../types/data/post";
+import axiosInstance from "../../api/config";
 
 interface PostProps {
   post: PostDto;
@@ -45,7 +46,7 @@ const Vote = ({ post }: PostProps) => {
     });
   };
 
-  const handleVoteSubmit = () => {
+  const handleVoteSubmit = async () => {
     if (hasVoted) {
       setSelected({ agree: false, disagree: false });
       setVotes({
@@ -64,6 +65,24 @@ const Vote = ({ post }: PostProps) => {
         console.log("Final Votes:", updatedVotes);
         return updatedVotes;
       });
+
+      try {
+        const token = localStorage.getItem("token");
+
+        const response = await axiosInstance.post(
+          `/votes?postId=${post.id}&isYes=${selected.agree}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("Vote submitted successfully:", response.data);
+      } catch (error) {
+        console.error("Error submitting vote:", error);
+      }
+
       setHasVoted(true);
     }
   };
