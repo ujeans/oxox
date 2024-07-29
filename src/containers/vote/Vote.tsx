@@ -1,10 +1,17 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // components
 import VoteItem from "../../components/vote/VoteItem";
 import Button from "../../components/common/Button";
+// types
+import { PostDto } from "../../types/data/post";
+import axiosInstance from "../../api/config";
 
-const Vote = () => {
+interface PostProps {
+  post: PostDto;
+}
+
+const Vote = ({ post }: PostProps) => {
   const [selected, setSelected] = useState<{
     agree: boolean;
     disagree: boolean;
@@ -13,8 +20,82 @@ const Vote = () => {
     disagree: false,
   });
 
+  const [votes, setVotes] = useState<{
+    agree: number;
+    disagree: number;
+  }>({
+    agree: post.agreeCount ?? 0,
+    disagree: post.disAgreeCount ?? 0,
+  });
+
+  const [hasVoted, setHasVoted] = useState(false);
+
+  useEffect(() => {
+    if (post.vote === true) {
+      setSelected({ agree: true, disagree: false });
+      setHasVoted(true);
+    } else if (post.vote === false) {
+      setSelected({ agree: false, disagree: true });
+      setHasVoted(true);
+    } else {
+      setSelected({ agree: false, disagree: false });
+      setHasVoted(false);
+    }
+  }, [post.vote]);
+
   const handleCheckboxChange = (type: "agree" | "disagree") => {
-    setSelected(prev => ({ ...prev, [type]: !prev[type] }));
+    setSelected(prev => {
+      if (type === "agree") {
+        return {
+          agree: !prev.agree,
+          disagree: false,
+        };
+      } else {
+        return {
+          agree: false,
+          disagree: !prev.disagree,
+        };
+      }
+    });
+  };
+
+  const handleVoteSubmit = async () => {
+    if (hasVoted) {
+      setSelected({ agree: false, disagree: false });
+      setVotes({
+        agree: post.agreeCount ?? 0,
+        disagree: post.disAgreeCount ?? 0,
+      });
+      setHasVoted(false);
+    } else {
+      setVotes(prevVotes => {
+        const updatedVotes = {
+          agree: selected.agree ? prevVotes.agree + 1 : prevVotes.agree,
+          disagree: selected.disagree
+            ? prevVotes.disagree + 1
+            : prevVotes.disagree,
+        };
+        return updatedVotes;
+      });
+
+      try {
+        const token = localStorage.getItem("token");
+
+        await axiosInstance.post(
+          `/votes?postId=${post.id}&isYes=${selected.agree}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      } catch (error) {
+        console.error("Error submitting vote:", error);
+      }
+
+      setHasVoted(true);
+    }
   };
 
   const isAnySelected = selected.agree || selected.disagree;
@@ -27,17 +108,19 @@ const Vote = () => {
           label="찬성"
           checked={selected.agree}
           onChange={() => handleCheckboxChange("agree")}
-          color="red"
         />
         <VoteItem
           id="disagree-checkbox"
           label="반대"
           checked={selected.disagree}
           onChange={() => handleCheckboxChange("disagree")}
-          color="blue"
         />
       </Wrapper>
-      <StyledButton text="투표하기" disabled={!isAnySelected} />
+      <StyledButton
+        text={hasVoted ? "다시 투표" : "투표하기"}
+        disabled={!isAnySelected && !hasVoted}
+        onClick={handleVoteSubmit}
+      />
     </Container>
   );
 };

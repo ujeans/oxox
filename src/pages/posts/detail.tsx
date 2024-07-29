@@ -87,7 +87,7 @@ export default function PostDetail() {
         position={modalContent === "vote" ? "bottom" : "center"}
       >
         {modalContent === "vote" ? (
-          <Vote />
+          <Vote post={post} />
         ) : (
           <Alert onClose={() => setIsOpen(false)} />
         )}

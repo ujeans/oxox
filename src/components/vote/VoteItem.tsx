@@ -5,17 +5,22 @@ interface VoteBoxProps {
   label: string;
   checked: boolean;
   onChange: () => void;
-  color: string;
 }
 
-const VoteItem = ({ id, label, checked, onChange, color }: VoteBoxProps) => {
+const VoteItem = ({ id, label, checked, onChange }: VoteBoxProps) => {
   return (
     <Wrapper>
-      <Checkbox id={id} type="checkbox" checked={checked} onChange={onChange} />
-      <CheckboxLabel htmlFor="agree-checkbox" />
+      <>
+        <Checkbox
+          id={id}
+          type="checkbox"
+          checked={checked}
+          onChange={onChange}
+        />
+        <CheckboxLabel htmlFor={id} />
+      </>
       <Box>
         <Label>{label}</Label>
-        <Progressbar selected={checked} color={color} />
       </Box>
     </Wrapper>
   );
@@ -25,6 +30,7 @@ export default VoteItem;
 
 const Wrapper = styled.div`
   display: flex;
+  align-items: center;
   margin-top: 40px;
 `;
 
@@ -64,17 +70,4 @@ const Box = styled.div`
 
 const Label = styled.div`
   font-size: ${props => props.theme.typography.paragraphs.default};
-`;
-
-const Progressbar = styled.div<{ selected: boolean; color: string }>`
-  width: 100%;
-  height: 13px;
-  margin-top: 5px;
-  border-radius: 20px;
-  background-color: ${props =>
-    props.selected
-      ? props.color === "red"
-        ? props.theme.colors.pink100
-        : props.theme.colors.blue100
-      : props.theme.colors.gray200};
 `;
