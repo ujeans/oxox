@@ -78,18 +78,12 @@ const Vote = ({ post }: PostProps) => {
           label="찬성"
           checked={selected.agree}
           onChange={() => handleCheckboxChange("agree")}
-          color="red"
-          voteCount={votes.agree}
-          showCheckbox={!hasVoted}
         />
         <VoteItem
           id="disagree-checkbox"
           label="반대"
           checked={selected.disagree}
           onChange={() => handleCheckboxChange("disagree")}
-          color="blue"
-          voteCount={votes.disagree}
-          showCheckbox={!hasVoted}
         />
       </Wrapper>
       <StyledButton
