@@ -12,6 +12,7 @@ interface BasePostDto {
   commentCount: number;
   agreeCount: number;
   disAgreeCount: number;
+  vote: boolean;
 }
 
 // 게시글 생성
