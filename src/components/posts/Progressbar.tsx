@@ -17,11 +17,19 @@ const Progressbar = ({
   const disAgreePercentage =
     totalVotes === 0 ? 0 : Math.round((disAgreeCount / totalVotes) * 100);
 
+  const isSingleVote = totalVotes === 1;
+
   return (
     <Wrapper showRatio={showRatio}>
       <Graph showRatio={showRatio} totalVotes={totalVotes}>
-        <AgreeBar style={{ width: `${agreePercentage}%` }} />
-        <DisAgreeBar style={{ width: `${disAgreePercentage}%` }} />
+        <AgreeBar
+          style={{ width: `${agreePercentage}%` }}
+          isSingleVote={isSingleVote}
+        />
+        <DisAgreeBar
+          style={{ width: `${disAgreePercentage}%` }}
+          isSingleVote={isSingleVote}
+        />
       </Graph>
       {showRatio && (
         <RatioBox>
@@ -46,18 +54,17 @@ const Graph = styled.div<{ showRatio: boolean; totalVotes: number }>`
   background-color: ${({ totalVotes, theme }) =>
     totalVotes === 0 ? theme.colors.gray200 : "transparent"};
 `;
-
-const AgreeBar = styled.div`
+const AgreeBar = styled.div<{ isSingleVote: boolean }>`
   height: 100%;
-  border-top-left-radius: 20px;
-  border-bottom-left-radius: 20px;
+  border-radius: ${({ isSingleVote }) =>
+    isSingleVote ? "20px" : "20px 0 0 20px"};
   background-color: ${props => props.theme.colors.pink100};
 `;
 
-const DisAgreeBar = styled.div`
+const DisAgreeBar = styled.div<{ isSingleVote: boolean }>`
   height: 100%;
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
+  border-radius: ${({ isSingleVote }) =>
+    isSingleVote ? "20px" : "0 20px 20px 0"};
   background-color: ${props => props.theme.colors.blue100};
 `;
 

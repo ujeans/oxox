@@ -90,7 +90,6 @@ const Vote = ({ post }: PostProps) => {
             },
           }
         );
-        // console.log("Vote submitted successfully:", response.data);
       } catch (error) {
         console.error("Error submitting vote:", error);
       }
