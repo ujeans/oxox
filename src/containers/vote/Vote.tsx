@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // components
 import VoteItem from "../../components/vote/VoteItem";
 import Button from "../../components/common/Button";
@@ -29,6 +29,21 @@ const Vote = ({ post }: PostProps) => {
   });
 
   const [hasVoted, setHasVoted] = useState(false);
+
+  console.log(post.vote);
+
+  useEffect(() => {
+    if (post.vote === true) {
+      setSelected({ agree: true, disagree: false });
+      setHasVoted(true);
+    } else if (post.vote === false) {
+      setSelected({ agree: false, disagree: true });
+      setHasVoted(true);
+    } else {
+      setSelected({ agree: false, disagree: false });
+      setHasVoted(false);
+    }
+  }, [post.vote]);
 
   const handleCheckboxChange = (type: "agree" | "disagree") => {
     setSelected(prev => {
@@ -62,7 +77,7 @@ const Vote = ({ post }: PostProps) => {
             ? prevVotes.disagree + 1
             : prevVotes.disagree,
         };
-        console.log("Final Votes:", updatedVotes);
+        // console.log("Final Votes:", updatedVotes);
         return updatedVotes;
       });
 
@@ -78,7 +93,7 @@ const Vote = ({ post }: PostProps) => {
             },
           }
         );
-        console.log("Vote submitted successfully:", response.data);
+        // console.log("Vote submitted successfully:", response.data);
       } catch (error) {
         console.error("Error submitting vote:", error);
       }
