@@ -30,8 +30,6 @@ const Vote = ({ post }: PostProps) => {
 
   const [hasVoted, setHasVoted] = useState(false);
 
-  console.log(post.vote);
-
   useEffect(() => {
     if (post.vote === true) {
       setSelected({ agree: true, disagree: false });
@@ -77,14 +75,13 @@ const Vote = ({ post }: PostProps) => {
             ? prevVotes.disagree + 1
             : prevVotes.disagree,
         };
-        // console.log("Final Votes:", updatedVotes);
         return updatedVotes;
       });
 
       try {
         const token = localStorage.getItem("token");
 
-        const response = await axiosInstance.post(
+        await axiosInstance.post(
           `/votes?postId=${post.id}&isYes=${selected.agree}`,
           {},
           {
