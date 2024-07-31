@@ -58,8 +58,6 @@ export default function PostDetail() {
     try {
       const response = await axiosInstance.get(`/comments/${id}/all`);
       setComments(response.data);
-
-      console.log(response.data);
     } catch (error) {
       console.error("Error fetching comments:", error);
     }
