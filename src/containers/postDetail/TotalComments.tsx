@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 // components
 import Modal from "../../components/common/Modal";
+// containers
 import Comment from "../comment/Comment";
 // types
 import { CommentDtoList } from "../../types/data/comment";
