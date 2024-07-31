@@ -161,7 +161,7 @@ const Container = styled.div`
   grid-template-columns: 30px 1fr;
   grid-gap: 10px;
   margin-bottom: 30px;
-  cursor: pointer;
+  padding: 0 18px;
 `;
 
 const Image = styled.img`

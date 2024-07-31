@@ -1,5 +1,6 @@
+import React, { useState, useEffect, useCallback } from "react";
+import { FixedSizeList as List } from "react-window";
 import styled from "@emotion/styled";
-import { useState, KeyboardEvent as ReactKeyboardEvent } from "react";
 // containers
 import CommentForm from "./CommentForm";
 import CommentItem from "./CommentItem";
@@ -16,6 +17,31 @@ interface CommentsProps {
 
 const Comment = ({ postId, comments, fetchComments }: CommentsProps) => {
   const [inputValue, setInputValue] = useState("");
+  const [visibleComments, setVisibleComments] = useState<CommentDtoList>([]);
+  const [offset, setOffset] = useState(0);
+  const limit = 10;
+
+  useEffect(() => {
+    if (comments) {
+      const sortedComments = comments
+        .slice()
+        .sort(
+          (a, b) =>
+            new Date(b.createAt).getTime() - new Date(a.createAt).getTime()
+        );
+      setVisibleComments(sortedComments.slice(0, limit));
+      setOffset(limit);
+    }
+  }, [comments]);
+
+  const loadMoreItems = useCallback(() => {
+    if (comments && offset < comments.length) {
+      console.log("Loading more items...");
+      const newComments = comments.slice(offset, offset + limit);
+      setVisibleComments(prev => [...prev, ...newComments]);
+      setOffset(prev => prev + limit);
+    }
+  }, [comments, offset]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -47,7 +73,7 @@ const Comment = ({ postId, comments, fetchComments }: CommentsProps) => {
     }
   };
 
-  const handleKeyPress = async (e: ReactKeyboardEvent<HTMLInputElement>) => {
+  const handleKeyPress = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleSubmit();
     }
@@ -58,21 +84,27 @@ const Comment = ({ postId, comments, fetchComments }: CommentsProps) => {
       <CommentCountWrapper>
         댓글 <Count>{comments?.length}개</Count>
       </CommentCountWrapper>
-      <ListWrapper>
-        {comments
-          ?.slice()
-          .sort(
-            (a, b) =>
-              new Date(b.createAt).getTime() - new Date(a.createAt).getTime()
-          )
-          .map((comment, index) => (
+      <List
+        height={465}
+        itemCount={visibleComments.length}
+        itemSize={100}
+        width={"100%"}
+        onItemsRendered={({ visibleStopIndex }) => {
+          if (visibleStopIndex + 1 === visibleComments.length) {
+            loadMoreItems();
+          }
+        }}
+      >
+        {({ index, style }) => (
+          <div style={style}>
             <CommentItem
-              key={`${comment.id}-${index}`}
-              comment={comment}
+              key={visibleComments[index].id}
+              comment={visibleComments[index]}
               fetchComments={fetchComments}
             />
-          ))}
-      </ListWrapper>
+          </div>
+        )}
+      </List>
       <CommentForm
         inputValue={inputValue}
         handleChange={handleChange}
@@ -103,10 +135,4 @@ const Count = styled.div`
   font-size: 18px;
   font-weight: bold;
   color: ${props => props.theme.colors.gray50};
-`;
-
-const ListWrapper = styled.div`
-  max-height: 465px;
-  padding: 0 18px;
-  overflow-y: auto;
 `;
