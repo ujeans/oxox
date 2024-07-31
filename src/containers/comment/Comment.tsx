@@ -57,7 +57,7 @@ const Comment = ({ postId, comments, fetchComments }: CommentsProps) => {
   return (
     <Container>
       <CommentCountWrapper>
-        댓글 <Count>{comments?.comments?.length}개</Count>
+        댓글 <Count>{comments?.totalElement}개</Count>
       </CommentCountWrapper>
       <ListWrapper>
         {comments?.comments
@@ -66,9 +66,9 @@ const Comment = ({ postId, comments, fetchComments }: CommentsProps) => {
             (a, b) =>
               new Date(b.createAt).getTime() - new Date(a.createAt).getTime()
           )
-          .map(comment => (
+          .map((comment, index) => (
             <CommentItem
-              key={comment.id}
+              key={`${comment.id}-${index}`}
               comment={comment}
               fetchComments={fetchComments}
             />
