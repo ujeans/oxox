@@ -60,13 +60,19 @@ const Comment = ({ postId, comments, fetchComments }: CommentsProps) => {
         댓글 <Count>{comments?.comments?.length}개</Count>
       </CommentCountWrapper>
       <ListWrapper>
-        {comments?.comments?.map(comment => (
-          <CommentItem
-            key={comment.id}
-            comment={comment}
-            fetchComments={fetchComments}
-          />
-        ))}
+        {comments?.comments
+          ?.slice()
+          .sort(
+            (a, b) =>
+              new Date(b.createAt).getTime() - new Date(a.createAt).getTime()
+          )
+          .map(comment => (
+            <CommentItem
+              key={comment.id}
+              comment={comment}
+              fetchComments={fetchComments}
+            />
+          ))}
       </ListWrapper>
       <CommentForm
         inputValue={inputValue}
