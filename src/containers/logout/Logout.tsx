@@ -2,6 +2,8 @@ import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 // components
 import Button from "../../components/common/Button";
+import { useSetRecoilState } from "recoil";
+import { userState } from "../../recoil/atoms";
 
 export interface ModalProps {
   onClose?: () => void;
@@ -9,9 +11,12 @@ export interface ModalProps {
 
 const Logout = ({ onClose }: ModalProps) => {
   const navigate = useNavigate();
+  const setUser = useSetRecoilState(userState);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("localStorage");
+    setUser(null);
     navigate("/users/login");
   };
 
