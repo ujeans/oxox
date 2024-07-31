@@ -1,5 +1,5 @@
+import React, { useState } from "react";
 import styled from "@emotion/styled";
-import { useState, KeyboardEvent as ReactKeyboardEvent } from "react";
 // containers
 import CommentForm from "./CommentForm";
 import CommentItem from "./CommentItem";
@@ -47,7 +47,7 @@ const Comment = ({ postId, comments, fetchComments }: CommentsProps) => {
     }
   };
 
-  const handleKeyPress = async (e: ReactKeyboardEvent<HTMLInputElement>) => {
+  const handleKeyPress = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleSubmit();
     }
@@ -61,13 +61,13 @@ const Comment = ({ postId, comments, fetchComments }: CommentsProps) => {
       <ListWrapper>
         {comments
           ?.slice()
-          .sort(
+          ?.sort(
             (a, b) =>
               new Date(b.createAt).getTime() - new Date(a.createAt).getTime()
           )
-          .map((comment, index) => (
+          .map(comment => (
             <CommentItem
-              key={`${comment.id}-${index}`}
+              key={comment.id}
               comment={comment}
               fetchComments={fetchComments}
             />
