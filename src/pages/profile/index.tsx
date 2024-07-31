@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 // containers
 import UserInfo from "../../containers/profile/UserInfo";
@@ -15,19 +15,18 @@ export default function ProfilePage() {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const { ref, inView } = useInView();
+  const isFetching = useRef(false);
 
   const fetchPosts = async (page: number, condition: string) => {
-    const token = localStorage.getItem("token");
+    if (isFetching.current || !hasMore) return; // 중복 호출 방지
+    isFetching.current = true;
 
     try {
       const response = await axiosInstance.get(
-        `/posts?page=${page}&size=10&condition=${condition}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        `/posts?page=${page}&size=10&condition=${condition}`
       );
+
+      console.log(response.data);
 
       if (response.data.posts.length > 0) {
         setPosts(prevPosts => [...prevPosts, ...response.data.posts]);
@@ -36,6 +35,8 @@ export default function ProfilePage() {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      isFetching.current = false; // 호출 종료 시 플래그 리셋
     }
   };
 
@@ -48,7 +49,7 @@ export default function ProfilePage() {
   }, [currentTab]);
 
   useEffect(() => {
-    if (inView && hasMore) {
+    if (inView && hasMore && !isFetching.current) {
       const condition = currentTab === 0 ? "WRITER" : "JOIN";
       fetchPosts(page, condition);
       setPage(prevPage => prevPage + 1);
