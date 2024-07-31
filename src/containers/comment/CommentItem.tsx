@@ -6,8 +6,12 @@ import { FaCircleUser } from "react-icons/fa6";
 import Emotion from "../../assets/emotion.svg";
 // styles
 import { buttonAnimation, iconAnimation } from "../../styles/animation";
+// types
 import { CommentDto } from "../../types/data/comment";
+// api
 import axiosInstance from "../../api/config";
+// hooks
+import useTimeDifference from "../../hooks/useTimeDifference";
 
 interface CommentItemProps {
   comment: CommentDto;
@@ -46,6 +50,8 @@ const iconList = [
 const CommentItem = ({ comment, fetchComments }: CommentItemProps) => {
   const [showEmotions, setShowEmotions] = useState(false);
   const [selectedEmotion, setSelectedEmotion] = useState<EmotionItem[]>([]);
+
+  const timeDifference = useTimeDifference(comment.createAt);
 
   useEffect(() => {
     const emotions = Object.entries(comment.reactions)
@@ -99,7 +105,7 @@ const CommentItem = ({ comment, fetchComments }: CommentItemProps) => {
       <InfoWrapper>
         <Top>
           <Nickname>{comment.user?.nickname}</Nickname>
-          {/* <Time>{comment.createAt}</Time> */}
+          <Time>{timeDifference}</Time>
         </Top>
         <Content>{comment.content}</Content>
         <EmotionContainer>

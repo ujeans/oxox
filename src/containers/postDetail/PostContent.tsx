@@ -3,29 +3,11 @@ import styled from "@emotion/styled";
 import RoundButton from "../../components/common/RoundButton";
 // types
 import { PostDto } from "../../types/data/post";
+import useTimeDifference from "../../hooks/useTimeDifference";
 
 interface PostProps {
   post?: PostDto;
 }
-
-const getTimeDifference = (createAt: string) => {
-  const createdAtDate = new Date(createAt);
-  const now = new Date();
-  const diffInMs = now.getTime() - createdAtDate.getTime();
-  const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
-  const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
-  const diffInDays = Math.floor(diffInHours / 24);
-
-  if (diffInMinutes < 1) {
-    return "방금전";
-  } else if (diffInMinutes < 60) {
-    return `${diffInMinutes}분 전`;
-  } else if (diffInDays > 0) {
-    return `${diffInDays}일 전`;
-  } else {
-    return `${diffInHours}시간 전`;
-  }
-};
 
 const getRemainingTime = (createAt: string) => {
   const createdAtDate = new Date(createAt);
@@ -42,7 +24,7 @@ const getRemainingTime = (createAt: string) => {
 };
 
 const PostContent = ({ post }: PostProps) => {
-  const timeDifference = post ? getTimeDifference(post.createAt) : "";
+  const timeDifference = useTimeDifference(post?.createAt);
   const remainingTime = post ? getRemainingTime(post.createAt) : "";
 
   return (
