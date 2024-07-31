@@ -18,8 +18,5 @@ export interface CreateCommentDto {
   content: string;
 }
 
-export interface CommentList {
-  comments: CommentDto[];
-  totalPage: number;
-  totalElement: number;
-}
+// 댓글 목록 조회
+export type CommentDtoList = CommentDto[];

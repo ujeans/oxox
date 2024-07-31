@@ -14,17 +14,16 @@ import Alert from "../../containers/alert/Alert";
 import axiosInstance from "../../api/config";
 // types
 import { PostDetailDto } from "../../types/data/post";
-import { CommentList } from "../../types/data/comment";
+import { CommentDtoList } from "../../types/data/comment";
 
 export default function PostDetail() {
   const { id } = useParams<{ id: string }>();
   const [post, setPost] = useState<PostDetailDto>();
-  const [comments, setComments] = useState<CommentList | undefined>(undefined);
+  const [comments, setComments] = useState<CommentDtoList | undefined>(
+    undefined
+  );
   const [isOpen, setIsOpen] = useState(false);
   const [modalContent, setModalContent] = useState<"vote" | "alert">("vote");
-
-  const [page, setPage] = useState(0);
-  const [size, setSize] = useState(10);
 
   const openModal = (content: "vote" | "alert") => {
     setModalContent(content);
@@ -57,10 +56,10 @@ export default function PostDetail() {
 
   const fetchComments = async () => {
     try {
-      const response = await axiosInstance.get(`/comments/${id}`, {
-        params: { page, size },
-      });
+      const response = await axiosInstance.get(`/comments/${id}/all`);
       setComments(response.data);
+
+      console.log(response.data);
     } catch (error) {
       console.error("Error fetching comments:", error);
     }
@@ -71,7 +70,7 @@ export default function PostDetail() {
       fetchPostDetail();
       fetchComments();
     }
-  }, [id, page, size]);
+  }, [id]);
 
   if (!post) {
     return <div>Loading...</div>;
@@ -88,7 +87,6 @@ export default function PostDetail() {
       <TotalComments
         postId={post.id}
         comments={comments}
-        setComments={setComments}
         checkLogin={checkLogin}
         fetchComments={fetchComments}
       />

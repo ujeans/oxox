@@ -3,23 +3,18 @@ import { useState, KeyboardEvent as ReactKeyboardEvent } from "react";
 // containers
 import CommentForm from "./CommentForm";
 import CommentItem from "./CommentItem";
-// types
+// api
 import axiosInstance from "../../api/config";
-import { CommentList } from "../../types/data/comment";
+// types
+import { CommentDtoList } from "../../types/data/comment";
 
 interface CommentsProps {
   postId: number;
-  comments: CommentList | undefined;
-  setComments: React.Dispatch<React.SetStateAction<CommentList | undefined>>;
+  comments: CommentDtoList | undefined;
   fetchComments: () => void;
 }
 
-const Comment = ({
-  postId,
-  comments,
-  setComments,
-  fetchComments,
-}: CommentsProps) => {
+const Comment = ({ postId, comments, fetchComments }: CommentsProps) => {
   const [inputValue, setInputValue] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +38,6 @@ const Comment = ({
           {}
         );
 
-        // 댓글 작성 후 댓글 목록 새로 가져오기
         fetchComments();
 
         setInputValue("");
@@ -62,16 +56,22 @@ const Comment = ({
   return (
     <Container>
       <CommentCountWrapper>
-        댓글 <Count>{comments?.comments?.length}개</Count>
+        댓글 <Count>{comments?.length}개</Count>
       </CommentCountWrapper>
       <ListWrapper>
-        {comments?.comments?.map(comment => (
-          <CommentItem
-            key={comment.id}
-            comment={comment}
-            fetchComments={fetchComments}
-          />
-        ))}
+        {comments
+          ?.slice()
+          .sort(
+            (a, b) =>
+              new Date(b.createAt).getTime() - new Date(a.createAt).getTime()
+          )
+          .map((comment, index) => (
+            <CommentItem
+              key={`${comment.id}-${index}`}
+              comment={comment}
+              fetchComments={fetchComments}
+            />
+          ))}
       </ListWrapper>
       <CommentForm
         inputValue={inputValue}
