@@ -6,11 +6,11 @@ import CommentItem from "./CommentItem";
 // api
 import axiosInstance from "../../api/config";
 // types
-import { CommentList } from "../../types/data/comment";
+import { CommentDtoList } from "../../types/data/comment";
 
 interface CommentsProps {
   postId: number;
-  comments: CommentList | undefined;
+  comments: CommentDtoList | undefined;
   fetchComments: () => void;
 }
 
@@ -38,7 +38,6 @@ const Comment = ({ postId, comments, fetchComments }: CommentsProps) => {
           {}
         );
 
-        // 댓글 작성 후 댓글 목록 새로 가져오기
         fetchComments();
 
         setInputValue("");
@@ -57,10 +56,10 @@ const Comment = ({ postId, comments, fetchComments }: CommentsProps) => {
   return (
     <Container>
       <CommentCountWrapper>
-        댓글 <Count>{comments?.totalElement}개</Count>
+        댓글 <Count>{comments?.length}개</Count>
       </CommentCountWrapper>
       <ListWrapper>
-        {comments?.comments
+        {comments
           ?.slice()
           .sort(
             (a, b) =>

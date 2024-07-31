@@ -14,16 +14,16 @@ import Alert from "../../containers/alert/Alert";
 import axiosInstance from "../../api/config";
 // types
 import { PostDetailDto } from "../../types/data/post";
-import { CommentList } from "../../types/data/comment";
+import { CommentDtoList } from "../../types/data/comment";
 
 export default function PostDetail() {
   const { id } = useParams<{ id: string }>();
   const [post, setPost] = useState<PostDetailDto>();
-  const [comments, setComments] = useState<CommentList | undefined>(undefined);
+  const [comments, setComments] = useState<CommentDtoList | undefined>(
+    undefined
+  );
   const [isOpen, setIsOpen] = useState(false);
   const [modalContent, setModalContent] = useState<"vote" | "alert">("vote");
-
-  const [page, setPage] = useState(0);
 
   const openModal = (content: "vote" | "alert") => {
     setModalContent(content);
@@ -56,9 +56,7 @@ export default function PostDetail() {
 
   const fetchComments = async () => {
     try {
-      const response = await axiosInstance.get(
-        `/comments/${id}?page=${page}&size=10`
-      );
+      const response = await axiosInstance.get(`/comments/${id}/all`);
       setComments(response.data);
 
       console.log(response.data);
@@ -72,7 +70,7 @@ export default function PostDetail() {
       fetchPostDetail();
       fetchComments();
     }
-  }, [id, page]);
+  }, [id]);
 
   if (!post) {
     return <div>Loading...</div>;
