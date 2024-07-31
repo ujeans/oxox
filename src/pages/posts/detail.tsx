@@ -88,7 +88,6 @@ export default function PostDetail() {
       <TotalComments
         postId={post.id}
         comments={comments}
-        setComments={setComments}
         checkLogin={checkLogin}
         fetchComments={fetchComments}
       />

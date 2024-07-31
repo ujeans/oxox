@@ -9,7 +9,6 @@ import { CommentList } from "../../types/data/comment";
 interface PostProps {
   postId: number;
   comments: CommentList | undefined;
-  setComments: React.Dispatch<React.SetStateAction<CommentList | undefined>>;
   checkLogin: () => boolean;
   fetchComments: () => void;
 }
@@ -18,7 +17,6 @@ const TotalComments = ({
   postId,
   comments,
   checkLogin,
-  setComments,
   fetchComments,
 }: PostProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +36,6 @@ const TotalComments = ({
         <Comment
           postId={postId}
           comments={comments}
-          setComments={setComments}
           fetchComments={fetchComments}
         />
       </Modal>

@@ -3,23 +3,18 @@ import { useState, KeyboardEvent as ReactKeyboardEvent } from "react";
 // containers
 import CommentForm from "./CommentForm";
 import CommentItem from "./CommentItem";
-// types
+// api
 import axiosInstance from "../../api/config";
+// types
 import { CommentList } from "../../types/data/comment";
 
 interface CommentsProps {
   postId: number;
   comments: CommentList | undefined;
-  setComments: React.Dispatch<React.SetStateAction<CommentList | undefined>>;
   fetchComments: () => void;
 }
 
-const Comment = ({
-  postId,
-  comments,
-  setComments,
-  fetchComments,
-}: CommentsProps) => {
+const Comment = ({ postId, comments, fetchComments }: CommentsProps) => {
   const [inputValue, setInputValue] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
