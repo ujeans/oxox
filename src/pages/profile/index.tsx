@@ -18,15 +18,13 @@ export default function ProfilePage() {
   const isFetching = useRef(false);
 
   const fetchPosts = async (page: number, condition: string) => {
-    if (isFetching.current || !hasMore) return; // 중복 호출 방지
+    if (isFetching.current || !hasMore) return;
     isFetching.current = true;
 
     try {
       const response = await axiosInstance.get(
         `/posts?page=${page}&size=10&condition=${condition}`
       );
-
-      console.log(response.data);
 
       if (response.data.posts.length > 0) {
         setPosts(prevPosts => [...prevPosts, ...response.data.posts]);
@@ -36,25 +34,27 @@ export default function ProfilePage() {
     } catch (error) {
       console.log(error);
     } finally {
-      isFetching.current = false; // 호출 종료 시 플래그 리셋
+      isFetching.current = false;
     }
   };
 
   useEffect(() => {
-    setPage(1);
+    setPage(0);
     setHasMore(true);
     setPosts([]);
     const condition = currentTab === 0 ? "WRITER" : "JOIN";
-    fetchPosts(1, condition);
+    fetchPosts(0, condition);
+
+    window.scrollTo(0, 0);
   }, [currentTab]);
 
   useEffect(() => {
     if (inView && hasMore && !isFetching.current) {
       const condition = currentTab === 0 ? "WRITER" : "JOIN";
-      fetchPosts(page, condition);
+      fetchPosts(page + 1, condition);
       setPage(prevPage => prevPage + 1);
     }
-  }, [inView, hasMore, currentTab]);
+  }, [inView, hasMore, currentTab, page]);
 
   return (
     <>
