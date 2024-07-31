@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { FixedSizeList as List } from "react-window";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 // containers
 import CommentForm from "./CommentForm";
