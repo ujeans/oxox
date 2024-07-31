@@ -27,8 +27,6 @@ const TotalComments = ({
     }
   };
 
-  console.log(comments);
-
   return (
     <>
       <CommentWrapper onClick={openModal}>
