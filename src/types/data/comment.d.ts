@@ -10,6 +10,7 @@ export interface CommentDto {
   user: UserDto;
   createAt: string;
   reactions: Reactions;
+  myReaction: string;
 }
 
 export interface CreateCommentDto {
