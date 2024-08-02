@@ -12,6 +12,7 @@ interface PostProps {
   comments: CommentDtoList | undefined;
   checkLogin: () => boolean;
   fetchComments: () => void;
+  commentCount: number;
 }
 
 const TotalComments = ({
@@ -19,6 +20,7 @@ const TotalComments = ({
   comments,
   checkLogin,
   fetchComments,
+  commentCount,
 }: PostProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -31,7 +33,7 @@ const TotalComments = ({
   return (
     <>
       <CommentWrapper onClick={openModal}>
-        댓글 {comments?.length}개 모두 보기
+        댓글 {commentCount}개 모두 보기
       </CommentWrapper>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} height="600px">
         <Comment

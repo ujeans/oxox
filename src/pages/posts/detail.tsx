@@ -24,6 +24,7 @@ export default function PostDetail() {
   );
   const [isOpen, setIsOpen] = useState(false);
   const [modalContent, setModalContent] = useState<"vote" | "alert">("vote");
+  const [commentCount, setCommentCount] = useState(0);
 
   const openModal = (content: "vote" | "alert") => {
     setModalContent(content);
@@ -49,6 +50,7 @@ export default function PostDetail() {
     try {
       const response = await axiosInstance.get(`/posts/${id}`);
       setPost(response.data);
+      setCommentCount(response.data.commentCount);
     } catch (error) {
       console.error("Error fetching post details:", error);
     }
@@ -58,6 +60,7 @@ export default function PostDetail() {
     try {
       const response = await axiosInstance.get(`/comments/${id}/all`);
       setComments(response.data);
+      setCommentCount(response.data.length);
     } catch (error) {
       console.error("Error fetching comments:", error);
     }
@@ -74,6 +77,8 @@ export default function PostDetail() {
     return <div>Loading...</div>;
   }
 
+  console.log(post);
+
   return (
     <ContentLayout>
       <PostContent post={post} />
@@ -87,6 +92,7 @@ export default function PostDetail() {
         comments={comments}
         checkLogin={checkLogin}
         fetchComments={fetchComments}
+        commentCount={commentCount}
       />
       <EmojiButton onClick={handleEmojiButtonClick}>
         <img
