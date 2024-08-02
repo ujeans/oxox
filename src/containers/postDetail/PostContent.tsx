@@ -4,6 +4,7 @@ import RoundButton from "../../components/common/RoundButton";
 // types
 import { PostDto } from "../../types/data/post";
 import useTimeDifference from "../../hooks/useTimeDifference";
+import { useEffect, useState } from "react";
 
 interface PostProps {
   post?: PostDto;
@@ -24,8 +25,22 @@ const getRemainingTime = (createAt: string) => {
 };
 
 const PostContent = ({ post }: PostProps) => {
+  const [remainingTime, setRemainingTime] = useState<string>("");
   const timeDifference = useTimeDifference(post?.createAt);
-  const remainingTime = post ? getRemainingTime(post.createAt) : "";
+
+  useEffect(() => {
+    if (post) {
+      const updateRemainingTime = () => {
+        const time = getRemainingTime(post.createAt);
+        setRemainingTime(time);
+      };
+
+      updateRemainingTime();
+      const interval = setInterval(updateRemainingTime, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [post]);
 
   return (
     <>
