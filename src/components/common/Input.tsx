@@ -34,18 +34,11 @@ const InputWrapper = styled.div`
   width: 100%;
 `;
 
-const IconWrapper = styled.div`
-  position: absolute;
-  right: 10px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-`;
-
 const StyledInput = styled.input<{ hasIcon: boolean }>`
   width: 100%;
   height: 30px;
   padding: 5px;
+  padding-right: ${props => (props.hasIcon ? "33px" : "5px")};
   border-radius: 5px;
   border: 1px solid ${props => props.theme.colors.gray200};
   background: none;
@@ -54,4 +47,12 @@ const StyledInput = styled.input<{ hasIcon: boolean }>`
   &::placeholder {
     color: ${props => props.theme.colors.gray200};
   }
+`;
+
+const IconWrapper = styled.div`
+  position: absolute;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 `;
