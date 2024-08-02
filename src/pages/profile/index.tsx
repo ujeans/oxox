@@ -13,12 +13,11 @@ export default function ProfilePage() {
   const [posts, setPosts] = useState<PostDtoList>([]);
   const [currentTab, setClickTab] = useState(0);
   const [page, setPage] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
   const { ref, inView } = useInView();
   const isFetching = useRef(false);
 
-  const fetchPosts = async (page: number, condition: string) => {
-    if (isFetching.current || !hasMore) return;
+  const fetchPosts = async (condition: string) => {
+    if (isFetching.current) return;
     isFetching.current = true;
 
     try {
@@ -28,8 +27,6 @@ export default function ProfilePage() {
 
       if (response.data.posts.length > 0) {
         setPosts(prevPosts => [...prevPosts, ...response.data.posts]);
-      } else {
-        setHasMore(false);
       }
     } catch (error) {
       console.log(error);
@@ -40,21 +37,20 @@ export default function ProfilePage() {
 
   useEffect(() => {
     setPage(0);
-    setHasMore(true);
     setPosts([]);
     const condition = currentTab === 0 ? "WRITER" : "JOIN";
-    fetchPosts(0, condition);
+    fetchPosts(condition);
 
     window.scrollTo(0, 0);
   }, [currentTab]);
 
   useEffect(() => {
-    if (inView && hasMore && !isFetching.current) {
+    if (inView && !isFetching.current) {
       const condition = currentTab === 0 ? "WRITER" : "JOIN";
-      fetchPosts(page + 1, condition);
+      fetchPosts(condition);
       setPage(prevPage => prevPage + 1);
     }
-  }, [inView, hasMore, currentTab, page]);
+  }, [inView, currentTab, page]);
 
   return (
     <>
