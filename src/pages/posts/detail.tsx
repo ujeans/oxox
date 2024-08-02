@@ -77,8 +77,6 @@ export default function PostDetail() {
     return <div>Loading...</div>;
   }
 
-  console.log(post);
-
   return (
     <ContentLayout>
       <PostContent post={post} />
