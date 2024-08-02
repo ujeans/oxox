@@ -17,8 +17,7 @@ export default function HomePage() {
   const [posts, setPosts] = useState<PostDtoList>([]);
   const [page, setPage] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
-  const [totalPage, setTotalPage] = useState(1);
-  const { ref, inView } = useInView();
+  const [ref, inView] = useInView();
 
   const navigateTo = (path: string) => {
     navigate(path);
@@ -26,6 +25,7 @@ export default function HomePage() {
 
   const handlePostNew = () => {
     const token = localStorage.getItem("token");
+
     if (!token) {
       setIsOpen(true);
     } else {
@@ -33,20 +33,18 @@ export default function HomePage() {
     }
   };
 
-  const fetchPosts = async (page: number) => {
+  const fetchPosts = async () => {
     try {
       const response = await axiosInstance.get(`/posts?page=${page}&size=10`);
 
-      const { posts: postsData, totalPage: fetchedTotalPage } = response.data;
-
-      if (Array.isArray(postsData)) {
-        setPosts(prevPosts => [...prevPosts, ...postsData]);
-        setTotalPage(fetchedTotalPage);
-      } else if (postsData && Array.isArray(postsData.posts)) {
-        setPosts(prevPosts => [...prevPosts, ...postsData.posts]);
-        setTotalPage(fetchedTotalPage);
+      if (Array.isArray(response.data)) {
+        setPosts(prevPosts => [...prevPosts, ...response.data]);
+        setPage(page => page + 1);
+      } else if (response.data && Array.isArray(response.data.posts)) {
+        setPosts(prevPosts => [...prevPosts, ...response.data.posts]);
+        setPage(page => page + 1);
       } else {
-        console.error("Unexpected response data format:", postsData);
+        console.error("Unexpected response data format:", response.data);
       }
     } catch (error) {
       console.error("Error fetching posts:", error);
@@ -54,16 +52,10 @@ export default function HomePage() {
   };
 
   useEffect(() => {
-    fetchPosts(0);
-  }, []);
-
-  useEffect(() => {
-    if (inView && page < totalPage - 1) {
-      console.log(inView, "무한 스크롤 요청");
-      fetchPosts(page + 1);
-      setPage(prevPage => prevPage + 1);
+    if (inView) {
+      fetchPosts();
     }
-  }, [inView, page, totalPage]);
+  }, [inView]);
 
   return (
     <>
