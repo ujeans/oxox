@@ -22,8 +22,9 @@ const PostForm = () => {
   const [isDisabled, setIsDisabled] = useState(true);
   const [imageSrc, setImageSrc] = useState("");
 
+
   useEffect(() => {
-    const isFormFilled = value.title || value.content || imageSrc;
+    const isFormFilled = value.title && value.content
     setIsDisabled(!isFormFilled);
   }, [value, imageSrc]);
 
