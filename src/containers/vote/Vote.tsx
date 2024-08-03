@@ -10,9 +10,10 @@ import axiosInstance from "../../api/config";
 interface PostProps {
   post: PostDto;
   onClose: () => void;
+  fetchPostDetail: () => void;
 }
 
-const Vote = ({post,onClose}: PostProps) => {
+const Vote = ({post,onClose,fetchPostDetail}: PostProps) => {
   const [selected, setSelected] = useState<{
     agree: boolean;
     disagree: boolean;
@@ -81,6 +82,7 @@ const Vote = ({post,onClose}: PostProps) => {
 
     setHasVoted(true);
     onClose();
+    fetchPostDetail()
   };
 
   const isAnySelected = selected.agree || selected.disagree;

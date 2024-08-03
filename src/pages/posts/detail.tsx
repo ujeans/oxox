@@ -110,6 +110,7 @@ export default function PostDetail() {
           <Vote
             post={post}
             onClose={() => setIsOpen(false)}
+            fetchPostDetail={fetchPostDetail}
           />
         ) : (
           <Alert onClose={() => setIsOpen(false)} />
