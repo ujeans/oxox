@@ -1,17 +1,17 @@
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 // components
 import VoteItem from "../../components/vote/VoteItem";
 import Button from "../../components/common/Button";
 // types
-import { PostDto } from "../../types/data/post";
+import {PostDto} from "../../types/data/post";
 import axiosInstance from "../../api/config";
 
 interface PostProps {
   post: PostDto;
 }
 
-const Vote = ({ post }: PostProps) => {
+const Vote = ({post}: PostProps) => {
   const [selected, setSelected] = useState<{
     agree: boolean;
     disagree: boolean;
@@ -31,17 +31,17 @@ const Vote = ({ post }: PostProps) => {
   const [hasVoted, setHasVoted] = useState(false);
 
   useEffect(() => {
-    if (post.vote === true) {
-      setSelected({ agree: true, disagree: false });
+    if (post.myVote === true) {
+      setSelected({agree: true, disagree: false});
       setHasVoted(true);
-    } else if (post.vote === false) {
-      setSelected({ agree: false, disagree: true });
+    } else if (post.myVote === false) {
+      setSelected({agree: false, disagree: true});
       setHasVoted(true);
     } else {
       setSelected({ agree: false, disagree: false });
       setHasVoted(false);
     }
-  }, [post.vote]);
+  }, [post.myVote]);
 
   const handleCheckboxChange = (type: "agree" | "disagree") => {
     setSelected(prev => {
