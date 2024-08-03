@@ -49,13 +49,11 @@ const Emotion = ({ comment, fetchComments }: EmotionProps) => {
   const [selectedEmotion, setSelectedEmotion] = useState<EmotionItem[]>([]);
 
   useEffect(() => {
-    const emotions = Object.entries(comment.reactions)
-      .filter(([_, count]) => count > 0)
-      .map(([key, count]) => {
-        const icon = iconList.find(icon => icon.alt.toUpperCase() === key);
-        return icon ? { ...icon, count } : null;
-      })
-      .filter(icon => icon !== null) as EmotionItem[];
+    const emotions = iconList.map(icon => {
+      const reactionKey = icon.alt.toUpperCase();
+      const count = comment.reactions[reactionKey];
+      return count ? { ...icon, count } : null;
+    }).filter((icon): icon is EmotionItem => icon !== null);
 
     setSelectedEmotion(emotions);
   }, [comment.reactions]);
