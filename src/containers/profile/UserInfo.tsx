@@ -19,6 +19,11 @@ const UserInfo = () => {
   };
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length > 20) {
+      alert("닉네임은 20글자를 초과할 수 없습니다.");
+      return;
+    }
+
     setNewNickname(e.target.value);
   };
 
@@ -37,7 +42,6 @@ const UserInfo = () => {
       await axiosInstance.patch("/profiles", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
         },
       });
 
