@@ -1,21 +1,48 @@
 import styled from "@emotion/styled";
-import { GoogleAuthProvider, signInWithPopup, User } from "firebase/auth";
-import { auth } from "../../firebaseApp";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { useRecoilState } from "recoil";
+// firebase
+import { auth } from "../../firebaseApp";
+// assets
 import googleLogo from "../../assets/googlelogo.png";
+// api
+import axiosInstance from "../../api/config";
+// recoil
+import { userState } from "../../recoil/atoms";
 
 const GoogleAuth = () => {
-  const [userData, setUserData] = useState<User["providerData"] | null>(null);
   const navigate = useNavigate();
+  const [user, setUser] = useRecoilState(userState);
 
   const handleGoogleSignUp = async () => {
     const provider = new GoogleAuthProvider();
 
     try {
       const data = await signInWithPopup(auth, provider);
-      setUserData(data.user.providerData);
-      console.log(data.user.providerData);
+
+      const user = data.user;
+
+      const userData = {
+        email: user.email,
+        displayName: user.displayName,
+        photoUrl: user.photoURL,
+        uid: user.uid,
+      };
+
+      const response = await axiosInstance.post(
+        "/users/login/social",
+        userData
+      );
+
+      const token = response.headers["x-access-token"];
+
+      if (token) {
+        localStorage.setItem("token", token);
+      }
+
+      setUser(response.data);
+
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -23,7 +50,7 @@ const GoogleAuth = () => {
   };
 
   return (
-    <Container>
+    <Container onClick={handleGoogleSignUp}>
       <Logo src={googleLogo} alt="logo" />
       <Text>구글 로그인</Text>
     </Container>
@@ -43,6 +70,7 @@ const Container = styled.button`
   border: none;
   background-color: ${props => props.theme.colors.white};
   position: relative;
+  cursor: pointer;
 `;
 
 const Logo = styled.img`
