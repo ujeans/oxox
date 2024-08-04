@@ -14,9 +14,6 @@ const GoogleAuth = () => {
 
     try {
       const data = await signInWithPopup(auth, provider);
-      const token = await data.user.getIdToken();
-      localStorage.setItem("googleToken", token);
-      console.log(data);
       setUserData(data.user.providerData);
       console.log(data.user.providerData);
       navigate("/");
@@ -34,7 +31,8 @@ const GoogleAuth = () => {
 };
 
 export default GoogleAuth;
-const Container = styled.div`
+
+const Container = styled.button`
   width: 100%;
   height: 40px;
   display: flex;
@@ -42,6 +40,7 @@ const Container = styled.div`
   justify-content: center;
   margin: 10px 0;
   border-radius: 5px;
+  border: none;
   background-color: ${props => props.theme.colors.white};
   position: relative;
 `;
