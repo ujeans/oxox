@@ -69,7 +69,6 @@ export default function PostDetail() {
   useEffect(() => {
     if (id) {
       fetchPostDetail();
-      fetchComments();
     }
   }, [id]);
 
