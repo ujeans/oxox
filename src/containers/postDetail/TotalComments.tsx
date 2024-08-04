@@ -26,6 +26,7 @@ const TotalComments = ({
 
   const openModal = () => {
     if (checkLogin()) {
+      fetchComments();
       setIsOpen(true);
     }
   };
