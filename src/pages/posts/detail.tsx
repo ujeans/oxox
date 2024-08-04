@@ -107,7 +107,11 @@ export default function PostDetail() {
         position={modalContent === "vote" ? "bottom" : "center"}
       >
         {modalContent === "vote" ? (
-          <Vote post={post} />
+          <Vote
+            post={post}
+            onClose={() => setIsOpen(false)}
+            fetchPostDetail={fetchPostDetail}
+          />
         ) : (
           <Alert onClose={() => setIsOpen(false)} />
         )}

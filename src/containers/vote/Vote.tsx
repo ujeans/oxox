@@ -1,17 +1,19 @@
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 // components
 import VoteItem from "../../components/vote/VoteItem";
 import Button from "../../components/common/Button";
 // types
-import { PostDto } from "../../types/data/post";
+import {PostDto} from "../../types/data/post";
 import axiosInstance from "../../api/config";
 
 interface PostProps {
   post: PostDto;
+  onClose: () => void;
+  fetchPostDetail: () => void;
 }
 
-const Vote = ({ post }: PostProps) => {
+const Vote = ({post,onClose,fetchPostDetail}: PostProps) => {
   const [selected, setSelected] = useState<{
     agree: boolean;
     disagree: boolean;
@@ -19,29 +21,31 @@ const Vote = ({ post }: PostProps) => {
     agree: false,
     disagree: false,
   });
-
-  const [votes, setVotes] = useState<{
-    agree: number;
-    disagree: number;
-  }>({
-    agree: post.agreeCount ?? 0,
-    disagree: post.disAgreeCount ?? 0,
-  });
-
+  const [text, setText] = useState<string>("");
   const [hasVoted, setHasVoted] = useState(false);
 
   useEffect(() => {
-    if (post.vote === true) {
-      setSelected({ agree: true, disagree: false });
+    if (post.myVote === true) {
+      setSelected({agree: true, disagree: false});
       setHasVoted(true);
-    } else if (post.vote === false) {
-      setSelected({ agree: false, disagree: true });
+    } else if (post.myVote === false) {
+      setSelected({agree: false, disagree: true});
       setHasVoted(true);
     } else {
-      setSelected({ agree: false, disagree: false });
+      setSelected({agree: false, disagree: false});
       setHasVoted(false);
     }
-  }, [post.vote]);
+  }, [post.myVote]);
+
+  useEffect(() => {
+    if (hasVoted === false) {
+      setText("투표하기");
+    }else if (selected.agree || selected.disagree) {
+      setText("다시 투표");
+    } else {
+      setText("투표 취소");
+    }
+  }, [selected,hasVoted]);
 
   const handleCheckboxChange = (type: "agree" | "disagree") => {
     setSelected(prev => {
@@ -60,42 +64,25 @@ const Vote = ({ post }: PostProps) => {
   };
 
   const handleVoteSubmit = async () => {
-    if (hasVoted) {
-      setSelected({ agree: false, disagree: false });
-      setVotes({
-        agree: post.agreeCount ?? 0,
-        disagree: post.disAgreeCount ?? 0,
-      });
-      setHasVoted(false);
-    } else {
-      setVotes(prevVotes => {
-        const updatedVotes = {
-          agree: selected.agree ? prevVotes.agree + 1 : prevVotes.agree,
-          disagree: selected.disagree
-            ? prevVotes.disagree + 1
-            : prevVotes.disagree,
-        };
-        return updatedVotes;
-      });
+    try {
+      const token = localStorage.getItem("token");
 
-      try {
-        const token = localStorage.getItem("token");
-
-        await axiosInstance.post(
-          `/votes?postId=${post.id}&isYes=${selected.agree}`,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-      } catch (error) {
-        console.error("Error submitting vote:", error);
-      }
-
-      setHasVoted(true);
+      await axiosInstance.post(
+        `/votes?postId=${post.id}&isYes=${selected.agree}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    } catch (error) {
+      console.error("Error submitting vote:", error);
     }
+
+    setHasVoted(true);
+    onClose();
+    fetchPostDetail()
   };
 
   const isAnySelected = selected.agree || selected.disagree;
@@ -117,7 +104,7 @@ const Vote = ({ post }: PostProps) => {
         />
       </Wrapper>
       <StyledButton
-        text={hasVoted ? "다시 투표" : "투표하기"}
+        text={text}
         disabled={!isAnySelected && !hasVoted}
         onClick={handleVoteSubmit}
       />
@@ -128,20 +115,20 @@ const Vote = ({ post }: PostProps) => {
 export default Vote;
 
 const Container = styled.div`
-  height: calc(100% - 10px);
-  padding: 0 18px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+    height: calc(100% - 10px);
+    padding: 0 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 `;
 
 const Wrapper = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 `;
 
 const StyledButton = styled(Button)`
-  margin: 18px 0;
+    margin: 18px 0;
 `;
