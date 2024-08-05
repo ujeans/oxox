@@ -1,13 +1,18 @@
 import styled from "@emotion/styled";
 // icons
 import { PiWarningCircleFill } from "react-icons/pi";
+import React from "react";
 
-const LoginFail = () => {
+interface LoginFailProps {
+  message: string;
+}
+
+const LoginFail  = ({message}:LoginFailProps) => {
   return (
     <Wrapper>
       <StyledWarningIcon size={15} />
       <Message>로그인 실패</Message>
-      <Description>아이디 또는 비밀번호가 틀렸습니다.</Description>
+      <Description>{message}</Description>
     </Wrapper>
   );
 };
