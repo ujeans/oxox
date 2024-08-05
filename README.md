@@ -64,7 +64,7 @@
 
 | 로그인 한 경우 | 로그인 안한 경우 | 
 |----------| ---------- | 
-|<img src="https://github.com/user-attachments/assets/24c644c8-4750-46a5-975d-3432fd371406" width="400" /> | <img src="https://github.com/user-attachments/assets/20b52268-b43b-4ab7-8eb3-66d58562fed6" height="760" /> |
+|<img src="https://github.com/user-attachments/assets/24c644c8-4750-46a5-975d-3432fd371406" width="400" /> | <img src="https://github.com/user-attachments/assets/20b52268-b43b-4ab7-8eb3-66d58562fed6" height="600" /> |
 
 
 ### [게시글 작성]
