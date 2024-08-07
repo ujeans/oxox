@@ -17,7 +17,7 @@ const Progressbar = ({
   const disAgreePercentage =
     totalVotes === 0 ? 0 : Math.round((disAgreeCount / totalVotes) * 100);
 
-  const isSingleVote = totalVotes === 1;
+  const isSingleVote = agreeCount === 0 || disAgreeCount === 0;
 
   return (
     <Wrapper showRatio={showRatio}>
