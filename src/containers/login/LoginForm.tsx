@@ -29,6 +29,7 @@ const LoginForm = () => {
     nickname: "",
   });
   const [loginFailed, setLoginFailed] = useState(false);
+  const [failMessage, setFailMessage] = useState<string> ("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -75,6 +76,8 @@ const LoginForm = () => {
       navigate("/");
     } catch (error) {
       console.log(error);
+      // @ts-ignore
+      setFailMessage(error.response.data.message);
       setLoginFailed(true);
     }
   };
@@ -98,7 +101,7 @@ const LoginForm = () => {
         </InputWrapper>
         <Button text="이메일로 시작하기" />
       </FormWrapper>
-      {loginFailed && <LoginFail />}
+      {loginFailed && <LoginFail message={failMessage} />}
     </>
   );
 };
