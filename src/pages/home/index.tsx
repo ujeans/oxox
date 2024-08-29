@@ -19,17 +19,13 @@ export default function HomePage() {
   const [isOpen, setIsOpen] = useState(false);
   const [ref, inView] = useInView();
 
-  const navigateTo = (path: string) => {
-    navigate(path);
-  };
-
   const handlePostNew = () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
       setIsOpen(true);
     } else {
-      navigateTo("/posts/new");
+      navigate("/posts/new");
     }
   };
 
