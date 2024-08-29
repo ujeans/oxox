@@ -55,6 +55,10 @@ export default function HomePage() {
     }
   }, [inView]);
 
+  const toggleModal = () => {
+    setIsOpen(false);
+  };
+
   return (
     <>
       <Lists posts={posts} inViewRef={ref} />
@@ -70,11 +74,11 @@ export default function HomePage() {
       </EmojiButton>
       <Modal
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        onClose={toggleModal}
         height={"150px"}
         position={"center"}
       >
-        <Alert onClose={() => setIsOpen(false)} />
+        <Alert onClose={toggleModal} />
       </Modal>
     </>
   );
