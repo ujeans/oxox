@@ -29,16 +29,18 @@ export default function HomePage() {
     }
   };
 
+  const updatePostsAndPage = (newPosts: PostDtoList) => {
+    setPosts(prevPosts => [...prevPosts, ...newPosts]);
+    setPage(prevPage => prevPage + 1);
+  };
+
   const fetchPosts = async () => {
     try {
       const response = await axiosInstance.get(`/posts?page=${page}&size=10`);
+      const newPosts = response.data.posts || response.data;
 
-      if (Array.isArray(response.data)) {
-        setPosts(prevPosts => [...prevPosts, ...response.data]);
-        setPage(page => page + 1);
-      } else if (response.data && Array.isArray(response.data.posts)) {
-        setPosts(prevPosts => [...prevPosts, ...response.data.posts]);
-        setPage(page => page + 1);
+      if (Array.isArray(newPosts)) {
+        updatePostsAndPage(newPosts);
       } else {
         console.error("Unexpected response data format:", response.data);
       }
