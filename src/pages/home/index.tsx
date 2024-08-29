@@ -34,22 +34,22 @@ export default function HomePage() {
     setPage(prevPage => prevPage + 1);
   };
 
-  const fetchPosts = async () => {
-    try {
-      const response = await axiosInstance.get(`/posts?page=${page}&size=10`);
-      const newPosts = response.data.posts || response.data;
-
-      if (Array.isArray(newPosts)) {
-        updatePostsAndPage(newPosts);
-      } else {
-        console.error("Unexpected response data format:", response.data);
-      }
-    } catch (error) {
-      console.error("Error fetching posts:", error);
-    }
-  };
-
   useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axiosInstance.get(`/posts?page=${page}&size=10`);
+        const newPosts = response.data.posts || response.data;
+
+        if (Array.isArray(newPosts)) {
+          updatePostsAndPage(newPosts);
+        } else {
+          console.error("Unexpected response data format:", response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
+
     if (inView) {
       fetchPosts();
     }
