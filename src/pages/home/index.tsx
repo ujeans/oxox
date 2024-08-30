@@ -19,43 +19,45 @@ export default function HomePage() {
   const [isOpen, setIsOpen] = useState(false);
   const [ref, inView] = useInView();
 
-  const navigateTo = (path: string) => {
-    navigate(path);
-  };
-
   const handlePostNew = () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
       setIsOpen(true);
     } else {
-      navigateTo("/posts/new");
+      navigate("/posts/new");
     }
   };
 
-  const fetchPosts = async () => {
-    try {
-      const response = await axiosInstance.get(`/posts?page=${page}&size=10`);
-
-      if (Array.isArray(response.data)) {
-        setPosts(prevPosts => [...prevPosts, ...response.data]);
-        setPage(page => page + 1);
-      } else if (response.data && Array.isArray(response.data.posts)) {
-        setPosts(prevPosts => [...prevPosts, ...response.data.posts]);
-        setPage(page => page + 1);
-      } else {
-        console.error("Unexpected response data format:", response.data);
-      }
-    } catch (error) {
-      console.error("Error fetching posts:", error);
-    }
+  const updatePostsAndPage = (newPosts: PostDtoList) => {
+    setPosts(prevPosts => [...prevPosts, ...newPosts]);
+    setPage(prevPage => prevPage + 1);
   };
 
   useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axiosInstance.get(`/posts?page=${page}&size=10`);
+        const newPosts = response.data.posts || response.data;
+
+        if (Array.isArray(newPosts)) {
+          updatePostsAndPage(newPosts);
+        } else {
+          console.error("Unexpected response data format:", response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
+
     if (inView) {
       fetchPosts();
     }
   }, [inView]);
+
+  const toggleModal = () => {
+    setIsOpen(false);
+  };
 
   return (
     <>
@@ -72,11 +74,11 @@ export default function HomePage() {
       </EmojiButton>
       <Modal
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        onClose={toggleModal}
         height={"150px"}
         position={"center"}
       >
-        <Alert onClose={() => setIsOpen(false)} />
+        <Alert onClose={toggleModal} />
       </Modal>
     </>
   );
